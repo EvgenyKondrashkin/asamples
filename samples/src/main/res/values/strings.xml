@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">samples</string>
+    <string name="error">Произошла ошибка!</string>
+    <string name="close">Закрыть</string>
+
+</resources>
