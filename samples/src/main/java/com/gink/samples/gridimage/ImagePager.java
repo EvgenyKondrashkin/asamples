@@ -30,7 +30,7 @@ public class ImagePager extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ac_image_pager);
+        setContentView(R.layout.pager_item_img);
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
