@@ -2,7 +2,9 @@ package com.gink.samples.gridimage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
@@ -58,9 +60,15 @@ public class GridImages extends Activity {
 		PauseOnScrollListener listener = new PauseOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling);
 		gridView.setOnScrollListener(listener);
         gridView.setAdapter(new ImageAdapter(this, imgs, options, imageLoader));
+		Context context = this;
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Toast.makeText(GridImages.this, "Position = " + position, Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(GridImages.this, ImagePager.class);
+				String[] ims = imgs.toArray(new String[imgs.size()]);
+				intent.putExtra("IMAGES", ims);
+				intent.putExtra("POSITION", position);
+				startActivity(intent);
             }
         });
     }
