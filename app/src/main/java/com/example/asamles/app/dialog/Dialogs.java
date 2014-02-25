@@ -17,11 +17,11 @@ import java.util.Calendar;
 public class Dialogs extends Fragment {
     private Button btn, btn2, btn3;
     private TextView label, label2, label3;
-    private Context context;
+//    private Context context;
 	private String name;
 	
     public Dialogs(String name) {
-		context = getActivity();
+//		context = getActivity();
 		this.name = name;
 	
     }
@@ -47,7 +47,7 @@ public class Dialogs extends Fragment {
             @Override
             public void onClick(View arg0) {
                 btn.setText("working!");
-                ADialogs.openTime(context, label);
+                ADialogs.openTime(getActivity(), label);
 
             }
         });
@@ -55,7 +55,7 @@ public class Dialogs extends Fragment {
             @Override
             public void onClick(View arg0) {
                 btn2.setText("working!");
-                ADialogs.alert("Wat", context);
+                ADialogs.alert(getActivity(), "Wat");
 
             }
         });

@@ -54,7 +54,7 @@ public class ADialogs {
         ad.show();
 
     }
-    public static void alert(String message, Context context){
+    public static void alert( Context context, String message){
         final Activity activity = (Activity) context;
         AlertDialog.Builder ad = new AlertDialog.Builder(context);
         ad.setMessage(message);
