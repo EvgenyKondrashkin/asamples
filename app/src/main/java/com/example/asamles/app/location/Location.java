@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.asamles.app.MainActivity;
+import com.example.asamles.app.constants.Constants;
 import com.example.asamles.app.R;
 
 public class Location extends Fragment implements LocationFound{
@@ -19,14 +20,21 @@ public class Location extends Fragment implements LocationFound{
     private LocationListenerStandart locationListener2;
 	private String name;
 	
-    public Location(String name) {
-		this.name = name;
+	public static Location newInstance(String name) {
+            Location fragment = new Location();
+            Bundle args = new Bundle();
+            args.putString(Constants.NAME, name);
+            fragment.setArguments(args);
+            return fragment;
     }
+		
+    public Location() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.location_fragment, container, false);
+		name = getArguments().getString(Constants.NAME);
 		((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
         btn = (Button) rootView.findViewById(R.id.button);
         btn2 = (Button) rootView.findViewById(R.id.button2);

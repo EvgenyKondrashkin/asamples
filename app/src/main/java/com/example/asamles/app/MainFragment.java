@@ -16,6 +16,7 @@ import java.util.Arrays;
 import com.example.asamles.app.gridimage.GridImages;
 import com.example.asamles.app.location.Location;
 import com.example.asamles.app.dialog.Dialogs;
+import com.example.asamles.app.sms.SMSMain;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemClickListener{
 
@@ -50,22 +51,16 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         switch(position)
         {
             case 0:
-                // getActivity().getSupportFragmentManager().beginTransaction()
-                        // .add(R.id.container, new Location())
-                        // .commit();
-				ft.replace(R.id.container, new Location(list.get(position)));
+				ft.replace(R.id.container, Location.newInstance(list.get(position)));
                 break;
             case 1:
-                // getActivity().getSupportFragmentManager().beginTransaction()
-                        // .add(R.id.container, new Dialogs())
-                        // .commit();
-				ft.replace(R.id.container, new Dialogs(list.get(position)));
+				ft.replace(R.id.container, Dialogs.newInstance(list.get(position)));
                 break;
             case 2:
-                // getActivity().getSupportFragmentManager().beginTransaction()
-                        // .replace(R.id.container, new GridImages()).addToBackStack("grid")
-                        // .commit();
-				ft.replace(R.id.container, new GridImages(list.get(position)));
+				ft.replace(R.id.container, GridImages.newInstance(list.get(position)));
+                break;
+			case 3:
+				ft.replace(R.id.container, SMSMain.newInstance(list.get(position)));
                 break;
         }
 		ft.addToBackStack("firstlvl");

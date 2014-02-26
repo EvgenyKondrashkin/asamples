@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.asamles.app.MainActivity;
+import com.example.asamles.app.constants.Constants;
 import com.example.asamles.app.R;
 
 import java.util.Calendar;
@@ -17,19 +18,22 @@ import java.util.Calendar;
 public class Dialogs extends Fragment {
     private Button btn, btn2, btn3;
     private TextView label, label2, label3;
-//    private Context context;
 	private String name;
 	
-    public Dialogs(String name) {
-//		context = getActivity();
-		this.name = name;
-	
-    }
+	public static Dialogs newInstance(String name) {
+            Dialogs fragment = new Dialogs();
+            Bundle args = new Bundle();
+            args.putString(Constants.NAME, name);
+            fragment.setArguments(args);
+            return fragment;
+        }
+    public Dialogs() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
+		name = getArguments().getString(Constants.NAME);
 		((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
         
         btn = (Button) rootView.findViewById(R.id.time);

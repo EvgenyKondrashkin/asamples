@@ -12,5 +12,6 @@
         <item>Location</item>
         <item>Alert Builders</item>
         <item>Image grid</item>
+		<item>SMS</item>
     </string-array>
 </resources>
