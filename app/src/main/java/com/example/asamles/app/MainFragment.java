@@ -9,13 +9,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.example.asamles.app.db.DBMain;
 import com.example.asamles.app.gridimage.GridImages;
 import com.example.asamles.app.location.Location;
 import com.example.asamles.app.dialog.Dialogs;
+import com.example.asamles.app.share.ShareMain;
 import com.example.asamles.app.sms.SMSMain;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemClickListener{
@@ -36,6 +39,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
 		list = new ArrayList<String>(Arrays.asList(getActivity().getResources().getStringArray(R.array.main_list)));
         listView = (ListView)rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
+        Toast.makeText(getActivity(), "WAT", Toast.LENGTH_LONG).show();
         return rootView;
     }
 
@@ -61,6 +65,12 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
 			case 3:
 				ft.replace(R.id.container, SMSMain.newInstance(list.get(position)));
+                break;
+			case 4:
+				ft.replace(R.id.container, ShareMain.newInstance(list.get(position)));
+                break;
+            case 5:
+                ft.replace(R.id.container, DBMain.newInstance(list.get(position)));
                 break;
         }
 		ft.addToBackStack("firstlvl");

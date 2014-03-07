@@ -13,5 +13,7 @@
         <item>Alert Builders</item>
         <item>Image grid</item>
 		<item>SMS</item>
+		<item>Share</item>
+        <item>DB</item>
     </string-array>
 </resources>
