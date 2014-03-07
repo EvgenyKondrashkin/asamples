@@ -15,5 +15,6 @@
 		<item>SMS</item>
 		<item>Share</item>
         <item>DB</item>
+        <item>Strip</item>
     </string-array>
 </resources>

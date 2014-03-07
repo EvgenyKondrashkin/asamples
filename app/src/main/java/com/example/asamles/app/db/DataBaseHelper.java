@@ -35,7 +35,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             try {
                 copyDataBase();
             } catch (IOException e) {
-                throw e;//new Error("Error copying database");
+                throw e;
             }
         }
     }

@@ -20,6 +20,7 @@ import com.example.asamles.app.location.Location;
 import com.example.asamles.app.dialog.Dialogs;
 import com.example.asamles.app.share.ShareMain;
 import com.example.asamles.app.sms.SMSMain;
+import com.example.asamles.app.striptab.StripTabMain;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemClickListener{
 
@@ -71,6 +72,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case 5:
                 ft.replace(R.id.container, DBMain.newInstance(list.get(position)));
+                break;
+            case 6:
+                ft.replace(R.id.container, StripTabMain.newInstance(list.get(position)));
                 break;
         }
 		ft.addToBackStack("firstlvl");
