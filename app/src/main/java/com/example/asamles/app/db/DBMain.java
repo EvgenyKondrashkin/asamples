@@ -37,8 +37,10 @@ public class DBMain extends Fragment implements DBToClass.DBToClassListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list_fragment, container, false);
-		name = getArguments().getString(Constants.NAME);
-		((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
+        name = getArguments().getString(Constants.NAME);
+        if (name != null) {
+            ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
+        }
 		list = (ListView)rootView.findViewById(R.id.list);
 //		list.setOnItemClickListener(this);
 		

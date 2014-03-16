@@ -17,4 +17,11 @@
         <item>DB</item>
         <item>Strip</item>
     </string-array>
+    <!--StripTabs-->
+    <string-array name="strip_list">
+        <item>Млекопитающие</item>
+        <item>Птицы</item>
+        <item>Рептилии</item>
+        <item>Рыбы</item>
+    </string-array>
 </resources>

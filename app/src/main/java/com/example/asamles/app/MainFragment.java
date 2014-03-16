@@ -25,7 +25,7 @@ import com.example.asamles.app.striptab.StripTabMain;
 public class MainFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     private ListView listView;
-    private ArrayList<String> list;
+    private String[] list;
 //	private String[] menu = getActivity().getResources().getStringArray(R.array.main_list);
     private ArrayAdapter<String> adapter;
 
@@ -37,7 +37,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getResources().getString(R.string.app_name));
-		list = new ArrayList<String>(Arrays.asList(getActivity().getResources().getStringArray(R.array.main_list)));
+		list = getActivity().getResources().getStringArray(R.array.main_list);
         listView = (ListView)rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
         Toast.makeText(getActivity(), "WAT", Toast.LENGTH_LONG).show();
@@ -56,25 +56,25 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         switch(position)
         {
             case 0:
-				ft.replace(R.id.container, Location.newInstance(list.get(position)));
+				ft.replace(R.id.container, Location.newInstance(list[position]));
                 break;
             case 1:
-				ft.replace(R.id.container, Dialogs.newInstance(list.get(position)));
+				ft.replace(R.id.container, Dialogs.newInstance(list[position]));
                 break;
             case 2:
-				ft.replace(R.id.container, GridImages.newInstance(list.get(position)));
+				ft.replace(R.id.container, GridImages.newInstance(list[position]));
                 break;
 			case 3:
-				ft.replace(R.id.container, SMSMain.newInstance(list.get(position)));
+				ft.replace(R.id.container, SMSMain.newInstance(list[position]));
                 break;
 			case 4:
-				ft.replace(R.id.container, ShareMain.newInstance(list.get(position)));
+				ft.replace(R.id.container, ShareMain.newInstance(list[position]));
                 break;
             case 5:
-                ft.replace(R.id.container, DBMain.newInstance(list.get(position)));
+                ft.replace(R.id.container, DBMain.newInstance(list[position]));
                 break;
             case 6:
-                ft.replace(R.id.container, StripTabMain.newInstance(list.get(position)));
+                ft.replace(R.id.container, StripTabMain.newInstance(list[position]));
                 break;
         }
 		ft.addToBackStack("firstlvl");

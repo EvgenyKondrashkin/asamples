@@ -46,8 +46,8 @@ public class StripTabMain extends Fragment {
 		((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
 		
 		ViewPager pager = (ViewPager) rootView.findViewById(R.id.pager);
-		pager.setAdapter(new StripPagerAdapter(getActivity().getSupportFragmentManager()));
-		pager.setCurrentItem(1);
+		pager.setAdapter(new StripPagerAdapter(getActivity().getSupportFragmentManager(), getActivity()));
+		pager.setCurrentItem(0);
         return rootView;
     }
 	
