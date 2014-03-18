@@ -22,7 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+		<activity 
+			android:name="com.example.asamles.app.upNavigation.UpMain" android:theme="@style/noAnimTheme">
+		</activity>
+		<activity 
+			android:name="com.example.asamles.app.upNavigation.UpFirst"
+			android:parentActivityName="com.example.asamles.app.upNavigation.UpMain" >
+		</activity>
+		<activity 
+			android:name="com.example.asamles.app.upNavigation.UpSecond"
+			android:parentActivityName="com.example.asamles.app.upNavigation.UpMain" >
+		</activity>
+		
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
     </application>

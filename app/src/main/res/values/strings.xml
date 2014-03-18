@@ -16,6 +16,7 @@
 		<item>Share</item>
         <item>DB</item>
         <item>Strip</item>
+		<item>Up Navigation</item>
     </string-array>
     <!--StripTabs-->
     <string-array name="strip_list">

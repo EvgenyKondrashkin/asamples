@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
-
+    private ShareActionProvider mShareActionProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +22,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    ShareActionProvider mShareActionProvider;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);

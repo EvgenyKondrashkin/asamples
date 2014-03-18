@@ -1,5 +1,6 @@
 package com.example.asamles.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -76,6 +77,13 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
             case 6:
                 ft.replace(R.id.container, StripTabMain.newInstance(list[position]));
                 break;
+			case 7:
+                Intent intent = new Intent();
+                intent.setClassName("com.example.asamles.app.MainActivity", "com.example.asamles.app.upNavigation.UpMain");
+				intent.putExtra("NAME", list[position]);
+				startActivity(intent);
+
+            break;
         }
 		ft.addToBackStack("firstlvl");
         ft.commit();
