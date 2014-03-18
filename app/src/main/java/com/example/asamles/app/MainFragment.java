@@ -41,7 +41,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
 		list = getActivity().getResources().getStringArray(R.array.main_list);
         listView = (ListView)rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
-        Toast.makeText(getActivity(), "WAT", Toast.LENGTH_LONG).show();
         return rootView;
     }
 
@@ -56,30 +55,30 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         switch(position)
         {
-            case 0:
-				ft.replace(R.id.container, Location.newInstance(list[position]));
-                break;
-            case 1:
-				ft.replace(R.id.container, Dialogs.newInstance(list[position]));
-                break;
-            case 2:
-				ft.replace(R.id.container, GridImages.newInstance(list[position]));
-                break;
-			case 3:
-				ft.replace(R.id.container, SMSMain.newInstance(list[position]));
-                break;
-			case 4:
-				ft.replace(R.id.container, ShareMain.newInstance(list[position]));
-                break;
-            case 5:
-                ft.replace(R.id.container, DBMain.newInstance(list[position]));
-                break;
-            case 6:
-                ft.replace(R.id.container, StripTabMain.newInstance(list[position]));
-                break;
+//            case 0:
+//				ft.replace(R.id.container, Location.newInstance(list[position]));
+//                break;
+//            case 1:
+//				ft.replace(R.id.container, Dialogs.newInstance(list[position]));
+//                break;
+//            case 2:
+//				ft.replace(R.id.container, GridImages.newInstance(list[position]));
+//                break;
+//			case 3:
+//				ft.replace(R.id.container, SMSMain.newInstance(list[position]));
+//                break;
+//			case 4:
+//				ft.replace(R.id.container, ShareMain.newInstance(list[position]));
+//                break;
+//            case 5:
+//                ft.replace(R.id.container, DBMain.newInstance(list[position]));
+//                break;
+//            case 6:
+//                ft.replace(R.id.container, StripTabMain.newInstance(list[position]));
+//                break;
 			case 7:
                 Intent intent = new Intent();
-                intent.setClassName("com.example.asamles.app.MainActivity", "com.example.asamles.app.upNavigation.UpMain");
+                intent.setClassName("com.example.asamles.app", "com.example.asamles.app.upNavigation.UpMain");
 				intent.putExtra("NAME", list[position]);
 				startActivity(intent);
 

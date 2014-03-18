@@ -1,5 +1,6 @@
 package com.example.asamles.app.upNavigation;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 
-public class UpFirst extends MainActivity {
+public class UpFirst extends Activity {
 	private Button btn;
 	private TextView label;
 	private String name;
@@ -27,9 +28,9 @@ public class UpFirst extends MainActivity {
 		btn = (Button) findViewById(R.id.button);
 		label = (TextView) findViewById(R.id.textView);
 		label.setText("First");
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		name = getIntent().getStringExtra("NAME");
-		getSupportActionBar().setTitle(name);
+//		getSupportActionBar().setTitle(name);
 		
     }
 
@@ -45,9 +46,10 @@ public class UpFirst extends MainActivity {
 	}
 	
     public void onUpSecond(View view) {
-		Intent intent = new Intent(this, UpMain.class);
+		Intent intent = new Intent(this, UpSecond.class);
 		intent.putExtra("NAME", name);
 		startActivity(intent);
+        overridePendingTransition  (R.anim.right_in, R.anim.right_out);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.example.asamles.app.upNavigation;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 
-public class UpMain extends MainActivity {
+public class UpMain extends Activity {
 	private Button btn, btn2;
 	private String name;
     @Override
@@ -24,7 +25,7 @@ public class UpMain extends MainActivity {
 		btn = (Button) findViewById(R.id.button);
 		btn2 = (Button) findViewById(R.id.button2);
 		name = getIntent().getStringExtra("NAME");
-		getSupportActionBar().setTitle(name);
+//		getSupportActionBar().setTitle(name);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class UpMain extends MainActivity {
         return false;
     }
     public void onUpActivity(View view) {
-		Intent intent = new Intent(this, UpMain.class);
+		Intent intent = new Intent(this, UpFirst.class);
 		intent.putExtra("NAME", name);
 		startActivity(intent);
 	}
