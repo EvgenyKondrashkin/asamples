@@ -3,6 +3,7 @@ package com.example.asamles.app.location;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -10,8 +11,7 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
-public final class LocationListenerPlayServices implements LocationListener, GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener
-{
+public final class LocationListenerPlayServices implements LocationListener, GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
     private LocationRequest locationRequest;
     private LocationClient locationClient;
     private final int UPDATE_INTERVAL_IN_MILLISECONDS = 5000, FAST_INTERVAL_CEILING_IN_MILLISECONDS = 1000;
@@ -38,8 +38,7 @@ public final class LocationListenerPlayServices implements LocationListener, Goo
         return instance;
     }
 
-    public void setLocationFound(LocationFound locationFound)
-    {
+    public void setLocationFound(LocationFound locationFound) {
         this.callback = locationFound;
     }
 
@@ -49,15 +48,15 @@ public final class LocationListenerPlayServices implements LocationListener, Goo
         if (location != null) {
             currentLocation = location;
             if (callback != null) {
-               callback.locationFound(location);
+                callback.locationFound(location);
             }
         }
     }
 
     @Override
     public void onConnected(final Bundle bundle) {
-       if (!useCurrentLocation()) {
-           locationClient.requestLocationUpdates(locationRequest, this);
+        if (!useCurrentLocation()) {
+            locationClient.requestLocationUpdates(locationRequest, this);
         }
     }
 
@@ -75,6 +74,7 @@ public final class LocationListenerPlayServices implements LocationListener, Goo
         final int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
         return ConnectionResult.SUCCESS == resultCode;
     }
+
     public boolean clientConnected() {
         return (locationClient != null && locationClient.isConnected());
     }

@@ -3,7 +3,6 @@ package com.example.asamles.app.db;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.FileOutputStream;
@@ -41,13 +40,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    private boolean checkDataBase(){
+    private boolean checkDataBase() {
 
         String myPath = DB_PATH + DB_NAME;
         return mContext.getDatabasePath(myPath).exists();
     }
 
-    private void copyDataBase() throws IOException{
+    private void copyDataBase() throws IOException {
 
         InputStream myInput = mContext.getAssets().open(DB_NAME);
         String outFileName = DB_PATH + DB_NAME;
@@ -55,7 +54,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myInput.read(buffer))>0){
+        while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }
 
@@ -71,7 +70,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public synchronized void close() {
-        if(myDataBase != null)
+        if (myDataBase != null)
             myDataBase.close();
         super.close();
     }

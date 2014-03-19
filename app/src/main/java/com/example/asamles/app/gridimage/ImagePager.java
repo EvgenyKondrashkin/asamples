@@ -21,26 +21,27 @@ import java.util.ArrayList;
 
 public class ImagePager extends Fragment {
 
-	private static final String STATE_POSITION = "STATE_POSITION";
-	public static final String POS = "position";
-	public static final String URLS = "urls";
-	DisplayImageOptions options;
-	ImageLoader imageLoader;
+    private static final String STATE_POSITION = "STATE_POSITION";
+    public static final String POS = "position";
+    public static final String URLS = "urls";
+    DisplayImageOptions options;
+    ImageLoader imageLoader;
     private ArrayList<String> imageUrls = new ArrayList<String>();
     private int pagerPosition;
-	ViewPager pager;
-	
-	public static ImagePager newInstance(int pagerPosition, ArrayList<String> imageUrls) {
-            ImagePager fragment = new ImagePager();
-            Bundle args = new Bundle();
-			args.putStringArrayList(URLS, imageUrls);
-            args.putInt(POS, pagerPosition);
-            fragment.setArguments(args);
-            return fragment;
-        }
-	
-    public ImagePager(){}
-	
+    ViewPager pager;
+
+    public static ImagePager newInstance(int pagerPosition, ArrayList<String> imageUrls) {
+        ImagePager fragment = new ImagePager();
+        Bundle args = new Bundle();
+        args.putStringArrayList(URLS, imageUrls);
+        args.putInt(POS, pagerPosition);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public ImagePager() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,9 +49,9 @@ public class ImagePager extends Fragment {
         if (savedInstanceState != null) {
             pagerPosition = savedInstanceState.getInt(STATE_POSITION);
         } else {
-			pagerPosition = getArguments().getInt(POS);
-		}
-		imageUrls = getArguments().getStringArrayList(URLS);
+            pagerPosition = getArguments().getInt(POS);
+        }
+        imageUrls = getArguments().getStringArrayList(URLS);
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.empty)
                 .showImageOnFail(R.drawable.error)
@@ -68,11 +69,11 @@ public class ImagePager extends Fragment {
         pager.setAdapter(new ImagePagerAdapter(ims, inflater, imageLoader, options, getActivity()));
         pager.setCurrentItem(pagerPosition);
         return rootView;
-   }
+    }
 
-   @Override
-   public void onSaveInstanceState(Bundle outState) {
-       outState.putInt(STATE_POSITION, pager.getCurrentItem());
-   }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_POSITION, pager.getCurrentItem());
+    }
 
 }

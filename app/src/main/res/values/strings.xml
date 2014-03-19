@@ -4,25 +4,25 @@
     <string name="app_name">asamles</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-	<!--Error-->
+    <!--Error-->
     <string name="error">Error!</string>
     <string name="close">Close</string>
-	<!--MainMenu-->
-	<string-array name="main_list">
+    <!--MainMenu-->
+    <string-array name="main_list">
         <item>Location</item>
         <item>Alert Builders</item>
         <item>Image grid</item>
-		<item>SMS</item>
-		<item>Share</item>
+        <item>SMS</item>
+        <item>Share</item>
         <item>DB</item>
         <item>Strip</item>
-		<item>Up Navigation</item>
+        <item>Up Navigation</item>
     </string-array>
     <!--StripTabs-->
     <string-array name="strip_list">
-        <item>Млекопитающие</item>
-        <item>Птицы</item>
-        <item>Рептилии</item>
-        <item>Рыбы</item>
+        <item>Strip #1</item>
+        <item>Strip #2</item>
+        <item>Strip #3</item>
+        <item>Strip #4</item>
     </string-array>
 </resources>

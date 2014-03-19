@@ -18,6 +18,7 @@ public class ImageAdapter extends BaseAdapter {
     ArrayList<String> imgs = new ArrayList<String>();
     DisplayImageOptions options;
     ImageLoader imageLoader;
+
     public ImageAdapter(Context context, ArrayList<String> imgs, DisplayImageOptions options, ImageLoader imageLoader) {
         this.context = context;
         this.imgs = imgs;

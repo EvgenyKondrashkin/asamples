@@ -7,7 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-public final class LocationListenerStandart implements LocationListener{
+public final class LocationListenerStandart implements LocationListener {
     public boolean request = false;
     private Location currentLocation;
     private LocationManager locationManager;
@@ -32,22 +32,23 @@ public final class LocationListenerStandart implements LocationListener{
         }
         return instance;
     }
+
     public boolean providersEnabled(Context context) {
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             return true;
         } else {
             return false;
         }
     }
-    public void setLocationFound(LocationFound callback)
-    {
+
+    public void setLocationFound(LocationFound callback) {
         this.callback = callback;
     }
 
     public void startLocation() {
-        if(provider !=null){
+        if (provider != null) {
             currentLocation = locationManager.getLastKnownLocation(provider);
-            if(currentLocation != null && System.currentTimeMillis() - currentLocation.getTime() < 180 * 60 * 1000) {
+            if (currentLocation != null && System.currentTimeMillis() - currentLocation.getTime() < 180 * 60 * 1000) {
                 this.callback.locationFound(currentLocation);
             } else {
                 getGeo(LocationManager.NETWORK_PROVIDER, 0, 0);
@@ -55,18 +56,20 @@ public final class LocationListenerStandart implements LocationListener{
             }
         }
     }
+
     private void getGeo(String provider, int minTime, int minM) {
         locationManager.requestLocationUpdates(provider, minTime, minM, this);
         request = true;
     }
 
-    public void disableLocationUpdates(){
+    public void disableLocationUpdates() {
         locationManager.removeUpdates(this);
         request = false;
     }
+
     @Override
     public void onLocationChanged(Location location) {
-        if(location!=null) {
+        if (location != null) {
             currentLocation = location;
             disableLocationUpdates();
             callback.locationFound(location);
