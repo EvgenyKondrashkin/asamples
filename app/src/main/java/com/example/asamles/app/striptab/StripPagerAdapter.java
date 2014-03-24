@@ -3,11 +3,11 @@ package com.example.asamles.app.striptab;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.asamles.app.R;
 
-public class StripPagerAdapter extends FragmentPagerAdapter {
+public class StripPagerAdapter extends FragmentStatePagerAdapter {
     private int PAGE_COUNT;
     private String[] list;
 

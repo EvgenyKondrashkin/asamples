@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends ActionBarActivity{// implements ShareActionProvider.OnShareTargetSelectedListener {
     private ShareActionProvider mShareActionProvider;
 
     @Override
@@ -24,6 +24,7 @@ public class BaseActivity extends ActionBarActivity {
         mShareActionProvider = (ShareActionProvider)
                 MenuItemCompat.getActionProvider(shareItem);
         mShareActionProvider.setShareIntent(getDefaultIntent());
+//        mShareActionProvider.setOnShareTargetSelectedListener(this);
         return true;
     }
 
@@ -34,12 +35,17 @@ public class BaseActivity extends ActionBarActivity {
         intent.putExtra(Intent.EXTRA_TEXT, "Message");
         return intent;
     }
-
+//    @Override
+//    public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
+//        // TODO Auto-generated method stub
+//        this.startActivity(intent);
+//        return true;
+//    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Toast.makeText(this, "Settings", Toast.LENGTH_LONG).show();
+            case R.id.action_share2:
+                this.startActivity(getDefaultIntent());
                 return true;
 
             default:
