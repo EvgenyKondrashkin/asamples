@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.asamles.app.MainActivity">
-
+    <group android:id="@+id/menu_group_main" >
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
@@ -18,4 +18,5 @@
         android:title="Share"
         app:showAsAction="always"
         android:icon="@drawable/ic_menu_share" />
+    </group>
 </menu>

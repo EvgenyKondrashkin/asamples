@@ -20,13 +20,24 @@ public class BaseActivity extends ActionBarActivity{// implements ShareActionPro
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem shareItem = menu.findItem(R.id.action_share);
+		MenuItem shareItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider)
                 MenuItemCompat.getActionProvider(shareItem);
         mShareActionProvider.setShareIntent(getDefaultIntent());
 //        mShareActionProvider.setOnShareTargetSelectedListener(this);
         return true;
     }
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        super.onPrepareOptionsMenu(menu);
+//        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+//        if (backStackEntryCount > 0) {
+//            menu.setGroupVisible(R.id.menu_group_main, false);
+//        } else {
+//            menu.setGroupVisible(R.id.menu_group_main, true);
+//        }
+//        return true;
+//    }
 
     private Intent getDefaultIntent() {
         Intent intent = new Intent(Intent.ACTION_SEND);

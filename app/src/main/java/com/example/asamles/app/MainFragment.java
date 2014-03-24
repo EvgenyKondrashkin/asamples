@@ -15,6 +15,7 @@ import com.example.asamles.app.db.DBMain;
 import com.example.asamles.app.dialog.Dialogs;
 import com.example.asamles.app.gridimage.GridImages;
 import com.example.asamles.app.location.Location;
+import com.example.asamles.app.picassogridimage.PicassoGridImages;
 import com.example.asamles.app.share.ShareMain;
 import com.example.asamles.app.sms.SMSMain;
 import com.example.asamles.app.striptab.StripTabMain;
@@ -63,18 +64,21 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
                 ft.replace(R.id.container, GridImages.newInstance(list[position]));
                 break;
             case 3:
-                ft.replace(R.id.container, SMSMain.newInstance(list[position]));
+                ft.replace(R.id.container, PicassoGridImages.newInstance(list[position]));
                 break;
             case 4:
-                ft.replace(R.id.container, ShareMain.newInstance(list[position]));
+                ft.replace(R.id.container, SMSMain.newInstance(list[position]));
                 break;
             case 5:
-                ft.replace(R.id.container, DBMain.newInstance(list[position]));
+                ft.replace(R.id.container, ShareMain.newInstance(list[position]));
                 break;
             case 6:
-                ft.replace(R.id.container, StripTabMain.newInstance(list[position]));
+                ft.replace(R.id.container, DBMain.newInstance(list[position]));
                 break;
             case 7:
+                ft.replace(R.id.container, StripTabMain.newInstance(list[position]));
+                break;
+            case 8:
                 ft.replace(R.id.container, UpNavigationMain.newInstance(list[position]));
                 break;
         }

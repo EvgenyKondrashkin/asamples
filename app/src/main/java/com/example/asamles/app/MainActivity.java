@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends BaseActivity implements FragmentManager.OnBackStackChangedListener {
     private ShareActionProvider mShareActionProvider;
-
+    Menu menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,7 @@ public class MainActivity extends BaseActivity implements FragmentManager.OnBack
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        this.menu = menu;
         return true;
     }
 
@@ -43,8 +44,11 @@ public class MainActivity extends BaseActivity implements FragmentManager.OnBack
         int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
         if (backStackEntryCount > 0) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            menu.setGroupVisible(R.id.menu_group_main, false);
         } else {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            menu.setGroupVisible(R.id.menu_group_main, true);
+            menu.setGroupVisible(R.id.menu_group_main, true);
         }
     }
 }
