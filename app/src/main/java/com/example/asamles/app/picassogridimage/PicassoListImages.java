@@ -105,7 +105,15 @@ public class PicassoListImages extends Fragment implements AdapterView.OnItemCli
                 return super.onOptionsItemSelected(item);
         }
     }
-	
+    @Override
+    public void onStop ()
+    {
+        super.onStop();
+    }
+    @Override
+    public void onDestroyView (){
+        super.onDestroyView();
+    }
     public String loadJSONFromAsset() throws IOException {
         String json = null;
         try {

@@ -86,12 +86,16 @@ public class PicassoGridImages extends Fragment {
                 Toast.makeText(getActivity(), "List", Toast.LENGTH_LONG).show();
                 getActivity().getSupportFragmentManager().beginTransaction()
 					.replace(R.id.container, PicassoListImages.newInstance(name))
-					.addToBackStack(null)
+//					.addToBackStack(null)
                     .commit();
 				return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public void onDestroyView (){
+        super.onDestroyView();
     }
     public String loadJSONFromAsset() throws IOException {
         String json = null;

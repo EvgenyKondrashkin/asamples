@@ -37,6 +37,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        getActivity().getSupportFragmentManager().popBackStack();
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getResources().getString(R.string.app_name));
         list = getActivity().getResources().getStringArray(R.array.main_list);
         listView = (ListView) rootView.findViewById(R.id.list);

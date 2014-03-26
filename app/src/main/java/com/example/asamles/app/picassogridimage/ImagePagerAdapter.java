@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.asamles.app.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class ImagePagerAdapter extends PagerAdapter {
@@ -19,6 +20,7 @@ public class ImagePagerAdapter extends PagerAdapter {
     private String[] images;
     private LayoutInflater inflater;
     Activity activity;
+    private  ImageView imageView;
 
     ImagePagerAdapter(String[] images, LayoutInflater inflater, Activity activity) {
         this.images = images;
@@ -40,13 +42,26 @@ public class ImagePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup view, int position) {
         View imageLayout = inflater.inflate(R.layout.pager_item_img, view, false);
         assert imageLayout != null;
-        ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
+        imageView = (ImageView) imageLayout.findViewById(R.id.image);
         final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
+        spinner.setVisibility(View.VISIBLE);
         Picasso.with(activity)
                 .load(images[position])
-                .placeholder(R.drawable.loading)
                 .error(R.drawable.error)
-                .into(imageView);
+                .into(imageView, new Callback() {
+
+                    @Override
+                    public void onSuccess() {
+                        imageView.setVisibility(View.VISIBLE);
+                        spinner.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        imageView.setVisibility(View.VISIBLE);
+                        spinner.setVisibility(View.INVISIBLE);
+                    }
+                });
         view.addView(imageLayout, 0);
         return imageLayout;
     }

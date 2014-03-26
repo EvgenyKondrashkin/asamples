@@ -1,5 +1,7 @@
 package com.example.asamles.app.imageedit;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,7 @@ public class ImageEdit extends Fragment {
     private String name;
 	private	PhotoViewAttacher mAttacher;
 	private float angle = 0;
+    private Bitmap bitmap;
 
     public static ImageEdit newInstance(String name) {
         ImageEdit fragment = new ImageEdit();
@@ -47,7 +50,8 @@ public class ImageEdit extends Fragment {
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
 		setHasOptionsMenu(true);
         imageView = (ImageView) rootView.findViewById(R.id.image);
-        imageView.setImageResource(R.raw.photo);
+        bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
+        imageView.setImageBitmap(bitmap);
         mAttacher = new PhotoViewAttacher(imageView);
         return rootView;
     }
@@ -65,14 +69,22 @@ public class ImageEdit extends Fragment {
                 Toast.makeText(getActivity(), "Blur", Toast.LENGTH_LONG).show();
 			return true;
 			case R.id.action_rotate:
-				angle -= 90;
+				angle = -90;
                 // imageView.setPivotX(imageView.getWidth()/2);
                 // imageView.setPivotY(imageView.getHeight()/2);
                 // imageView.setRotation(angle);
-				Matrix matrix=new Matrix();
-				imageView.setScaleType(ImageView.ScaleType.MATRIX);   //required
-				matrix.postRotate(angle, imageView.getWidth()/2, imageView.getHeight()/2);
-				imageView.setImageMatrix(matrix);
+//				Matrix matrix=new Matrix();
+//				imageView.setScaleType(ImageView.ScaleType.MATRIX);   //required
+//				matrix.postRotate(angle, imageView.getWidth()/2, imageView.getHeight()/2);
+//				imageView.setImageMatrix(matrix);
+
+                // create new matrix object
+                Matrix matrix = new Matrix();
+                // setup rotation degree
+                matrix.postRotate(angle);
+                // return new bitmap rotated using matrix
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                imageView.setImageBitmap(bitmap);
                 mAttacher.update();
 			return true;
             default:
