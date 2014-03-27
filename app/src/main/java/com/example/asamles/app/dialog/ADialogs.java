@@ -60,7 +60,7 @@ public class ADialogs {
         AlertDialog.Builder ad = new AlertDialog.Builder(context);
         ad.setMessage(message);
         ad.setCancelable(true);
-        ad.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+        ad.setPositiveButton(context.getString(R.string.close), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 activity.finish();
                 dialog.cancel();

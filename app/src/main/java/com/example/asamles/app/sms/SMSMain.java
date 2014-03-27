@@ -16,14 +16,10 @@ import com.example.asamles.app.constants.Constants;
 public class SMSMain extends Fragment {
     private Button btn, btn2;
     private EditText phone, text;
-    private String name;
     private String myPhoneNo = "+79231240849";
 
-    public static SMSMain newInstance(String name) {
+    public static SMSMain newInstance() {
         SMSMain fragment = new SMSMain();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -34,8 +30,6 @@ public class SMSMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sms_main, container, false);
-        name = getArguments().getString(Constants.NAME);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
 
         btn = (Button) rootView.findViewById(R.id.send);
         btn2 = (Button) rootView.findViewById(R.id.send_intent);

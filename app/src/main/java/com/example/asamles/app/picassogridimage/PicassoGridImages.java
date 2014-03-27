@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
+import com.example.asamles.app.dialog.ADialogs;
+import com.example.asamles.app.json.JsonFromAssets;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,14 +34,15 @@ public class PicassoGridImages extends Fragment {
     public static final String ASSETS_FILE = "images.json";
     public static final String STACK_NAME = "image";
     public static final String JSON_ARRAY = "img";
+	public static final String IMAGES = "images";
     private ArrayList<String> imgs = new ArrayList<String>();
     private String name;
     private Context context;
 
-    public static PicassoGridImages newInstance(String name) {
+    public static PicassoGridImages newInstance(ArrayList<String> imgs){
         PicassoGridImages fragment = new PicassoGridImages();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
+		Bundle args = new Bundle();
+        args.putStringArrayList(IMAGES, imgs);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,19 +53,19 @@ public class PicassoGridImages extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.grid_images_fragment, container, false);
-        setHasOptionsMenu(true);
-		name = getArguments().getString(Constants.NAME);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
+		imgs = getArguments().getStringArrayList(IMAGES);
+        // ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
-        try {
-            String jsonString = loadJSONFromAsset();
-            imgs = jsonParse(jsonString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        gridView.setAdapter(new ImageAdapter(getActivity(), imgs));
+
+        // JsonFromAssets JFA = new JsonFromAssets(ASSETS_FILE, getActivity());
+		// imgs = JFA.getFromJson();
+		
+		// if(imgs == null) {
+			// ADialogs.alert(getActivity(), this.getString(R.string.json_error));
+			// return rootView;
+		// } 
+        
+		gridView.setAdapter(new ImageAdapter(getActivity(), imgs));
         Context context = getActivity();
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -74,70 +77,4 @@ public class PicassoGridImages extends Fragment {
         return rootView;
     }
 	
-	@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.grid_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_list:
-                Toast.makeText(getActivity(), "List", Toast.LENGTH_LONG).show();
-                getActivity().getSupportFragmentManager().beginTransaction()
-					.replace(R.id.container, PicassoListImages.newInstance(name))
-//					.addToBackStack(null)
-                    .commit();
-				return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    @Override
-    public void onDestroyView (){
-        super.onDestroyView();
-    }
-    public String loadJSONFromAsset() throws IOException {
-        String json = null;
-        try {
-            InputStream is = getActivity().getAssets().open(ASSETS_FILE);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    public ArrayList<String> jsonParse(String res) throws JSONException {
-        JSONObject jsonResponse = new JSONObject(res);
-        JSONArray jsonImgs = jsonResponse.getJSONArray(JSON_ARRAY);
-        ArrayList<String> imgs = new ArrayList<String>();
-        for (int i = 0; i < jsonImgs.length(); i++) {
-            try {
-                String item = jsonImgs.getString(i);
-                imgs.add(item);
-            } catch (JSONException e) {
-                alert();
-                e.printStackTrace();
-            }
-        }
-        return imgs;
-    }
-
-    public void alert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(this.getString(R.string.error));
-        builder.setCancelable(true);
-        builder.setPositiveButton(this.getString(R.string.close),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                }).create().show();
-    }
 }

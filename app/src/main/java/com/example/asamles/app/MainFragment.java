@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.asamles.app.db.DBMain;
 import com.example.asamles.app.dialog.Dialogs;
@@ -17,6 +18,8 @@ import com.example.asamles.app.gridimage.GridImages;
 import com.example.asamles.app.location.Location;
 import com.example.asamles.app.picassogridimage.PicassoGridImages;
 import com.example.asamles.app.imageedit.ImageEdit;
+import com.example.asamles.app.picassogridimage.PicassoMain;
+import com.example.asamles.app.shake.ShakeMain;
 import com.example.asamles.app.share.ShareMain;
 import com.example.asamles.app.sms.SMSMain;
 import com.example.asamles.app.striptab.StripTabMain;
@@ -42,6 +45,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         list = getActivity().getResources().getStringArray(R.array.main_list);
         listView = (ListView) rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
+        Toast.makeText(getActivity(), ""+ShakeMain.class.getName(), Toast.LENGTH_LONG).show();
         return rootView;
     }
 
@@ -55,36 +59,47 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+		((MainActivity) getActivity()).getSupportActionBar().setTitle(list[position]);
+        String fragmentName = "ShakeMain";
+        Fragment shake;
+        shake = Fragment.instantiate(getActivity(), fragmentName);
+
+
+
         switch (position) {
             case 0:
-                ft.replace(R.id.container, Location.newInstance(list[position]));
+                ft.replace(R.id.container, Location.newInstance());
                 break;
             case 1:
-                ft.replace(R.id.container, Dialogs.newInstance(list[position]));
+                ft.replace(R.id.container, Dialogs.newInstance());
                 break;
             case 2:
-                ft.replace(R.id.container, GridImages.newInstance(list[position]));
+                ft.replace(R.id.container, GridImages.newInstance());
                 break;
             case 3:
-                ft.replace(R.id.container, PicassoGridImages.newInstance(list[position]));
+                ft.replace(R.id.container, PicassoMain.newInstance());
                 break;
 			case 4:
-                ft.replace(R.id.container, ImageEdit.newInstance(list[position]));
+                ft.replace(R.id.container, ImageEdit.newInstance());
                 break;
             case 5:
-                ft.replace(R.id.container, SMSMain.newInstance(list[position]));
+                ft.replace(R.id.container, SMSMain.newInstance());
                 break;
             case 6:
-                ft.replace(R.id.container, ShareMain.newInstance(list[position]));
+                ft.replace(R.id.container, ShareMain.newInstance());
                 break;
             case 7:
-                ft.replace(R.id.container, DBMain.newInstance(list[position]));
+                ft.replace(R.id.container, DBMain.newInstance());
                 break;
             case 8:
-                ft.replace(R.id.container, StripTabMain.newInstance(list[position]));
+                ft.replace(R.id.container, StripTabMain.newInstance());
                 break;
             case 9:
-                ft.replace(R.id.container, UpNavigationMain.newInstance(list[position]));
+                ft.replace(R.id.container, UpNavigationMain.newInstance());
+                break;
+			case 10:
+//                ft.replace(R.id.container, ShakeMain.newInstance());
+                ft.replace(R.id.container,shake);
                 break;
         }
         ft.addToBackStack("firstlvl");

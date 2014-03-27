@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,13 +24,9 @@ public class ShareMain extends Fragment {
 
     private Button btn, btn2, btn3;
     private TextView label;
-    private String name;
-
-    public static ShareMain newInstance(String name) {
+    private ShareActionProvider mShareActionProvider;
+    public static ShareMain newInstance() {
         ShareMain fragment = new ShareMain();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -45,8 +43,6 @@ public class ShareMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.share_fragment, container, false);
-        name = getArguments().getString(Constants.NAME);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
         btn = (Button) rootView.findViewById(R.id.button);
         btn2 = (Button) rootView.findViewById(R.id.button2);
         btn3 = (Button) rootView.findViewById(R.id.button3);
@@ -91,7 +87,11 @@ public class ShareMain extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        inflater.inflate(R.menu.refresh, menu);
+        inflater.inflate(R.menu.main, menu);
+		MenuItem shareItem = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider)
+                MenuItemCompat.getActionProvider(shareItem);
+        mShareActionProvider.setShareIntent(getDefaultIntent());
 //        MenuItem shareItem = menu.findItem(R.id.action_refresh);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -100,13 +100,19 @@ public class ShareMain extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_refresh:
-                Toast.makeText(getActivity().getApplicationContext(), "Refreshed", Toast.LENGTH_LONG).show();
+            case R.id.action_share2:
+                this.startActivity(getDefaultIntent());
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
-
+    }
+	    private Intent getDefaultIntent() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Theme");
+        intent.putExtra(Intent.EXTRA_TEXT, "Message");
+        return intent;
     }
 }

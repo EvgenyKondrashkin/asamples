@@ -13,13 +13,9 @@ import com.example.asamles.app.constants.Constants;
 
 public class StripTabMain extends Fragment {
 
-    private String name;
 
-    public static StripTabMain newInstance(String name) {
+    public static StripTabMain newInstance() {
         StripTabMain fragment = new StripTabMain();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -36,8 +32,6 @@ public class StripTabMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.striptab_fragment, container, false);
-        name = getArguments().getString(Constants.NAME);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
 
         ViewPager pager = (ViewPager) rootView.findViewById(R.id.pager);
         pager.setAdapter(new StripPagerAdapter(getActivity().getSupportFragmentManager(), getActivity()));

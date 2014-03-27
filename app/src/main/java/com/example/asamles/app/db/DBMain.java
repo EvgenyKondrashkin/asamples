@@ -20,13 +20,9 @@ public class DBMain extends Fragment implements DBToClass.DBToClassListener {
     private ListView list;
     private ArrayList<Animals> animals;
 
-    private String name;
 
-    public static DBMain newInstance(String name) {
+    public static DBMain newInstance() {
         DBMain fragment = new DBMain();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -37,10 +33,7 @@ public class DBMain extends Fragment implements DBToClass.DBToClassListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list_fragment, container, false);
-        name = getArguments().getString(Constants.NAME);
-        if (name != null) {
-            ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
-        }
+
         list = (ListView) rootView.findViewById(R.id.list);
 //		list.setOnItemClickListener(this);
 

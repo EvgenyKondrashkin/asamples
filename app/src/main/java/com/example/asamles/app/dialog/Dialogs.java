@@ -17,13 +17,9 @@ import java.util.Calendar;
 public class Dialogs extends Fragment {
     private Button btn, btn2, btn3;
     private TextView label, label2, label3;
-    private String name;
 
-    public static Dialogs newInstance(String name) {
+    public static Dialogs newInstance() {
         Dialogs fragment = new Dialogs();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -34,8 +30,6 @@ public class Dialogs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
-        name = getArguments().getString(Constants.NAME);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
 
         btn = (Button) rootView.findViewById(R.id.time);
         btn2 = (Button) rootView.findViewById(R.id.button);

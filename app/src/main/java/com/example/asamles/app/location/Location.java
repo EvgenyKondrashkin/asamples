@@ -19,13 +19,9 @@ public class Location extends Fragment implements LocationFound {
     private TextView label;
     private LocationListenerPlayServices locationListener;
     private LocationListenerStandart locationListener2;
-    private String name;
 
-    public static Location newInstance(String name) {
+    public static Location newInstance() {
         Location fragment = new Location();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -36,8 +32,6 @@ public class Location extends Fragment implements LocationFound {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.location_fragment, container, false);
-        name = getArguments().getString(Constants.NAME);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
         btn = (Button) rootView.findViewById(R.id.button);
         btn2 = (Button) rootView.findViewById(R.id.button2);
         btn3 = (Button) rootView.findViewById(R.id.button3);

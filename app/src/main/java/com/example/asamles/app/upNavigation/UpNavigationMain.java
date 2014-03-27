@@ -19,13 +19,9 @@ import com.example.asamles.app.constants.Constants;
 public class UpNavigationMain extends Fragment {
 
     private Button btn, btn2;
-    private String name;
 
-    public static UpNavigationMain newInstance(String name) {
+    public static UpNavigationMain newInstance() {
         UpNavigationMain fragment = new UpNavigationMain();
-        Bundle args = new Bundle();
-        args.putString(Constants.NAME, name);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -36,8 +32,6 @@ public class UpNavigationMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.up_navigation_main, container, false);
-        name = getArguments().getString(Constants.NAME);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
         btn = (Button) rootView.findViewById(R.id.button);
 		btn2 = (Button) rootView.findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {
