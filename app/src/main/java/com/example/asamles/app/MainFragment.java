@@ -60,7 +60,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 		((MainActivity) getActivity()).getSupportActionBar().setTitle(list[position]);
-        String fragmentName = "ShakeMain";
+        String fragmentName = "com.example.asamles.app.shake.ShakeMain";
         Fragment shake;
         shake = Fragment.instantiate(getActivity(), fragmentName);
 
