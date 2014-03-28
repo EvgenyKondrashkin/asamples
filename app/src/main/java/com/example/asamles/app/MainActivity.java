@@ -16,7 +16,9 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
         super.onCreate(savedInstanceState);
 		BugSenseHandler.initAndStartSession(this, "27e64652");
         setContentView(R.layout.activity_main);
-
+		
+		homeAsUpByBackStack();
+		
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainFragment())
@@ -45,14 +47,14 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
 
     @Override
     public void onBackStackChanged() {
-        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-        if (backStackEntryCount > 0) {
+		homeAsUpByBackStack();
+    }
+	private void homeAsUpByBackStack(){
+		int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+		if (backStackEntryCount > 0) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            // menu.setGroupVisible(R.id.menu_group_main, false);
         } else {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            // menu.setGroupVisible(R.id.menu_group_main, true);
-            // menu.setGroupVisible(R.id.menu_group_main, true);
         }
-    }
+	}
 }

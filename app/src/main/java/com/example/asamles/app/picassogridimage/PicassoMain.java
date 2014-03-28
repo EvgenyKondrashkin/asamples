@@ -94,13 +94,13 @@ public class PicassoMain extends Fragment {
 	private void showContent(boolean isGrid) {
 		if(isGrid) {
 			Toast.makeText(getActivity(), "Grid", Toast.LENGTH_LONG).show();
-			gridList.setIcon(R.drawable.ic_grid);
+//			gridList.setIcon(R.drawable.ic_grid);
 			getActivity().getSupportFragmentManager().beginTransaction()
 				.replace(R.id.frag_content, grid)
 				.commit();
 		} else {
 			Toast.makeText(getActivity(), "List", Toast.LENGTH_LONG).show();
-            gridList.setIcon(R.drawable.ic_list2);
+//            gridList.setIcon(R.drawable.ic_list2);
 			getActivity().getSupportFragmentManager().beginTransaction()
 				.replace(R.id.frag_content, list)
 				.commit();

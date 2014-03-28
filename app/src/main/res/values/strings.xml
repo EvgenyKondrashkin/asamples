@@ -22,6 +22,20 @@
         <item>Up Navigation</item>
 		<item>Shake </item>
     </string-array>
+	<!--FragmentNames-->
+	<string-array name="fragment_names">
+        <item>com.example.asamles.app.location.Location</item>
+        <item>com.example.asamles.app.dialog.Dialogs</item>
+        <item>com.example.asamles.app.gridimage.GridImages</item>
+        <item>com.example.asamles.app.picassogridimage.PicassoMain</item>
+        <item>com.example.asamles.app.imageedit.ImageEdit</item>
+        <item>com.example.asamles.app.sms.SMSMain</item>
+        <item>com.example.asamles.app.share.ShareMain</item>
+        <item>com.example.asamles.app.db.DBMain</item>
+        <item>com.example.asamles.app.striptab.StripTabMain</item>
+        <item>com.example.asamles.app.upNavigation.UpNavigationMain</item>
+		<item>com.example.asamles.app.shake.ShakeMain</item>
+    </string-array>
     <!--StripTabs-->
     <string-array name="strip_list">
         <item>Strip #1</item>
