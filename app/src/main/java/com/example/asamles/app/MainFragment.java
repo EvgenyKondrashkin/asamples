@@ -59,48 +59,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 		((MainActivity) getActivity()).getSupportActionBar().setTitle(list[position]);
-        // String fragmentName = "com.example.asamles.app.shake.ShakeMain";
-        // Fragment shake;
         Fragment fragment = Fragment.instantiate(getActivity(), fragmentNames[position]);
 		ft.replace(R.id.container, fragment);
-
-
-        // switch (position) {
-            // case 0:
-                // ft.replace(R.id.container, Location.newInstance());
-                // break;
-            // case 1:
-                // ft.replace(R.id.container, Dialogs.newInstance());
-                // break;
-            // case 2:
-                // ft.replace(R.id.container, GridImages.newInstance());
-                // break;
-            // case 3:
-                // ft.replace(R.id.container, PicassoMain.newInstance());
-                // break;
-			// case 4:
-                // ft.replace(R.id.container, ImageEdit.newInstance());
-                // break;
-            // case 5:
-                // ft.replace(R.id.container, SMSMain.newInstance());
-                // break;
-            // case 6:
-                // ft.replace(R.id.container, ShareMain.newInstance());
-                // break;
-            // case 7:
-                // ft.replace(R.id.container, DBMain.newInstance());
-                // break;
-            // case 8:
-                // ft.replace(R.id.container, StripTabMain.newInstance());
-                // break;
-            // case 9:
-                // ft.replace(R.id.container, UpNavigationMain.newInstance());
-                // break;
-			// case 10:
-               // ft.replace(R.id.container, ShakeMain.newInstance());
-                // ft.replace(R.id.container,shake);
-                // break;
-        // }
         ft.addToBackStack("firstlvl");
         ft.commit();
     }
