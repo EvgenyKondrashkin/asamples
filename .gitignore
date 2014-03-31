@@ -36,4 +36,5 @@ proguard/
 .hg
 
 #tiles
-tiles/
+tiles/*
+Thumbs.db
