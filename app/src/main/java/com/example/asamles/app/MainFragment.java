@@ -1,6 +1,5 @@
 package com.example.asamles.app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,26 +9,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.example.asamles.app.db.DBMain;
-import com.example.asamles.app.dialog.Dialogs;
-import com.example.asamles.app.gridimage.GridImages;
-import com.example.asamles.app.location.Location;
-import com.example.asamles.app.imageedit.ImageEdit;
-import com.example.asamles.app.picassogridimage.PicassoMain;
-import com.example.asamles.app.shake.ShakeMain;
-import com.example.asamles.app.share.ShareMain;
-import com.example.asamles.app.sms.SMSMain;
-import com.example.asamles.app.striptab.StripTabMain;
-import com.example.asamles.app.upNavigation.UpFragmentMain;
-import com.example.asamles.app.upNavigation.UpNavigationMain;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private ListView listView;
     private String[] list;
-	private String[] fragmentNames;
+    private String[] fragmentNames;
     private ArrayAdapter<String> adapter;
 
     public MainFragment() {
@@ -42,7 +27,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         getActivity().getSupportFragmentManager().popBackStack();
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getResources().getString(R.string.app_name));
         list = getActivity().getResources().getStringArray(R.array.main_list);
-		fragmentNames = getActivity().getResources().getStringArray(R.array.fragment_names);
+        fragmentNames = getActivity().getResources().getStringArray(R.array.fragment_names);
         listView = (ListView) rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
         return rootView;
@@ -58,9 +43,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-		((MainActivity) getActivity()).getSupportActionBar().setTitle(list[position]);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(list[position]);
         Fragment fragment = Fragment.instantiate(getActivity(), fragmentNames[position]);
-		ft.replace(R.id.container, fragment);
+        ft.replace(R.id.container, fragment);
         ft.addToBackStack("firstlvl");
         ft.commit();
     }

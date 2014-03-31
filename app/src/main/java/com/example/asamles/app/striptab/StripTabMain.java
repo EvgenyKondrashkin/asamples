@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
-import com.example.asamles.app.constants.Constants;
 
 public class StripTabMain extends Fragment {
 

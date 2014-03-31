@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.example.asamles.app.R;
 import com.squareup.picasso.Picasso;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 
 public class ImageListAdapter extends BaseAdapter {
     private Activity context;
-	private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<String> list = new ArrayList<String>();
     private ArrayList<String> imgs = new ArrayList<String>();
 
     public ImageListAdapter(Activity context, ArrayList<String> list, ArrayList<String> imgs) {
@@ -55,17 +54,17 @@ public class ImageListAdapter extends BaseAdapter {
             rowView = inflater.inflate(R.layout.list_row, null, true);
             holder = new ViewHolder();
             holder.textView = (TextView) rowView.findViewById(R.id.label);
-			holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
+            holder.imageView = (ImageView) rowView.findViewById(R.id.icon);
             rowView.setTag(holder);
         } else {
             holder = (ViewHolder) rowView.getTag();
         }
         holder.textView.setText(list.get(position));
         Picasso.with(context)
-               .load(imgs.get(position))
-               .placeholder(R.drawable.loading)
-               .error(R.drawable.error)
-               .into(holder.imageView);
+                .load(imgs.get(position))
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.error)
+                .into(holder.imageView);
         return rowView;
     }
 

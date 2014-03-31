@@ -5,8 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.view.LayoutInflater;
 import android.support.v7.widget.ShareActionProvider;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,17 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
-import com.example.asamles.app.constants.Constants;
 
 public class ShareMain extends Fragment {
 
     private Button btn, btn2, btn3;
     private TextView label;
     private ShareActionProvider mShareActionProvider;
+
     public static ShareMain newInstance() {
         ShareMain fragment = new ShareMain();
         return fragment;
@@ -88,7 +86,7 @@ public class ShareMain extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         inflater.inflate(R.menu.main, menu);
-		MenuItem shareItem = menu.findItem(R.id.action_share);
+        MenuItem shareItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider)
                 MenuItemCompat.getActionProvider(shareItem);
         mShareActionProvider.setShareIntent(getDefaultIntent());
@@ -108,7 +106,8 @@ public class ShareMain extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
-	    private Intent getDefaultIntent() {
+
+    private Intent getDefaultIntent() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, "Theme");

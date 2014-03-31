@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
-import com.example.asamles.app.constants.Constants;
 
 public class Location extends Fragment implements LocationFound {
 

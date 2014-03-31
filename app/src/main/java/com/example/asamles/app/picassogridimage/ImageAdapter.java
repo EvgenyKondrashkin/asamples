@@ -44,11 +44,11 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-		Picasso.with(context)
-               .load(imgs.get(position))
-               .placeholder(R.drawable.loading)
-               .error(R.drawable.error)
-               .into(imageView);
+        Picasso.with(context)
+                .load(imgs.get(position))
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.error)
+                .into(imageView);
         // imageLoader.displayImage(imgs.get(position), imageView, options);
 
         return imageView;

@@ -1,7 +1,6 @@
 package com.example.asamles.app.picassogridimage;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.squareup.picasso.Callback;
@@ -20,7 +18,7 @@ public class ImagePagerAdapter extends PagerAdapter {
     private String[] images;
     private LayoutInflater inflater;
     Activity activity;
-    private  ImageView imageView;
+    private ImageView imageView;
 
     ImagePagerAdapter(String[] images, LayoutInflater inflater, Activity activity) {
         this.images = images;

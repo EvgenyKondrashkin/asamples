@@ -1,32 +1,16 @@
 package com.example.asamles.app.picassogridimage;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
-import com.example.asamles.app.constants.Constants;
-import com.example.asamles.app.dialog.ADialogs;
-import com.example.asamles.app.json.JsonFromAssets;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class PicassoGridImages extends Fragment {
@@ -34,14 +18,14 @@ public class PicassoGridImages extends Fragment {
     public static final String ASSETS_FILE = "images.json";
     public static final String STACK_NAME = "image";
     public static final String JSON_ARRAY = "img";
-	public static final String IMAGES = "images";
+    public static final String IMAGES = "images";
     private ArrayList<String> imgs = new ArrayList<String>();
     private String name;
     private Context context;
 
-    public static PicassoGridImages newInstance(ArrayList<String> imgs){
+    public static PicassoGridImages newInstance(ArrayList<String> imgs) {
         PicassoGridImages fragment = new PicassoGridImages();
-		Bundle args = new Bundle();
+        Bundle args = new Bundle();
         args.putStringArrayList(IMAGES, imgs);
         fragment.setArguments(args);
         return fragment;
@@ -53,19 +37,19 @@ public class PicassoGridImages extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.grid_images_fragment, container, false);
-		imgs = getArguments().getStringArrayList(IMAGES);
+        imgs = getArguments().getStringArrayList(IMAGES);
         // ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
 
         // JsonFromAssets JFA = new JsonFromAssets(ASSETS_FILE, getActivity());
-		// imgs = JFA.getFromJson();
-		
-		// if(imgs == null) {
-			// ADialogs.alert(getActivity(), this.getString(R.string.json_error));
-			// return rootView;
-		// } 
-        
-		gridView.setAdapter(new ImageAdapter(getActivity(), imgs));
+        // imgs = JFA.getFromJson();
+
+        // if(imgs == null) {
+        // ADialogs.alert(getActivity(), this.getString(R.string.json_error));
+        // return rootView;
+        // }
+
+        gridView.setAdapter(new ImageAdapter(getActivity(), imgs));
         Context context = getActivity();
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -76,5 +60,5 @@ public class PicassoGridImages extends Fragment {
         });
         return rootView;
     }
-	
+
 }

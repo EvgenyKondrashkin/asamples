@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
-import com.example.asamles.app.constants.Constants;
 
 
 public class SMSMain extends Fragment {

@@ -1,8 +1,6 @@
 package com.example.asamles.app.gridimage;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
-import com.example.asamles.app.constants.Constants;
 import com.example.asamles.app.dialog.ADialogs;
 import com.example.asamles.app.json.JsonFromAssets;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -22,12 +18,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class GridImages extends Fragment {
@@ -53,7 +43,7 @@ public class GridImages extends Fragment {
 
         JsonFromAssets JFA = new JsonFromAssets(ASSETS_FILE, getActivity());
         imgs = JFA.getFromJson();
-        if(imgs == null) {
+        if (imgs == null) {
             ADialogs.alert(getActivity(), this.getString(R.string.json_error));
             return rootView;
         }

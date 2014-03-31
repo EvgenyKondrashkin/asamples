@@ -1,19 +1,14 @@
 package com.example.asamles.app.picassogridimage;
 
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.asamles.app.R;
-
 
 import java.util.ArrayList;
 
@@ -61,6 +56,6 @@ public class ImagePager extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_POSITION, pager.getCurrentItem());
     }
-	
+
 
 }

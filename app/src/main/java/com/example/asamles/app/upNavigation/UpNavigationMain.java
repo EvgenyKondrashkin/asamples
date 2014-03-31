@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
@@ -33,7 +32,7 @@ public class UpNavigationMain extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.up_navigation_main, container, false);
         btn = (Button) rootView.findViewById(R.id.button);
-		btn2 = (Button) rootView.findViewById(R.id.button2);
+        btn2 = (Button) rootView.findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -43,7 +42,7 @@ public class UpNavigationMain extends Fragment {
                 startActivity(intent);
             }
         });
-		btn2.setOnClickListener(new View.OnClickListener() {
+        btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -54,7 +53,8 @@ public class UpNavigationMain extends Fragment {
         });
         return rootView;
     }
-	@Override
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

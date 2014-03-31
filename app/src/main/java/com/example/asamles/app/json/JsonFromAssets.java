@@ -11,29 +11,31 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class JsonFromAssets {
-	private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<String> list = new ArrayList<String>();
     public static final String JSON_ARRAY = "img";
-	private String jsonString;
-	private Context context;
-	public JsonFromAssets(String jsonString, Context context){
-		this.context = context;
-		this.jsonString = jsonString;
-	}
-    public ArrayList<String> getFromJson(){
-		try {
-			String res = resFromAsset(jsonString);
+    private String jsonString;
+    private Context context;
+
+    public JsonFromAssets(String jsonString, Context context) {
+        this.context = context;
+        this.jsonString = jsonString;
+    }
+
+    public ArrayList<String> getFromJson() {
+        try {
+            String res = resFromAsset(jsonString);
             list = jsonParse(res);
         } catch (IOException e) {
             e.printStackTrace();
-			return null;
+            return null;
         } catch (JSONException e) {
             e.printStackTrace();
-			return null;
+            return null;
         }
-		return list;
+        return list;
     }
-	
-	public String resFromAsset(String ASSETS_FILE) throws IOException {
+
+    public String resFromAsset(String ASSETS_FILE) throws IOException {
         String json = null;
         try {
             InputStream is = context.getAssets().open(ASSETS_FILE);
