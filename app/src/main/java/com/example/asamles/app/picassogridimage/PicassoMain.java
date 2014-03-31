@@ -47,7 +47,6 @@ public class PicassoMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        setMenuVisibility(true);
         View rootView = inflater.inflate(R.layout.picasso_main, container, false);
         sPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         ed = sPref.edit();
@@ -64,18 +63,7 @@ public class PicassoMain extends Fragment {
         showContent(isGrid);
         return rootView;
     }
-    @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
-
-        super.onConfigurationChanged(newConfig);
-        getActivity().supportInvalidateOptionsMenu();
-
-
-
-
-
-    }
+	
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.grid_menu, menu);
@@ -93,10 +81,10 @@ public class PicassoMain extends Fragment {
             case R.id.action_list:
                 if (isGrid) {
                     isGrid = false;
-                    item.setIcon(R.drawable.ic_grid);
+                    item.setIcon(R.drawable.ic_list2);
                 } else {
                     isGrid = true;
-                    item.setIcon(R.drawable.ic_list2);
+                    item.setIcon(R.drawable.ic_grid);
                 }
                 ed.putBoolean(IS_GRID, isGrid);
                 ed.commit();
@@ -110,7 +98,6 @@ public class PicassoMain extends Fragment {
     private void showContent(boolean isGrid) {
         if (isGrid) {
             Toast.makeText(getActivity(), "Grid", Toast.LENGTH_LONG).show();
-//            gridList.setIcon(R.drawable.ic_grid);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frag_content, grid)
                     .commit();

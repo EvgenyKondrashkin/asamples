@@ -27,7 +27,8 @@ public class Blur extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.image_edit_main, container, false);
-        imageView = (ImageView) view.findViewById(R.id.image);
+
+		imageView = (ImageView) view.findViewById(R.id.image);
         bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
         imageView.setImageBitmap(bitmap);
 

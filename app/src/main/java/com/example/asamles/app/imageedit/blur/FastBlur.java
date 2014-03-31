@@ -2,9 +2,6 @@ package com.example.asamles.app.imageedit.blur;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by paveld on 3/6/14.
- */
 public class FastBlur {
 
     public static Bitmap doBlur(Bitmap sentBitmap, int radius, boolean canReuseInBitmap) {
