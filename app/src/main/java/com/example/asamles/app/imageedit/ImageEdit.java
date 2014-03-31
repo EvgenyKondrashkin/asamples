@@ -15,13 +15,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.dialog.ADialogs;
-import com.example.asamles.app.imageedit.blur.Blur;
 import com.example.asamles.app.imageedit.blur.BlurTask;
 import com.example.asamles.app.imageedit.blur.FastBlur;
 
@@ -49,7 +49,7 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
                              Bundle savedInstanceState) {
 		this.container = container;
         View rootView = inflater.inflate(R.layout.image_edit_main, container, false);
-		frameLayout = (FrameLayout) view.findViewById(R.id.container);
+		frameLayout = (FrameLayout) rootView.findViewById(R.id.frameLayout);
         setHasOptionsMenu(true);
         imageView = (ImageView) rootView.findViewById(R.id.image);
         bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
@@ -69,11 +69,7 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
         switch (item.getItemId()) {
             case R.id.action_blur:
                 Toast.makeText(getActivity(), "Blur", Toast.LENGTH_LONG).show();
-                // FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                // ft.replace(R.id.container, Blur.newInstance());
-                // ft.addToBackStack("firstlvl");
-                // ft.commit();
-				blur3(bitmap, imageView);
+				blur(bitmap, imageView);
                 return true;
             case R.id.action_rotate:
                 angle = -90;
@@ -87,56 +83,21 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
                 return super.onOptionsItemSelected(item);
         }
     }
-	
+
 	private void blur(Bitmap bkg, ImageView view) {
-        float scaleFactor = 8;
-        float radius = 2;
-
-        Bitmap overlay = Bitmap.createBitmap((int) (bkg.getWidth() / scaleFactor),
-                (int) (bkg.getHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-
-        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-        view.setImageDrawable(new BitmapDrawable(getResources(), overlay));
-    }
-	
-	private void blur2(Bitmap bkg, ImageView view) {
-        float scaleFactor = 8;
-        float radius = 2;
-
-        Bitmap overlay = Bitmap.createBitmap((int) (bkg.getWidth() / scaleFactor),
-                (int) (bkg.getHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-
-        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-		
-		ImageView bluredImageView = new ImageView(getActivity());
-		LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		bluredImageView.setLayoutParams(view.getLayoutParams());
-        // bluredImageView.setImageDrawable(new BitmapDrawable(getResources(), overlay));
-		bluredImageView.setImageDrawable(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(overlay, bkg.getWidth(), bkg.getHeight(), false)));
-        bluredImageView.setTag("Blured");
-		
-		frameLayout.addView(bluredImageView);
-        
-    }
-	private void blur3(Bitmap bkg, ImageView view) {
 		BlurTask task = new BlurTask(bkg, view, this);
 		task.execute();
 	}
 	public void onBlurTaskComplete(Bitmap result){
 		if(result != null){
-			imageView.setImageDrawable(new BitmapDrawable(getResources(), result));
+            ImageView bluredImageView = new ImageView(getActivity());
+            LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            bluredImageView.setLayoutParams(imageView.getLayoutParams());
+            // bluredImageView.setImageDrawable(new BitmapDrawable(getResources(), overlay));
+            bluredImageView.setImageDrawable(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(result, bitmap.getWidth(), bitmap.getHeight(), false)));
+            bluredImageView.setTag("Blured");
+
+            frameLayout.addView(bluredImageView);
 		} else {
             ADialogs.alert(getActivity(),getActivity().getString(R.string.error));
 		}

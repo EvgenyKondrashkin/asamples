@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.asamles.app.BaseActivity;
+import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
 
-public class UpMain extends BaseActivity {
+public class UpMain extends MainActivity {
     private Button btn;
     private TextView label;
     private String name;

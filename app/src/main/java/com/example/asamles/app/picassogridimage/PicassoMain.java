@@ -40,7 +40,8 @@ public class PicassoMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        isGrid = sPref.getBoolean(IS_GRID, true);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class PicassoMain extends Fragment {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.picasso_main, container, false);
-        sPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         ed = sPref.edit();
         JsonFromAssets JFA = new JsonFromAssets(ASSETS_FILE, getActivity());
         ArrayList<String> imgs = JFA.getFromJson();
@@ -58,7 +59,7 @@ public class PicassoMain extends Fragment {
         }
         grid = PicassoGridImages.newInstance(imgs);
         list = PicassoListImages.newInstance(imgs);
-        isGrid = sPref.getBoolean(IS_GRID, true);
+
 
         showContent(isGrid);
         return rootView;
