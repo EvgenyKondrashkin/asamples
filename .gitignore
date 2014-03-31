@@ -4,7 +4,8 @@
 .DS_Store
 
 #tiles
-tiles/*
+tiles/
+/tiles
 Thumbs.db
 
 # built application files
