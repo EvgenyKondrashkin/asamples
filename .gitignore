@@ -3,10 +3,6 @@
 /.idea/workspace.xml
 .DS_Store
 
-#tiles
-tiles/
-/tiles
-Thumbs.db
 
 # built application files
 *.apk
