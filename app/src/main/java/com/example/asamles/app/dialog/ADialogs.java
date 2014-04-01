@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -74,4 +76,37 @@ public class ADialogs {
         });
         ad.show();
     }
+
+    public static void seekBar(Context context, final ImageView imageView) {
+        final SeekBar seekBar;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View seekLayout = inflater.inflate(R.layout.slider_item, null);
+        seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
+        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        ad.setMessage("Wat");
+        ad.setView(seekLayout);
+        ad.setCancelable(true);
+
+        ad.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                imageView.setAlpha(seekBar.getProgress());
+
+                dialog.cancel();
+            }
+        }).create();
+        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                dialog.cancel();
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+                dialog.cancel();
+            }
+        });
+        ad.show();
+    }
+
 }

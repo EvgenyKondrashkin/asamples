@@ -1,6 +1,7 @@
 package com.example.asamles.app.shake;
 
 import android.app.Activity;
+import android.content.Context;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,11 +28,12 @@ public class ShakeMain extends Fragment implements ShakeDetector.Listener {
 
     public ShakeMain() {
     }
-
+    Context context;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.shake_main, container, false);
+        context = getActivity();
         label = (TextView) rootView.findViewById(R.id.textView);
         shakeMessage = getResources().getStringArray(R.array.shake_list);
         SensorManager sensorManager = (SensorManager) this.getActivity().getSystemService(Activity.SENSOR_SERVICE);
@@ -42,7 +44,7 @@ public class ShakeMain extends Fragment implements ShakeDetector.Listener {
 
     public void hearShake() {
         int random = new Random().nextInt(shakeMessage.length);
-        Toast.makeText(getActivity(), shakeMessage[random], Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, shakeMessage[random], Toast.LENGTH_SHORT).show();
     }
 
 }

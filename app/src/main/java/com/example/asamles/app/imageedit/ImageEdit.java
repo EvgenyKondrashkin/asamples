@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asamles.app.R;
@@ -67,6 +68,10 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.action_seek:
+                ADialogs.seekBar(getActivity(), imageView);
+                return true;
             case R.id.action_blur:
                 Toast.makeText(getActivity(), "Blur", Toast.LENGTH_LONG).show();
 				blur(bitmap, imageView);

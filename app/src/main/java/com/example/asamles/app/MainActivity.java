@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import com.bugsense.trace.BugSenseHandler;
 
 public class MainActivity extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener {
-    private ShareActionProvider mShareActionProvider;
     Menu menu;
 
     @Override
