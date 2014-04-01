@@ -1,5 +1,6 @@
 package com.example.asamles.app.upNavigation;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 
 public class UpFragmentFirst extends Fragment {
@@ -50,7 +52,7 @@ public class UpFragmentFirst extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                getFragmentManager().popBackStack();
+                ((MainActivity) getActivity()).getSupportFragmentManager().popBackStack("UpNav", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 return true;
         }
         return super.onOptionsItemSelected(item);

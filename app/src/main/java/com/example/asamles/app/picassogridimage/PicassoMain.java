@@ -1,7 +1,6 @@
 package com.example.asamles.app.picassogridimage;
 
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -64,7 +63,7 @@ public class PicassoMain extends Fragment {
         showContent(isGrid);
         return rootView;
     }
-	
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.grid_menu, menu);
@@ -76,6 +75,7 @@ public class PicassoMain extends Fragment {
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

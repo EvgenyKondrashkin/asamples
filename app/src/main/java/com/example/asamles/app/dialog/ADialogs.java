@@ -86,7 +86,6 @@ public class ADialogs {
         ad.setMessage("Wat");
         ad.setView(seekLayout);
         ad.setCancelable(true);
-
         ad.setPositiveButton("Set", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 

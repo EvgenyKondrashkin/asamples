@@ -28,7 +28,9 @@ public class ShakeMain extends Fragment implements ShakeDetector.Listener {
 
     public ShakeMain() {
     }
+
     Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

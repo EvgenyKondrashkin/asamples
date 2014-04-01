@@ -13,11 +13,12 @@ public class BlurTask extends AsyncTask<Void, Bitmap, Bitmap> {
     }
 
     private BlurTaskListener callback;
-	private Bitmap bkg;
-	private ImageView view;
+    private Bitmap bkg;
+    private ImageView view;
+
     public BlurTask(Bitmap bkg, ImageView view, BlurTaskListener callback) {
         this.bkg = bkg;
-		this.view = view;
+        this.view = view;
         this.callback = callback;
     }
 
@@ -41,12 +42,13 @@ public class BlurTask extends AsyncTask<Void, Bitmap, Bitmap> {
         canvas.drawBitmap(bkg, 0, 0, paint);
 
         overlay = FastBlur.doBlur(overlay, (int) radius, true);
-		return overlay;
+        return overlay;
     }
+
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
         callback.onBlurTaskComplete(result);
     }
-    
+
 }

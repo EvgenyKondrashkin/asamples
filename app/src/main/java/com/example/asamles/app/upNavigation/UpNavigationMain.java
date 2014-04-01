@@ -37,7 +37,7 @@ public class UpNavigationMain extends Fragment {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent();
-                intent.setClassName("com.example.asamles.app", "com.example.asamles.app.upNavigation.UpMain");
+                intent.setClassName(getActivity(), "com.example.asamles.app.upNavigation.UpMain");
                 intent.putExtra(Constants.NAME, "Activity Way");
                 startActivity(intent);
             }
@@ -52,16 +52,5 @@ public class UpNavigationMain extends Fragment {
             }
         });
         return rootView;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                ((MainActivity) getActivity()).getSupportFragmentManager().popBackStack("UpNav", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

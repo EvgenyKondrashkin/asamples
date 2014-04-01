@@ -43,22 +43,15 @@ public class TiledMain extends Fragment {
         getMarkers();
 
         tileView = new TileView(getActivity());
-
         tileView = getTileView();
-//        tileView.setCacheEnabled( true );
-//        tileView.setTransitionsEnabled( false );
-
         tileView.setSize(4800, 1700);
-
+		
         tileView.addDetailLevel(1f, "tiles/central_park/1000/2xbig_map-%col%_%row%.png", "tiles/central_park/small_map.png", 256, 256);
         tileView.addDetailLevel(0.5f, "tiles/central_park/500/big_map_%col%_%row%.jpg", "tiles/central_park/small_map.png", 128, 128);
         tileView.addDetailLevel(0.25f, "tiles/central_park/250/not_big_map-%col%_%row%.png", "tiles/central_park/small_map.png", 256, 256);
         tileView.setScale(0.25f);
 
-        // let's use 0-1 positioning...
         tileView.defineRelativeBounds(0, 0, 4800, 1700);
-
-
         tileView.moveToAndCenter(4800 / 2, 1700 / 2);
         tileView.slideToAndCenter(4800 / 2, 1700 / 2);
 
