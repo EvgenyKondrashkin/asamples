@@ -31,6 +31,7 @@ public class PaintMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 		drawView = new SmoothLine(getActivity(), null);
         drawView.requestFocus();
 		
@@ -47,16 +48,26 @@ public class PaintMain extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.action_erase:
-
+				drawView.setEraser();
                 return true;
             case R.id.action_save:
-
+				saveToGalery();
                 return true;
             case R.id.action_pencil:
-
+				drawView.setPencil();
                 return true;
+			case R.id.action_remove:
+				drawView.clear();
+            return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+	private void saveToGalery() {
+		drawView.setDrawingCacheEnabled(true);
+        drawView.buildDrawingCache(true);
+        Bitmap image = Bitmap.createBitmap(drawView.getDrawingCache(true));
+        drawView.setDrawingCacheEnabled(false);
+		MediaStore.Images.Media.insertImage(getContentResolver(), image, "Title" , "Description");
+	}
 }

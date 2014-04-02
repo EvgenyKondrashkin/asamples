@@ -5,6 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.asamles.app.MainActivity">
     <item
+        android:id="@+id/action_clear"
+        android:title="Clear"
+        android:icon="@drawable/ic_eraser"
+        app:showAsAction="always"
+        />
+	<item
         android:id="@+id/action_erase"
         android:title="Erase"
         android:icon="@drawable/ic_eraser"

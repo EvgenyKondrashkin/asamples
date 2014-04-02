@@ -60,12 +60,13 @@ public class Dialogs extends Fragment {
             @Override
             public void onClick(View arg0) {
                 btn3.setText("working!");
-                Calendar date1 = Calendar.getInstance();
-                date1.set(Calendar.HOUR_OF_DAY, 0);
-                date1.set(Calendar.MINUTE, 0);
-                date1.set(Calendar.SECOND, 0);
-                date1.set(Calendar.MILLISECOND, 0);
-                label3.setText("" + date1.getTimeInMillis());
+                // Calendar date1 = Calendar.getInstance();
+                // date1.set(Calendar.HOUR_OF_DAY, 0);
+                // date1.set(Calendar.MINUTE, 0);
+                // date1.set(Calendar.SECOND, 0);
+                // date1.set(Calendar.MILLISECOND, 0);
+                // label3.setText("" + date1.getTimeInMillis());
+				showDialogFragment();
             }
         });
         return rootView;
@@ -76,5 +77,17 @@ public class Dialogs extends Fragment {
         super.onResume();
 
     }
-
+	
+    public void showDialogFragment() {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		CustomDialogFragment newFragment = new CustomAlertDialog();
+		// The device is smaller, so show the fragment fullscreen
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // For a little polish, specify a transition animation
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        // To make it fullscreen, use the 'content' root view as the container
+        // for the fragment, which is always the root view for the activity
+        transaction.add(android.R.id.content, newFragment)
+                   .addToBackStack(null).commit();
+    }
 }
