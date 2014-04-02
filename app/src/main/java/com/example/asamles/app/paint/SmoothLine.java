@@ -27,7 +27,7 @@ public class SmoothLine extends View {
 	  private float lastTouchY;
 	  private final RectF dirtyRect = new RectF();
 
-	  public Sig(Context context, AttributeSet attrs) {
+	  public SmoothLine(Context context, AttributeSet attrs) {
 	    super(context, attrs);
 
 	    paint.setAntiAlias(true);

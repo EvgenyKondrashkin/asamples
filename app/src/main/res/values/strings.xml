@@ -15,6 +15,7 @@
         <item>Image grid</item>
         <item>Picasso Image grid</item>
         <item>Image Edit</item>
+        <item>Paint</item>
         <item>Tiled image - Park map</item>
         <item>SMS</item>
         <item>Share</item>
@@ -30,6 +31,7 @@
         <item>com.example.asamles.app.gridimage.GridImages</item>
         <item>com.example.asamles.app.picassogridimage.PicassoMain</item>
         <item>com.example.asamles.app.imageedit.ImageEdit</item>
+        <item>com.example.asamles.app.paint.PaintMain</item>
         <item>com.example.asamles.app.tiledimage.TiledMain</item>
         <item>com.example.asamles.app.sms.SMSMain</item>
         <item>com.example.asamles.app.share.ShareMain</item>

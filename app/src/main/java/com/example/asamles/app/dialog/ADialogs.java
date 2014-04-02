@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -77,12 +80,17 @@ public class ADialogs {
         ad.show();
     }
 
-    public static void seekBar(Context context, final ImageView imageView) {
+    public static void seekBar(Context context, final ImageView imageView, final ViewGroup container) {
         final SeekBar seekBar;
+        container.setDrawingCacheEnabled(true);
+        container.buildDrawingCache(true);
+        Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
+        container.setDrawingCacheEnabled(false);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View seekLayout = inflater.inflate(R.layout.slider_item, null);
         seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
         AlertDialog.Builder ad = new AlertDialog.Builder(context);
+//        ad.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         ad.setMessage("Wat");
         ad.setView(seekLayout);
         ad.setCancelable(true);

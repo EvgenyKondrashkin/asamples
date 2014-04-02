@@ -64,12 +64,12 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
         switch (item.getItemId()) {
 
             case R.id.action_seek:
-                //ADialogs.seekBar(getActivity(), imageView);
-                container.setDrawingCacheEnabled(true);
-                container.buildDrawingCache(true);
-                Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
-                imageView.setImageBitmap(cs);
-                container.setDrawingCacheEnabled(false);
+                ADialogs.seekBar(getActivity(), imageView, container);
+//                container.setDrawingCacheEnabled(true);
+//                container.buildDrawingCache(true);
+//                Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
+//                imageView.setImageBitmap(cs);
+//                container.setDrawingCacheEnabled(false);
                 return true;
             case R.id.action_blur:
                 Toast.makeText(getActivity(), "Blur", Toast.LENGTH_LONG).show();
