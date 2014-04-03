@@ -54,7 +54,7 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+      public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.image_edit, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }

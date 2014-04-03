@@ -50,7 +50,7 @@ public class SmoothLine extends View {
 	  public void setEraser() {
 	    paint.setColor(Color.WHITE);
 		eraser = true;
-	    invalidate();
+//	    invalidate();
 	  }
 	  
 	  public void setPencil() {

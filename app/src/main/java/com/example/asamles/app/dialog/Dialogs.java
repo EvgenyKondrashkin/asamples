@@ -2,6 +2,8 @@ package com.example.asamles.app.dialog;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,8 +81,8 @@ public class Dialogs extends Fragment {
     }
 	
     public void showDialogFragment() {
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		CustomDialogFragment newFragment = new CustomAlertDialog();
+		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+		CustomAlertDialog newFragment = new CustomAlertDialog();
 		// The device is smaller, so show the fragment fullscreen
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // For a little polish, specify a transition animation

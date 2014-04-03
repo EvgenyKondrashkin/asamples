@@ -1,9 +1,11 @@
 package com.example.asamles.app.paint;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,7 +58,7 @@ public class PaintMain extends Fragment {
             case R.id.action_pencil:
 				drawView.setPencil();
                 return true;
-			case R.id.action_remove:
+			case R.id.action_clear:
 				drawView.clear();
             return true;
             default:
@@ -68,6 +70,6 @@ public class PaintMain extends Fragment {
         drawView.buildDrawingCache(true);
         Bitmap image = Bitmap.createBitmap(drawView.getDrawingCache(true));
         drawView.setDrawingCacheEnabled(false);
-		MediaStore.Images.Media.insertImage(getContentResolver(), image, "Title" , "Description");
+		MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), image, "Title" , "Description");
 	}
 }

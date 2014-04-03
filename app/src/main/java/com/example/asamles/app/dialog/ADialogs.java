@@ -3,6 +3,7 @@ package com.example.asamles.app.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -116,7 +117,7 @@ public class ADialogs {
         ad.show();
     }
 
-    public static void seekBar(Context context, final ImageView imageView, final ViewGroup container)) {
+    public static void seekBar(Context context, final ImageView imageView, final ViewGroup container) {
 		final SeekBar seekBar;
 		
         container.setDrawingCacheEnabled(true);
@@ -124,11 +125,11 @@ public class ADialogs {
         Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
         container.setDrawingCacheEnabled(false);
         
-		// LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        // View seekLayout = inflater.inflate(R.layout.slider_item, null);
+		 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+         View seekLayout = inflater.inflate(R.layout.slider_item, null);
         
 		
-		final Dialog dialog = new Dialog(context, R.style.WatDialog);
+		final Dialog dialog = new Dialog(context);
 		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 		dialog.setContentView(R.layout.slider_item);
 		// Set dialog title
@@ -137,22 +138,21 @@ public class ADialogs {
 		// set values for custom dialog components - text, image and button
 		seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
 		seekBar.setProgress(100);
-		
+
 		dialog.setCancelable(true);
-        dialog.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-                imageView.setAlpha(seekBar.getProgress());
-
-                dialog.cancel();
-            }
-        }).create();
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                dialog.cancel();
-            }
-        });
-        dialog.setCancelable(true);
+//        dialog.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//
+//                imageView.setAlpha(seekBar.getProgress());
+//
+//                dialog.cancel();
+//            }
+//        }).create();
+//        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int arg1) {
+//                dialog.cancel();
+//            }
+//        });
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
                 dialog.cancel();

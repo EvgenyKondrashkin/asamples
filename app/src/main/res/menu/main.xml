@@ -1,12 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.asamles.app.MainActivity">
+>
     <group android:id="@+id/menu_group_main" >
 	<item
         android:id="@+id/menu_item_action_provider_action_bar"
-        android:actionProviderClass=".widget.CheckBoxActionProvider"
-        android:showAsAction="always"
+        app:actionProviderClass="com.example.asamles.app.share.CheckBoxActionProvider"
+        app:showAsAction="always"
         android:title="Settings"/>
     <item
         android:id="@+id/action_share"
