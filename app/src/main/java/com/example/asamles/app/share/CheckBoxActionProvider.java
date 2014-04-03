@@ -42,7 +42,6 @@ public class CheckBoxActionProvider extends ActionProvider implements MenuItem.O
         subMenu.clear();
 
         subMenu.add("Sort by name").setOnMenuItemClickListener(this);
-        subMenu.
     }
 
     @Override

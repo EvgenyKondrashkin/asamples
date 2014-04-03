@@ -7,6 +7,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.imageedit.blur.FastBlur;
 
 import java.util.Calendar;
 
@@ -78,7 +82,13 @@ public class ADialogs {
                 dialog.cancel();
             }
         });
-        ad.show();
+		AlertDialog dialog = ad.create();
+		// dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+		Bitmap map=takeScreenShot(activity);
+		Bitmap fast= FastBlur.doBlur(map, 10, true);
+		final Drawable draw=new BitmapDrawable(context.getResources(),fast);
+		dialog.getWindow().setBackgroundDrawable(draw);
+        dialog.show();
     }
 
     public static void seekBar2(Context context, final ImageView imageView, final ViewGroup container) {
@@ -131,9 +141,16 @@ public class ADialogs {
 		
 		final Dialog dialog = new Dialog(context);
 		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+//		dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 		dialog.setContentView(R.layout.slider_item);
 		// Set dialog title
 		dialog.setTitle("Custom Dialog");
+		Bitmap map=takeScreenShot((Activity) context);
+
+		Bitmap fast= FastBlur.doBlur(map, 10, true);
+		final Drawable draw=new BitmapDrawable(context.getResources(),fast);
+		dialog.getWindow().setBackgroundDrawable(draw);
+		
 		
 		// set values for custom dialog components - text, image and button
 		seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
@@ -172,4 +189,20 @@ public class ADialogs {
         // });
 		
 	}
+	private static Bitmap takeScreenShot(Activity activity)
+    {
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap b1 = view.getDrawingCache();
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int statusBarHeight = frame.top;
+        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
+        int height = activity.getWindowManager().getDefaultDisplay().getHeight();
+
+        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height  - statusBarHeight);
+        view.destroyDrawingCache();
+        return b;
+    }
 }

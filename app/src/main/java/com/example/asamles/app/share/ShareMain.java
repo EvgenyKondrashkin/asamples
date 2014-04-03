@@ -1,11 +1,17 @@
 package com.example.asamles.app.share;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.asamles.app.R;
@@ -82,36 +92,115 @@ public class ShareMain extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    // @Override
+    // public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        inflater.inflate(R.menu.main, menu);
-        MenuItem shareItem = menu.findItem(R.id.action_share);
-        mShareActionProvider = (ShareActionProvider)
-                MenuItemCompat.getActionProvider(shareItem);
-        mShareActionProvider.setShareIntent(getDefaultIntent());
-//        MenuItem shareItem = menu.findItem(R.id.action_refresh);
+        // inflater.inflate(R.menu.main, menu);
+        // MenuItem shareItem = menu.findItem(R.id.action_share);
+        // mShareActionProvider = (ShareActionProvider)
+                // MenuItemCompat.getActionProvider(shareItem);
+        // mShareActionProvider.setShareIntent(getDefaultIntent());
 
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+        // super.onCreateOptionsMenu(menu, inflater);
+    // }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_share2:
-                this.startActivity(getDefaultIntent());
-                return true;
+    // @Override
+    // public boolean onOptionsItemSelected(MenuItem item) {
+        // switch (item.getItemId()) {
+            // case R.id.action_share2:
+                // this.startActivity(getDefaultIntent());
+                // return true;
 
-            default:
-                return super.onOptionsItemSelected(item);
+            // default:
+                // return super.onOptionsItemSelected(item);
+        // }
+    // }
+
+    // private Intent getDefaultIntent() {
+        // Intent intent = new Intent(Intent.ACTION_SEND);
+        // intent.setType("text/plain");
+        // intent.putExtra(Intent.EXTRA_SUBJECT, "Theme");
+        // intent.putExtra(Intent.EXTRA_TEXT, "Message");
+        // return intent;
+    // }
+	@Override
+public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        String title = "Seek Bar Test";
+    SeekBar seekBar = addDropDownSeekBar(getActivity(), menu, title);
+
+}
+
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+private SeekBar addDropDownSeekBar(Context context, Menu menu, String title) {
+    LayoutInflater inflater = LayoutInflater.from(context);
+
+    View contentView = inflater.inflate(R.layout.action_bar_dropdown, null);
+    SeekBar seekBar = (SeekBar) contentView.findViewById(R.id.seekBar1);
+
+    final PopupWindow popupWindow = new PopupWindow(context, null,
+            android.R.attr.actionDropDownStyle);
+    popupWindow.setFocusable(true); // seems to take care of dismissing on click outside
+    popupWindow.setContentView(contentView);
+    setPopupSize(popupWindow);
+
+    final int paddingTop = getPaddingTop(popupWindow);
+
+    MenuItem menuItem = menu.add("");
+    FrameLayout button = createActionButton(context, title);
+    menuItem.setActionView(button);
+    menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // compensate for PopupWindow's internal padding
+            popupWindow.showAsDropDown(v, 0, -paddingTop);
         }
+    });
+
+    return seekBar;
+}
+
+private FrameLayout createActionButton(Context context, String title) {
+    FrameLayout frame = new FrameLayout(context, null, android.R.attr.actionButtonStyle);
+    frame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.MATCH_PARENT));
+    TextView text = new TextView(context, null, android.R.attr.actionMenuTextAppearance);
+    text.setGravity(Gravity.CENTER_VERTICAL);
+    text.setText(title);
+    frame.addView(text);
+    return frame;
+}
+
+private void setPopupSize(PopupWindow popupWindow) {
+    View contentView = popupWindow.getContentView();
+
+    int unspecified = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+    contentView.measure(unspecified, unspecified);
+
+    int width = contentView.getMeasuredWidth();
+    int height = contentView.getMeasuredHeight();
+
+    Drawable background = popupWindow.getBackground();
+    if (background != null) {
+        Rect rect = new Rect();
+        background.getPadding(rect);
+        width += rect.left + rect.right;
+        height += rect.top + rect.bottom;
     }
 
-    private Intent getDefaultIntent() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Theme");
-        intent.putExtra(Intent.EXTRA_TEXT, "Message");
-        return intent;
-    }
+    popupWindow.setWidth(width);
+    popupWindow.setHeight(height);
+}
+
+private int getPaddingTop(PopupWindow popupWindow) {
+    Drawable background = popupWindow.getBackground();
+    if (background == null)
+        return 0;
+
+    Rect padding = new Rect();
+    background.getPadding(padding);
+    return padding.top;
+}
 }

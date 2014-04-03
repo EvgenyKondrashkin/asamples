@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.seekbar.VerticalSeekBar;
 
 import java.util.Calendar;
 
 public class Dialogs extends Fragment {
     private Button btn, btn2, btn3;
-    private TextView label, label2, label3;
-
+    private TextView label, label2, label3, vsProgress;
+	VerticalSeekBar verticalSeekBar=null;
     public static Dialogs newInstance() {
         Dialogs fragment = new Dialogs();
         return fragment;
@@ -30,7 +32,31 @@ public class Dialogs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
-
+		
+		verticalSeekBar=(VerticalSeekBar)rootView.findViewById(R.id.vertical_Seekbar);
+		vsProgress=(TextView)rootView.findViewById(R.id.vertical_sb_progresstext);
+		verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				vsProgress.setText(progress+"");
+				
+			}
+		});
+		
         btn = (Button) rootView.findViewById(R.id.time);
         btn2 = (Button) rootView.findViewById(R.id.button);
         btn3 = (Button) rootView.findViewById(R.id.button2);
