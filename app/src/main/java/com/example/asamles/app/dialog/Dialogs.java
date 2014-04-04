@@ -1,6 +1,7 @@
 package com.example.asamles.app.dialog;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -82,6 +83,7 @@ public class Dialogs extends Fragment {
                 btn2.setText("working!");
                 ADialogs.alert(getActivity(), "Wat");
 
+
             }
         });
         btn3.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +108,7 @@ public class Dialogs extends Fragment {
 
     }
 	
-    public void showDialogFragment() {
+    public void showDialogFragment1() {
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 		CustomAlertDialog newFragment = new CustomAlertDialog();
 		// The device is smaller, so show the fragment fullscreen
@@ -117,5 +119,9 @@ public class Dialogs extends Fragment {
         // for the fragment, which is always the root view for the activity
         transaction.add(android.R.id.content, newFragment)
                    .addToBackStack(null).commit();
+    }
+    public void showDialogFragment() {
+        DialogFragment dlg2 = new CustomAlertDialog();
+        dlg2.show(getFragmentManager(), "dlg2");
     }
 }
