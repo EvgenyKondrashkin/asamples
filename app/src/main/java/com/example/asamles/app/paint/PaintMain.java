@@ -55,8 +55,6 @@ public class PaintMain extends Fragment {
 		
 		drawView = (DrawingView)rootView.findViewById(R.id.drawing);
 
-		
-		
         return rootView;
     }
     @Override
@@ -83,7 +81,7 @@ public class PaintMain extends Fragment {
 				drawView.setLastBrushSize(smallBrush);
                 return true;
 			case R.id.action_clear:
-				
+				drawView.clear();
             return true;
             default:
                 return super.onOptionsItemSelected(item);

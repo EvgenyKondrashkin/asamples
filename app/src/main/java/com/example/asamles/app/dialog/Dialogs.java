@@ -5,6 +5,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,7 @@ public class Dialogs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
-		
-		verticalSeekBar=(VerticalSeekBar)rootView.findViewById(R.id.vertical_Seekbar);
+        verticalSeekBar=(VerticalSeekBar)rootView.findViewById(R.id.vertical_Seekbar);
 		vsProgress=(TextView)rootView.findViewById(R.id.vertical_sb_progresstext);
 		verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			
@@ -121,7 +121,9 @@ public class Dialogs extends Fragment {
                    .addToBackStack(null).commit();
     }
     public void showDialogFragment() {
-        DialogFragment dlg2 = new CustomAlertDialog();
+        DialogFragment dlg2 = new CustomSeekbarDialog();
+
         dlg2.show(getFragmentManager(), "dlg2");
     }
+
 }
