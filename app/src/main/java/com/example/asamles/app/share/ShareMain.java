@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.example.asamles.app.R;
 
-public class ShareMain extends Fragment {
+public class ShareMain extends Fragment implements SeekbarAdapter.SeekBarListener {
 
     private Button btn, btn2, btn3;
     private TextView label;
@@ -126,81 +126,26 @@ public class ShareMain extends Fragment {
 	@Override
 public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        String title = "Seek Bar Test";
-    SeekBar seekBar = addDropDownSeekBar(getActivity(), menu, title);
-
-}
-
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-private SeekBar addDropDownSeekBar(Context context, Menu menu, String title) {
-    LayoutInflater inflater = LayoutInflater.from(context);
-
-    View contentView = inflater.inflate(R.layout.action_bar_dropdown, null);
-    SeekBar seekBar = (SeekBar) contentView.findViewById(R.id.seekBar1);
-
-    final PopupWindow popupWindow = new PopupWindow(context, null,
-            android.R.attr.actionDropDownStyle);
-    popupWindow.setFocusable(true); // seems to take care of dismissing on click outside
-    popupWindow.setContentView(contentView);
-    setPopupSize(popupWindow);
-
-    final int paddingTop = getPaddingTop(popupWindow);
-
-    MenuItem menuItem = menu.add("");
-    FrameLayout button = createActionButton(context, title);
-    menuItem.setActionView(button);
-    menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-    button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // compensate for PopupWindow's internal padding
-            popupWindow.showAsDropDown(v, 0, -paddingTop);
-        }
-    });
-
-    return seekBar;
-}
-
-private FrameLayout createActionButton(Context context, String title) {
-    FrameLayout frame = new FrameLayout(context, null, android.R.attr.actionButtonStyle);
-    frame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.MATCH_PARENT));
-    TextView text = new TextView(context, null, android.R.attr.actionMenuTextAppearance);
-    text.setGravity(Gravity.CENTER_VERTICAL);
-    text.setText(title);
-    frame.addView(text);
-    return frame;
-}
-
-private void setPopupSize(PopupWindow popupWindow) {
-    View contentView = popupWindow.getContentView();
-
-    int unspecified = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-    contentView.measure(unspecified, unspecified);
-
-    int width = contentView.getMeasuredWidth();
-    int height = contentView.getMeasuredHeight();
-
-    Drawable background = popupWindow.getBackground();
-    if (background != null) {
-        Rect rect = new Rect();
-        background.getPadding(rect);
-        width += rect.left + rect.right;
-        height += rect.top + rect.bottom;
+        inflater.inflate(R.menu.main, menu);
+        MenuItem seekbarItem = menu.findItem(R.id.action_seekbar);
+        CheckBoxActionProvider seekbarActionProvider = (CheckBoxActionProvider) MenuItemCompat.getActionProvider(seekbarItem);
+        seekbarActionProvider.setCheckBoxActionProvider(getActivity(), this);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
-    popupWindow.setWidth(width);
-    popupWindow.setHeight(height);
-}
 
-private int getPaddingTop(PopupWindow popupWindow) {
-    Drawable background = popupWindow.getBackground();
-    if (background == null)
-        return 0;
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList) {
+        label.setText(""+progress);
+    }
 
-    Rect padding = new Rect();
-    background.getPadding(padding);
-    return padding.top;
-}
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar, int positionInList) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar, int positionInList) {
+
+    }
 }

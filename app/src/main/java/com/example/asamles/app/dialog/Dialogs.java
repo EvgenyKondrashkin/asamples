@@ -1,5 +1,9 @@
 package com.example.asamles.app.dialog;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -33,9 +37,12 @@ public class Dialogs extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
+//        rootView.setBackground(new BitmapDrawable(takeScreenShot(getActivity())));
         verticalSeekBar=(VerticalSeekBar)rootView.findViewById(R.id.vertical_Seekbar);
 		vsProgress=(TextView)rootView.findViewById(R.id.vertical_sb_progresstext);
+        verticalSeekBar.setProgress(100);
 		verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			
 			@Override
@@ -120,10 +127,16 @@ public class Dialogs extends Fragment {
         transaction.add(android.R.id.content, newFragment)
                    .addToBackStack(null).commit();
     }
-    public void showDialogFragment() {
-        DialogFragment dlg2 = new CustomSeekbarDialog();
 
-        dlg2.show(getFragmentManager(), "dlg2");
+    public void showDialogFragment() {
+        View v = getActivity().getWindow().getDecorView();
+        v.setId(1);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        DialogFragment newFragment = new CustomAlertDialog();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.add(1, newFragment)
+                    .addToBackStack(null).commit();
     }
 
 }

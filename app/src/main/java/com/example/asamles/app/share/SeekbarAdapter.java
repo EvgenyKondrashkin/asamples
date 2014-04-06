@@ -8,20 +8,20 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.asamles.app.R;
-import com.example.asamles.app.seekbar.VerticalSeekBar;
 
 import java.util.ArrayList;
 
-public class Adapter {
+public class SeekbarAdapter {
     private SeekBarListener mListener;
 
     public interface SeekBarListener{
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
-        public void onStartTrackingTouch(SeekBar seekBar);
-        public void onStopTrackingTouch(SeekBar seekBar);
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList);
+        public void onStartTrackingTouch(SeekBar seekBar, int positionInList);
+        public void onStopTrackingTouch(SeekBar seekBar, int positionInList);
     }
 
-    public listAdapter getAdapter(Context context, ArrayList<String> list, String title){
+    public listAdapter getAdapter(Context context, ArrayList<String> list, String title, SeekBarListener mListener){
+        this.mListener = mListener;
         return new listAdapter(context, list, title);
     }
 
@@ -84,16 +84,16 @@ public class Adapter {
 
             if(convertView == null){
                 holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.action_bar_dropdown, null);
-
-                holder.verticalSeekBar = (VerticalSeekBar)convertView.findViewById(R.id.vertical_seekbar);
-                convertView.setTag(R.layout.action_bar_dropdown, holder);
+                convertView = mInflater.inflate(R.layout.actionbar_seekbar_dropdown, null);
+                holder.text = (TextView)convertView.findViewById(R.id.textView1);
+                holder.seekbar = (SeekBar)convertView.findViewById(R.id.seekBar1);
+                convertView.setTag(R.layout.actionbar_seekbar_dropdown, holder);
             } else {
-                holder = (ViewHolder)convertView.getTag(R.layout.action_bar_dropdown);
+                holder = (ViewHolder)convertView.getTag(R.layout.actionbar_seekbar_dropdown);
             }
-            holder.verticalSeekBar.setOnSeekBarChangeListener(mSeekListener);
-//            holder.verticalSeekBar.setProgress(100);
-            holder.verticalSeekBar.setTag(position);
+            holder.text.setText(itemsList.get(position));
+            holder.seekbar.setOnSeekBarChangeListener(mSeekListener);
+            holder.seekbar.setTag(position);
             return convertView;
 
         }
@@ -101,7 +101,8 @@ public class Adapter {
     }
 
     static class ViewHolder {
-        VerticalSeekBar verticalSeekBar;
+        TextView text;
+        SeekBar seekbar;
     }
 
     static class ViewHolder2 {
@@ -113,23 +114,25 @@ public class Adapter {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-          if(mListener != null){
-                mListener.onProgressChanged(seekBar, progress, fromUser);
+            int position = (Integer) seekBar.getTag();
+            if(mListener != null){
+                mListener.onProgressChanged(seekBar, progress, fromUser, position);
             }
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-//            int position = (Integer) seekBar.getTag();
+            int position = (Integer) seekBar.getTag();
             if(mListener != null){
-                mListener.onStartTrackingTouch(seekBar);
+                mListener.onStartTrackingTouch(seekBar, position);
             }
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
+            int position = (Integer) seekBar.getTag();
             if(mListener != null){
-                mListener.onStopTrackingTouch(seekBar);
+                mListener.onStopTrackingTouch(seekBar, position);
             }
         }
 

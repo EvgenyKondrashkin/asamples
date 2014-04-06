@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -40,7 +41,7 @@ public class CustomSeekbarDialog extends DialogFragment implements  DialogInterf
         Bitmap fast= FastBlur.doBlur(map, 10, true);
         final Drawable draw=new BitmapDrawable(getActivity().getResources(),fast);
         dialog.getWindow().setBackgroundDrawable(draw);
-		// dialog.getWindow().getAttributes().gravity = Gravity.CENTER_VERTICAL;
+		dialog.getWindow().getAttributes().gravity = Gravity.CENTER;
 //       WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
 //       wmlp.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
       

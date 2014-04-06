@@ -50,7 +50,7 @@ public class PaintMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		View rootView = inflater.inflate(R.layout.paint_main, container, false);
 		
 		drawView = (DrawingView)rootView.findViewById(R.id.drawing);
