@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,10 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
+import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
 import com.example.asamles.app.imageedit.blur.BlurTask;
@@ -29,27 +31,31 @@ import com.example.asamles.app.imageedit.blur.FastBlur;
 
 public class CustomSeekbarDialog extends DialogFragment implements  DialogInterface.OnClickListener {
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-   public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder adb = new AlertDialog.Builder(getActivity())
-               .setPositiveButton("yes", this)
-               .setNegativeButton("no", this);
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-		adb.setView(inflater.inflate(R.layout.slider_item, null));
-		Dialog dialog = adb.create();
-		Bitmap map=takeScreenShot(getActivity());
+        View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
+		ImageView background = (ImageView) rootView.findViewById(R.id.image);
+        Rect frame = new Rect();
+        getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int statusBarHeight = frame.top;
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, statusBarHeight, 0, 0);
+        background.setLayoutParams(params);
+        Bitmap map=takeScreenShot(getActivity());
         Bitmap fast= FastBlur.doBlur(map, 10, true);
         final Drawable draw=new BitmapDrawable(getActivity().getResources(),fast);
-        dialog.getWindow().setBackgroundDrawable(draw);
-		dialog.getWindow().getAttributes().gravity = Gravity.CENTER;
-//       WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-//       wmlp.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
-      
-//		Window window = dialog.getWindow();
-//		window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setGravity(Gravity.CENTER);
-		return dialog;
-   }
+        background.setImageDrawable(draw);
+        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity())
+                .setPositiveButton("yes", this)
+                .setNegativeButton("no", this);
+        LayoutInflater dialogInflater = getActivity().getLayoutInflater();
+        adb.setView(dialogInflater.inflate(R.layout.slider_item, null)).show();
+        return rootView;
+    }
+
     private static Bitmap takeScreenShot(Activity activity)
     {
         View view = activity.getWindow().getDecorView();
@@ -69,6 +75,6 @@ public class CustomSeekbarDialog extends DialogFragment implements  DialogInterf
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 }

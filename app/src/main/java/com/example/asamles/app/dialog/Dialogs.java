@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,8 +23,8 @@ import com.example.asamles.app.seekbar.VerticalSeekBar;
 
 import java.util.Calendar;
 
-public class Dialogs extends Fragment {
-    private Button btn, btn2, btn3;
+public class Dialogs extends Fragment implements BlurredAlertDialog.BlurredAlertDialogListener, BlurredProgressDialog.BlurredProgressDialogListener {
+    private Button btn, btn2, btn3, btn4;
     private TextView label, label2, label3, vsProgress;
 	VerticalSeekBar verticalSeekBar=null;
     public static Dialogs newInstance() {
@@ -68,6 +69,7 @@ public class Dialogs extends Fragment {
         btn = (Button) rootView.findViewById(R.id.time);
         btn2 = (Button) rootView.findViewById(R.id.button);
         btn3 = (Button) rootView.findViewById(R.id.button2);
+		btn4 = (Button) rootView.findViewById(R.id.button4);
         label = (TextView) rootView.findViewById(R.id.textView);
         label2 = (TextView) rootView.findViewById(R.id.textView2);
         label3 = (TextView) rootView.findViewById(R.id.textView3);
@@ -103,7 +105,14 @@ public class Dialogs extends Fragment {
                 // date1.set(Calendar.SECOND, 0);
                 // date1.set(Calendar.MILLISECOND, 0);
                 // label3.setText("" + date1.getTimeInMillis());
-				showDialogFragment();
+				showAlertDialogFragment();
+            }
+        });
+		btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                btn3.setText("working!");
+				showProgressDialogFragment();
             }
         });
         return rootView;
@@ -114,29 +123,42 @@ public class Dialogs extends Fragment {
         super.onResume();
 
     }
-	
-    public void showDialogFragment1() {
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		CustomAlertDialog newFragment = new CustomAlertDialog();
-		// The device is smaller, so show the fragment fullscreen
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        // For a little polish, specify a transition animation
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        // To make it fullscreen, use the 'content' root view as the container
-        // for the fragment, which is always the root view for the activity
-        transaction.add(android.R.id.content, newFragment)
-                   .addToBackStack(null).commit();
-    }
 
-    public void showDialogFragment() {
+    public void showAlertDialogFragment() {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        DialogFragment newFragment = new CustomAlertDialog();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.add(1, newFragment)
-                    .addToBackStack(null).commit();
+        BlurredAlertDialog newFragment = BlurredAlertDialog.newInstance("Title", "Message");
+        newFragment.setBlurredAlertDialogListener(this);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(1, newFragment).commit();
     }
+	@Override
+    public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
+		dialog.dismiss();
+	}
 
+    @Override
+    public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) {
+        dialog.dismiss();
+    }
+	    @Override
+    public void onBlurredAlertDialogCancel(DialogFragment dialog) {
+        dialog.dismiss();
+    }
+	public void showProgressDialogFragment() {
+        View v = getActivity().getWindow().getDecorView();
+        v.setId(1);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance("Message");
+        newFragment.setBlurredProgressDialogListener(this);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(1, newFragment).commit();
+    }
+	    @Override
+    public void onBlurredProgressDialogCancel(DialogFragment dialog) {
+        dialog.dismiss();
+    }
 }

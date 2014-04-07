@@ -33,7 +33,7 @@ public class ADialogs {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View timeLayout = inflater.inflate(R.layout.time_dialog, null);
         AlertDialog.Builder ad = new AlertDialog.Builder(context);
-        ad.setMessage("Wat");
+        ad.setTitle("Wat");
         ad.setView(timeLayout);
         ad.setCancelable(true);
         tp = (TimePicker) timeLayout.findViewById(R.id.timePicker);

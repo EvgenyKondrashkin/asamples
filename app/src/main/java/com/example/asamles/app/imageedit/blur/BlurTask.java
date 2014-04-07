@@ -29,8 +29,8 @@ public class BlurTask extends AsyncTask<Void, Bitmap, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        float scaleFactor = 1;
-        float radius = 20;
+        float scaleFactor = 3;
+        float radius = 1;
 
         Bitmap overlay = Bitmap.createBitmap((int) (bkg.getWidth() / scaleFactor),
                 (int) (bkg.getHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
