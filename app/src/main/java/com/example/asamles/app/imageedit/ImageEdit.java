@@ -54,7 +54,7 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
     }
 
     @Override
-      public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.image_edit, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -79,7 +79,7 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
                 angle = -90;
                 Matrix matrix = new Matrix();
                 matrix.postRotate(angle);
-                Bitmap image = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 bitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 imageView.setImageBitmap(bitmap);
                 mAttacher.update();

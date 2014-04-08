@@ -82,12 +82,12 @@ public class ADialogs {
                 dialog.cancel();
             }
         });
-		AlertDialog dialog = ad.create();
-		// dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-		Bitmap map=takeScreenShot(activity);
-		Bitmap fast= FastBlur.doBlur(map, 10, true);
-		final Drawable draw=new BitmapDrawable(context.getResources(),fast);
-		dialog.getWindow().setBackgroundDrawable(draw);
+        AlertDialog dialog = ad.create();
+        // dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        Bitmap map = takeScreenShot(activity);
+        Bitmap fast = FastBlur.doBlur(map, 10, true);
+        final Drawable draw = new BitmapDrawable(context.getResources(), fast);
+        dialog.getWindow().setBackgroundDrawable(draw);
         dialog.show();
     }
 
@@ -128,35 +128,35 @@ public class ADialogs {
     }
 
     public static void seekBar(Context context, final ImageView imageView, final ViewGroup container) {
-		final SeekBar seekBar;
-		
+        final SeekBar seekBar;
+
         container.setDrawingCacheEnabled(true);
         container.buildDrawingCache(true);
         Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
         container.setDrawingCacheEnabled(false);
-        
-		 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         View seekLayout = inflater.inflate(R.layout.slider_item, null);
-        
-		
-		final Dialog dialog = new Dialog(context);
-		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View seekLayout = inflater.inflate(R.layout.slider_item, null);
+
+
+        final Dialog dialog = new Dialog(context);
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 //		dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-		dialog.setContentView(R.layout.slider_item);
-		// Set dialog title
-		dialog.setTitle("Custom Dialog");
-		Bitmap map=takeScreenShot((Activity) context);
+        dialog.setContentView(R.layout.slider_item);
+        // Set dialog title
+        dialog.setTitle("Custom Dialog");
+        Bitmap map = takeScreenShot((Activity) context);
 
-		Bitmap fast= FastBlur.doBlur(map, 10, true);
-		final Drawable draw=new BitmapDrawable(context.getResources(),fast);
-		dialog.getWindow().setBackgroundDrawable(draw);
-		
-		
-		// set values for custom dialog components - text, image and button
-		seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
-		seekBar.setProgress(100);
+        Bitmap fast = FastBlur.doBlur(map, 10, true);
+        final Drawable draw = new BitmapDrawable(context.getResources(), fast);
+        dialog.getWindow().setBackgroundDrawable(draw);
 
-		dialog.setCancelable(true);
+
+        // set values for custom dialog components - text, image and button
+        seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
+        seekBar.setProgress(100);
+
+        dialog.setCancelable(true);
 //        dialog.setPositiveButton("Set", new DialogInterface.OnClickListener() {
 //            public void onClick(DialogInterface dialog, int id) {
 //
@@ -175,22 +175,22 @@ public class ADialogs {
                 dialog.cancel();
             }
         });
-		
-		dialog.show();
-                 
-		// Button declineButton = (Button) dialog.findViewById(R.id.declineButton);
+
+        dialog.show();
+
+        // Button declineButton = (Button) dialog.findViewById(R.id.declineButton);
         // if decline button is clicked, close the custom dialog
-		// declineButton.setOnClickListener(new OnClickListener() {
-			// @Override
-			// public void onClick(View v) {
-				// Close dialog
-				// dialog.dismiss();
-				// }
+        // declineButton.setOnClickListener(new OnClickListener() {
+        // @Override
+        // public void onClick(View v) {
+        // Close dialog
+        // dialog.dismiss();
+        // }
         // });
-		
-	}
-	private static Bitmap takeScreenShot(Activity activity)
-    {
+
+    }
+
+    private static Bitmap takeScreenShot(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -201,7 +201,7 @@ public class ADialogs {
         int width = activity.getWindowManager().getDefaultDisplay().getWidth();
         int height = activity.getWindowManager().getDefaultDisplay().getHeight();
 
-        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height  - statusBarHeight);
+        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);
         view.destroyDrawingCache();
         return b;
     }

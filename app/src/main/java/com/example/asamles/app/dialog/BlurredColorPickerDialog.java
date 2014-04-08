@@ -1,62 +1,44 @@
 package com.example.asamles.app.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
-import com.example.asamles.app.imageedit.blur.BlurTask;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 
-public class BlurredColorPickerDialog extends DialogFragment implements BlurTask.BlurTaskListener {
+public class BlurredColorPickerDialog extends DialogFragment {
     private String title;
     private BlurredColorPickerDialogListener listener;
     private ImageView background;
-    private Bitmap map;
     private int color;
 
-    public static BlurredColorPickerDialog newInstance(String title,int color) {
+    public interface BlurredColorPickerDialogListener {
+        public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color);
+
+        public void onBlurredAlertDialogNegativeClick(DialogFragment dialog);
+
+        public void onBlurredAlertDialogCancel(DialogFragment dialog);
+    }
+
+    public static BlurredColorPickerDialog newInstance(String title, int color) {
         BlurredColorPickerDialog fragment = new BlurredColorPickerDialog();
         Bundle args = new Bundle();
         args.putInt(Constants.COLOR, color);
         args.putString(Constants.TITLE, title);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    private static Bitmap takeScreenShot(Activity activity) {
-        View view = activity.getWindow().getDecorView();
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-        Bitmap b1 = view.getDrawingCache();
-        Rect frame = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
-        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
-        int height = activity.getWindowManager().getDefaultDisplay().getHeight();
-
-        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);
-        view.setDrawingCacheEnabled(false);
-        return b;
-    }
-
-    public void setBlurredColorPickerDialogListener(BlurredColorPickerDialogListener listener) {
-        this.listener = listener;
     }
 
     @Override
@@ -67,17 +49,8 @@ public class BlurredColorPickerDialog extends DialogFragment implements BlurTask
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
         background = (ImageView) rootView.findViewById(R.id.image);
 
-        Rect frame = new Rect();
-        getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, statusBarHeight, 0, 0);
-
-        background.setLayoutParams(params);
-
-        map = takeScreenShot(getActivity());
-        blur(map, background);
+        BlurBackground blurred = new BlurBackground(getActivity(), background);
+        blurred.setBlurredBackground();
 
         AlertDialog.Builder adb = new AlertDialog.Builder(getActivity()).setTitle(title);
         LayoutInflater dialogInflater = getActivity().getLayoutInflater();
@@ -114,26 +87,7 @@ public class BlurredColorPickerDialog extends DialogFragment implements BlurTask
         return rootView;
     }
 
-    private void blur(Bitmap bkg, ImageView view) {
-        BlurTask task = new BlurTask(bkg, view, this);
-        task.execute();
+    public void setBlurredColorPickerDialogListener(BlurredColorPickerDialogListener listener) {
+        this.listener = listener;
     }
-
-    @Override
-    public void onBlurTaskComplete(Bitmap result) {
-        if (result != null) {
-            background.setImageDrawable(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(result, map.getWidth(), map.getHeight(), false)));
-        } else {
-            ADialogs.alert(getActivity(), getActivity().getString(R.string.error));
-        }
-    }
-
-    public interface BlurredColorPickerDialogListener {
-        public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color);
-
-        public void onBlurredAlertDialogNegativeClick(DialogFragment dialog);
-
-        public void onBlurredAlertDialogCancel(DialogFragment dialog);
-    }
-
 }

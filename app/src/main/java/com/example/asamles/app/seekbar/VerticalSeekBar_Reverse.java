@@ -48,10 +48,10 @@ public class VerticalSeekBar_Reverse extends SeekBar {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_UP:
-            	int i=0;
-            	i=getMax() - (int) (getMax() * event.getY() / getHeight());
-                setProgress(100-i);
-                Log.i("Progress",getProgress()+"");
+                int i = 0;
+                i = getMax() - (int) (getMax() * event.getY() / getHeight());
+                setProgress(100 - i);
+                Log.i("Progress", getProgress() + "");
                 onSizeChanged(getWidth(), getHeight(), 0, 0);
                 break;
 
@@ -60,5 +60,5 @@ public class VerticalSeekBar_Reverse extends SeekBar {
         }
         return true;
     }
-    
+
 }

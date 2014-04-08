@@ -18,9 +18,10 @@ import com.example.asamles.app.seekbar.VerticalSeekBar;
 import java.util.Calendar;
 
 public class Dialogs extends Fragment {
-    private Button btn, btn2, btn3, btn4 , btn5;
+    private Button btn, btn2, btn3, btn4, btn5, btn6;
     private TextView label, label2, label3, vsProgress, label5;
-	VerticalSeekBar verticalSeekBar=null;
+    VerticalSeekBar verticalSeekBar = null;
+
     public static Dialogs newInstance() {
         Dialogs fragment = new Dialogs();
         return fragment;
@@ -35,36 +36,37 @@ public class Dialogs extends Fragment {
 
         View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
 //        rootView.setBackground(new BitmapDrawable(takeScreenShot(getActivity())));
-        verticalSeekBar=(VerticalSeekBar)rootView.findViewById(R.id.vertical_Seekbar);
-		vsProgress=(TextView)rootView.findViewById(R.id.vertical_sb_progresstext);
+        verticalSeekBar = (VerticalSeekBar) rootView.findViewById(R.id.vertical_Seekbar);
+        vsProgress = (TextView) rootView.findViewById(R.id.vertical_sb_progresstext);
         verticalSeekBar.setProgress(100);
-		verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				vsProgress.setText(progress+"");
-				
-			}
-		});
-		
+        verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                vsProgress.setText(progress + "");
+
+            }
+        });
+
         btn = (Button) rootView.findViewById(R.id.time);
         btn2 = (Button) rootView.findViewById(R.id.button);
         btn3 = (Button) rootView.findViewById(R.id.button2);
-		btn4 = (Button) rootView.findViewById(R.id.button4);
+        btn4 = (Button) rootView.findViewById(R.id.button4);
         btn5 = (Button) rootView.findViewById(R.id.button3);
+		btn6 = (Button) rootView.findViewById(R.id.button5);
         label = (TextView) rootView.findViewById(R.id.textView);
         label2 = (TextView) rootView.findViewById(R.id.textView2);
         label3 = (TextView) rootView.findViewById(R.id.textView3);
@@ -101,14 +103,14 @@ public class Dialogs extends Fragment {
                 // date1.set(Calendar.SECOND, 0);
                 // date1.set(Calendar.MILLISECOND, 0);
                 // label3.setText("" + date1.getTimeInMillis());
-				showAlertDialogFragment();
+                showAlertDialogFragment();
             }
         });
-		btn4.setOnClickListener(new View.OnClickListener() {
+        btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 btn4.setText("working!");
-				showProgressDialogFragment();
+                showProgressDialogFragment();
             }
         });
         btn5.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +118,13 @@ public class Dialogs extends Fragment {
             public void onClick(View arg0) {
                 btn5.setText("working!");
                 showColorpickerDialogFragment();
+            }
+        });
+		btn5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                btn6.setText("working!");
+                showCustomDialogFragment();
             }
         });
         return rootView;
@@ -132,7 +141,7 @@ public class Dialogs extends Fragment {
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         BlurredAlertDialog newFragment = BlurredAlertDialog.newInstance("Title", "Message");
-        newFragment.setBlurredAlertDialogListener(new BlurredAlertDialog.BlurredAlertDialogListener(){
+        newFragment.setBlurredAlertDialogListener(new BlurredAlertDialog.BlurredAlertDialogListener() {
             @Override
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
                 dialog.dismiss();
@@ -152,12 +161,12 @@ public class Dialogs extends Fragment {
         transaction.add(1, newFragment).commit();
     }
 
-	public void showProgressDialogFragment() {
+    public void showProgressDialogFragment() {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance("Message");
-        newFragment.setBlurredProgressDialogListener(new BlurredProgressDialog.BlurredProgressDialogListener(){
+        newFragment.setBlurredProgressDialogListener(new BlurredProgressDialog.BlurredProgressDialogListener() {
             @Override
             public void onBlurredProgressDialogCancel(DialogFragment dialog) {
                 dialog.dismiss();
@@ -166,7 +175,9 @@ public class Dialogs extends Fragment {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
     }
+
     private int oldColor = -16777216;
+
     public void showColorpickerDialogFragment() {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
@@ -177,7 +188,7 @@ public class Dialogs extends Fragment {
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color) {
                 oldColor = color;
 //                String hexColor = String.format("#%08X", (0xFFFFFFFF & color));
-                label5.setText(""+color);
+                label5.setText("" + color);
                 btn5.setBackgroundColor(color);
                 dialog.dismiss();
             }
@@ -195,5 +206,13 @@ public class Dialogs extends Fragment {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
     }
-
+    public void showCustomDialogFragment() {
+        View v = getActivity().getWindow().getDecorView();
+        v.setId(1);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        BlurredCustomViewDialog newFragment = new BlurredCustomViewDialog();
+		// newFragment.getDialog().set
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(1, newFragment).commit();
+    }
 }

@@ -2,8 +2,6 @@ package com.example.asamles.app.paint;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -14,80 +12,74 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import java.util.UUID;
-
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.asamles.app.R;
-import com.example.asamles.app.dialog.ADialogs;
 
 import java.util.Random;
+import java.util.UUID;
 
-public class PaintMain extends Fragment {
+public class PaintMain extends Fragment implements SizeAdapter.SizeListener{
 
-	private DrawingView drawView;
-	private float smallBrush = 10;
-	public static PaintMain newInstance() {
+    private DrawingView drawView;
+    private float smallBrush = 10;
+    private int oldColor = -16777216;
+
+    public static PaintMain newInstance() {
         PaintMain fragment = new PaintMain();
         return fragment;
     }
 
     public PaintMain() {
     }
-	
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		setHasOptionsMenu(true);
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		View rootView = inflater.inflate(R.layout.paint_main, container, false);
+        setHasOptionsMenu(true);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        View rootView = inflater.inflate(R.layout.paint_main, container, false);
 		
-		drawView = (DrawingView)rootView.findViewById(R.id.drawing);
-
+        drawView = (DrawingView) rootView.findViewById(R.id.drawing);
         return rootView;
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.paint_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+		Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pencil);
+		
+		MenuItem seekbarItem = menu.findItem(R.id.action_size);
+        SeekbarActionProvider seekbarActionProvider = (SeekbarActionProvider) MenuItemCompat.getActionProvider(seekbarItem);
+        seekbarActionProvider.setSeekbarActionProvider(getActivity(), this, icon, smallBrush);
+        
+		super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.action_erase:
-				drawView.setErase(true);
-				drawView.setBrushSize(smallBrush);
+			case R.id.action_erase:
+                drawView.setErase(true);
                 return true;
             case R.id.action_save:
-				saveToGalery();
+                saveToGalery();
                 return true;
             case R.id.action_pencil:
-				drawView.setErase(false);
-				drawView.setColor("#FF000000");
-				drawView.setBrushSize(smallBrush);
-				drawView.setLastBrushSize(smallBrush);
+                drawView.setErase(false);
                 return true;
-			case R.id.action_clear:
-				drawView.clear();
-            return true;
+            case R.id.action_clear:
+                drawView.clear();
+                return true;
+			case R.id.action_color:
+                showColorPicker(item);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-//		//user clicked paint
+
+    //		//user clicked paint
 //	public void paintClicked(View view){
 //		//use chosen color
 //
@@ -105,20 +97,64 @@ public class PaintMain extends Fragment {
 //			currPaint=(ImageButton)view;
 //		}
 //	}
-	private void saveToGalery() {
-		drawView.setDrawingCacheEnabled(true);
+
+	@Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList) {
+		drawView.setBrushSize((float) progress);	
+    }
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar, int positionInList) {}
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar, int positionInList) {}
+
+    private void saveToGalery() {
+        drawView.setDrawingCacheEnabled(true);
         drawView.buildDrawingCache(true);
         Bitmap image = Bitmap.createBitmap(drawView.getDrawingCache(true));
-		int random = new Random().nextInt(1000);
-		
-		String imgSaved = MediaStore.Images.Media.insertImage(
-			getActivity().getContentResolver(), drawView.getDrawingCache(),
-			UUID.randomUUID().toString()+".png", "drawing");
+        int random = new Random().nextInt(1000);
+
+        String imgSaved = MediaStore.Images.Media.insertImage(
+                getActivity().getContentResolver(), drawView.getDrawingCache(),
+                UUID.randomUUID().toString() + ".png", "drawing");
         drawView.setDrawingCacheEnabled(false);
-		if(imgSaved!=null){
-			Toast.makeText(getActivity().getApplicationContext(), "Drawing saved to Gallery!", Toast.LENGTH_SHORT).show();
-		} else {
-			Toast.makeText(getActivity().getApplicationContext(), "Oops! Image could not be saved.", Toast.LENGTH_SHORT).show();
+        if (imgSaved != null) {
+            Toast.makeText(getActivity().getApplicationContext(), "Drawing saved to Gallery!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "Oops! Image could not be saved.", Toast.LENGTH_SHORT).show();
+        }
+    }
+	
+	public void showColorPicker(MenuItem item) {
+        View v = getActivity().getWindow().getDecorView();
+        v.setId(1);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        BlurredColorPickerDialog newFragment = BlurredColorPickerDialog.newInstance("Choose color", oldColor);
+        newFragment.setBlurredColorPickerDialogListener(new BlurredColorPickerDialog.BlurredColorPickerDialogListener() {
+            @Override
+            public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color) {
+                oldColor = color;
+//                String hexColor = String.format("#%08X", (0xFFFFFFFF & color));
+                item.setBackgroundColor(color);
+				drawView.setColor(color);
+                dialog.dismiss();
+            }
+            @Override
+            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) {
+                dialog.dismiss();
+            }
+            @Override
+            public void onBlurredAlertDialogCancel(DialogFragment dialog) {
+                dialog.dismiss();
+            }
+        });
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(1, newFragment).commit();
+    }
+	public void setMenuItemColor() {
+		for(imt i; i < flagedMenuItem.length; i++) {
+			if(flagedMenuItem){
+				
+			}
 		}
 	}
 }

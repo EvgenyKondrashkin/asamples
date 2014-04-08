@@ -1,4 +1,4 @@
-package com.example.asamles.app.share;
+package com.example.asamles.app.actionprovider;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,113 +12,98 @@ import com.example.asamles.app.R;
 
 import java.util.ArrayList;
 
-public class SeekbarAdapter {
-    private SeekBarListener mListener;
+public class SizeAdapter {
+    private SizeListener listener;
 
-    public interface SeekBarListener {
+    public interface SizeListener {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList);
-
         public void onStartTrackingTouch(SeekBar seekBar, int positionInList);
-
         public void onStopTrackingTouch(SeekBar seekBar, int positionInList);
     }
 
-    public listAdapter getAdapter(Context context, ArrayList<String> list, String title, SeekBarListener mListener) {
-        this.mListener = mListener;
-        return new listAdapter(context, list, title);
+    public SeekbarAdapter getAdapter(Context context, Bitmap title, SizeListener listener, int size) {
+        this.listener = listener;
+        return new SeekbarAdapter(context, title, int size);
     }
 
-    public void setSeekBarListener(SeekBarListener listener) {
-        mListener = listener;
+    public void setSizeListener(SizeListener listener) {
+        this.listener = listener;
     }
 
-    public class listAdapter extends BaseAdapter {
+    public class SeekbarAdapter extends BaseAdapter implements SeekBar.OnSeekBarChangeListener{
         private LayoutInflater mInflater;
-        private onSeekbarChange mSeekListener;
-        private ArrayList<String> itemsList;
-        private String title;
-
-        public listAdapter(Context context, ArrayList<String> list, String title) {
+		private Context contex;
+        // private String item;
+        private Bitmap title;
+		private int size;
+		private ViewHolder2 holder2;
+		private ViewHolder holder;
+		
+        public SeekbarAdapter(Context context, Bitmap title, int size) {
             mInflater = LayoutInflater.from(context);
-            if (mSeekListener == null) {
-                mSeekListener = new onSeekbarChange();
-            }
-            this.itemsList = list;
+			this.context = context;
+            // this.item = item;
             this.title = title;
+			this.size = size;
         }
 
         @Override
         public int getCount() {
-            return itemsList.size();
+            return 1;
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return 0;
         }
 
+		static class ViewHolder2 {
+			ImageView icon;
+		}	
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder2 holder;
 
             if (convertView == null) {
-                holder = new ViewHolder2();
-                convertView = mInflater.inflate(R.layout.baseadapter_layout, null);
-                holder.text_title = (TextView) convertView.findViewById(R.id.textView);
-                convertView.setTag(R.layout.baseadapter_layout, holder);
+                holder2 = new ViewHolder2();
+                convertView = mInflater.inflate(R.layout.action_size_layout, null);
+                holder2.icon = (ImageView) convertView.findViewById(R.id.image);
+                convertView.setTag(R.layout.action_size_layout, holder2);
             } else {
-                holder = (ViewHolder2) convertView.getTag(R.layout.baseadapter_layout);
+                holder2 = (ViewHolder2) convertView.getTag(R.layout.action_size_layout);
             }
-            holder.text_title.setText(title);
+            holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, size, size, false)));
             return convertView;
         }
-
-
+		
+		static class ViewHolder {
+			SeekBar seekbar;
+		}
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.actionbar_seekbar_dropdown, null);
-                holder.text = (TextView) convertView.findViewById(R.id.textView1);
                 holder.seekbar = (SeekBar) convertView.findViewById(R.id.seekBar1);
                 convertView.setTag(R.layout.actionbar_seekbar_dropdown, holder);
             } else {
                 holder = (ViewHolder) convertView.getTag(R.layout.actionbar_seekbar_dropdown);
             }
-            holder.text.setText(itemsList.get(position));
-            holder.seekbar.setOnSeekBarChangeListener(mSeekListener);
+            holder.seekbar.setOnSeekBarChangeListener(this);
             holder.seekbar.setTag(position);
+			holder.seekbar.setProgress(size);
             return convertView;
 
         }
-
-    }
-
-    static class ViewHolder {
-        TextView text;
-        SeekBar seekbar;
-    }
-
-    static class ViewHolder2 {
-        TextView text_title;
-    }
-
-
-    public class onSeekbarChange implements SeekBar.OnSeekBarChangeListener {
-
-        @Override
+		@Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             int position = (Integer) seekBar.getTag();
             if (mListener != null) {
+				holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, progress, progress, false)));
                 mListener.onProgressChanged(seekBar, progress, fromUser, position);
             }
         }
@@ -140,4 +125,5 @@ public class SeekbarAdapter {
         }
 
     }
+
 }

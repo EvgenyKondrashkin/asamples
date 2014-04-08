@@ -45,7 +45,7 @@ public class TiledMain extends Fragment {
         tileView = new TileView(getActivity());
         tileView = getTileView();
         tileView.setSize(4800, 1700);
-		
+
         tileView.addDetailLevel(1f, "tiles/central_park/1000/2xbig_map-%col%_%row%.png", "tiles/central_park/small_map.png", 256, 256);
         tileView.addDetailLevel(0.5f, "tiles/central_park/500/big_map_%col%_%row%.jpg", "tiles/central_park/small_map.png", 128, 128);
         tileView.addDetailLevel(0.25f, "tiles/central_park/250/not_big_map-%col%_%row%.png", "tiles/central_park/small_map.png", 256, 256);
