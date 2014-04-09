@@ -7,24 +7,24 @@
     <item
         android:id="@+id/action_clear"
         android:title="Clear"
-        android:icon="@drawable/ic_clear"
         app:showAsAction="always"
         />
 	<item
         android:id="@+id/action_save"
         android:title="Save"
-        android:icon="@drawable/ic_save"
+        app:showAsAction="ifRoom" />
+	<item
+        android:id="@+id/action_load"
+        android:title="Load"
         app:showAsAction="ifRoom" />
 	<item
         android:id="@+id/action_erase"
         android:title="Erase"
-        android:icon="@drawable/ic_eraser"
         app:showAsAction="always"
         />
     <item
         android:id="@+id/action_pencil"
         android:title="Pencil"
-        android:icon="@drawable/ic_pencil"
         app:showAsAction="always" />
 	<item
         android:id="@+id/action_color"

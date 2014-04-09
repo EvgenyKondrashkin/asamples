@@ -19,10 +19,12 @@ import android.widget.Toast;
 import com.example.asamles.app.R;
 import com.example.asamles.app.dialog.ADialogs;
 import com.example.asamles.app.imageedit.blur.BlurTask;
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
+public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener {
 
     private ImageView imageView;
     private PhotoViewAttacher mAttacher;
@@ -31,19 +33,19 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
     private ViewGroup container;
     private FrameLayout frameLayout;
 
-    public static ImageEdit newInstance() {
-        ImageEdit fragment = new ImageEdit();
+    public static ImageEditMain newInstance() {
+        ImageEditMain fragment = new ImageEditMain();
         return fragment;
     }
 
-    public ImageEdit() {
+    public ImageEditMain() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.container = container;
-        View rootView = inflater.inflate(R.layout.image_edit_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_imageedit, container, false);
         frameLayout = (FrameLayout) rootView.findViewById(R.id.frameLayout);
         setHasOptionsMenu(true);
         imageView = (ImageView) rootView.findViewById(R.id.image);
@@ -56,6 +58,15 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.image_edit, menu);
+		menu.findItem(R.id.action_seek).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_eye_slash)
+			.colorRes(R.color.grey_light)
+			.actionBarSize());
+		menu.findItem(R.id.action_blur).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_tint)
+			.colorRes(R.color.grey_light)
+			.actionBarSize());
+		menu.findItem(R.id.action_rotate).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
+			.colorRes(R.color.grey_light)
+			.actionBarSize());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -64,7 +75,8 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
         switch (item.getItemId()) {
 
             case R.id.action_seek:
-                ADialogs.seekBar(getActivity(), imageView, container);
+                // ADialogs.seekbar(getActivity(), imageView, container);
+				ADialogs.seekbar(getActivity(), true, "Opacity", "Set", "Cancel");
 //                container.setDrawingCacheEnabled(true);
 //                container.buildDrawingCache(true);
 //                Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
@@ -103,7 +115,7 @@ public class ImageEdit extends Fragment implements BlurTask.BlurTaskListener {
             // frameLayout.addView(bluredImageView);
             imageView.setImageDrawable(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(result, bitmap.getWidth(), bitmap.getHeight(), false)));
         } else {
-            ADialogs.alert(getActivity(), getActivity().getString(R.string.error));
+            ADialogs.alert(getActivity(), true, "Error", "Error while blurring", "Ok", null);
         }
     }
 }

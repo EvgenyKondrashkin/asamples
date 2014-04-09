@@ -11,25 +11,25 @@ import android.widget.TextView;
 
 import com.example.asamles.app.R;
 
-public class Location extends Fragment implements LocationFound {
+public class LocationMain extends Fragment implements LocationFound {
 
     private Button btn, btn2, btn3;
     private TextView label;
     private LocationListenerPlayServices locationListener;
     private LocationListenerStandart locationListener2;
 
-    public static Location newInstance() {
-        Location fragment = new Location();
+    public static LocationMain newInstance() {
+        LocationMain fragment = new LocationMain();
         return fragment;
     }
 
-    public Location() {
+    public LocationMain() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.location_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_location, container, false);
         btn = (Button) rootView.findViewById(R.id.button);
         btn2 = (Button) rootView.findViewById(R.id.button2);
         btn3 = (Button) rootView.findViewById(R.id.button3);

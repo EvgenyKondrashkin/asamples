@@ -26,9 +26,7 @@ public class BlurredColorPickerDialog extends DialogFragment {
 
     public interface BlurredColorPickerDialogListener {
         public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color);
-
         public void onBlurredAlertDialogNegativeClick(DialogFragment dialog);
-
         public void onBlurredAlertDialogCancel(DialogFragment dialog);
     }
 
@@ -58,9 +56,8 @@ public class BlurredColorPickerDialog extends DialogFragment {
         adb.setView(colorPickerLayout);
         final ColorPicker picker = (ColorPicker) colorPickerLayout.findViewById(R.id.picker);
         SVBar svBar = (SVBar) colorPickerLayout.findViewById(R.id.svbar);
-        OpacityBar opacityBar = (OpacityBar) colorPickerLayout.findViewById(R.id.opacitybar);
+
         picker.addSVBar(svBar);
-        picker.addOpacityBar(opacityBar);
         picker.setOldCenterColor(color);
         picker.setColor(color);
         adb.setPositiveButton("Set", new DialogInterface.OnClickListener() {

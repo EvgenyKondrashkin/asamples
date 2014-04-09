@@ -29,8 +29,7 @@ public class StripTabMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.striptab_fragment, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_striptab, container, false);
         ViewPager pager = (ViewPager) rootView.findViewById(R.id.pager);
         pager.setAdapter(new StripPagerAdapter(getActivity().getSupportFragmentManager(), getActivity()));
         pager.setCurrentItem(0);

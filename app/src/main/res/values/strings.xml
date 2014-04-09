@@ -25,10 +25,10 @@
     </string-array>
 	<!--FragmentNames-->
 	<string-array name="fragment_names">
-        <item>com.example.asamles.app.location.Location</item>
-        <item>com.example.asamles.app.dialog.Dialogs</item>
+        <item>com.example.asamles.app.location.LocationMain</item>
+        <item>com.example.asamles.app.dialog.DialogsMain</item>
         <item>com.example.asamles.app.picassogridimage.PicassoMain</item>
-        <item>com.example.asamles.app.imageedit.ImageEdit</item>
+        <item>com.example.asamles.app.imageedit.ImageEditMain</item>
         <item>com.example.asamles.app.paint.PaintMain</item>
         <item>com.example.asamles.app.tiledimage.TiledMain</item>
         <item>com.example.asamles.app.sms.SMSMain</item>

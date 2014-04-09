@@ -34,7 +34,7 @@ public class ShakeMain extends Fragment implements ShakeDetector.Listener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.shake_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_shake, container, false);
         context = getActivity();
         label = (TextView) rootView.findViewById(R.id.textView);
         shakeMessage = getResources().getStringArray(R.array.shake_list);

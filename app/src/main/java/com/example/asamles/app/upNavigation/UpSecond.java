@@ -25,7 +25,6 @@ public class UpSecond extends MainActivity {
         label.setText("Second Activity");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         name = getIntent().getStringExtra("NAME");
-//		getSupportActionBar().setTitle(name);
     }
 
     @Override

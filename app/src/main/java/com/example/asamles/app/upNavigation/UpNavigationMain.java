@@ -27,7 +27,7 @@ public class UpNavigationMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.up_navigation_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_up_navigation_main, container, false);
         btn = (Button) rootView.findViewById(R.id.button);
         btn2 = (Button) rootView.findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {

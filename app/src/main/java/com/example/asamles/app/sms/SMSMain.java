@@ -27,7 +27,7 @@ public class SMSMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.sms_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_sms, container, false);
 
         btn = (Button) rootView.findViewById(R.id.send);
         btn2 = (Button) rootView.findViewById(R.id.send_intent);
@@ -65,29 +65,4 @@ public class SMSMain extends Fragment {
 
         return rootView;
     }
-
-    // private void sendSMS(String phoneNumber, String message)
-    // {
-    // if(phoneNumber != null && phoneNumber.length()>0) {
-    // SmsManager sms = SmsManager.getDefault();
-    // if (message != null && message.length()>0) {
-    // sms.sendTextMessage(phoneNumber, null, message, null, null);
-    // } else { return;}
-    // }
-    // }
-    // private void sendSMSIntent(String phoneNumber, String message) {
-    // if(phoneNumber != null && phoneNumber.length()>0) {
-    // Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber) );
-    // if (message != null && message.length()>0) {
-    // intent.putExtra( "sms_body", message );
-    // startActivity( intent );
-    // } else { return;}
-    // }
-    // }
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
 }

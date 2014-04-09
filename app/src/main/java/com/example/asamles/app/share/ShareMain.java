@@ -41,7 +41,7 @@ public class ShareMain extends Fragment implements SeekbarAdapter.SeekBarListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.share_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_share, container, false);
         btn = (Button) rootView.findViewById(R.id.button);
         btn2 = (Button) rootView.findViewById(R.id.button2);
         btn3 = (Button) rootView.findViewById(R.id.button3);

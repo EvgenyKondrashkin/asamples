@@ -62,7 +62,7 @@ public class BlurBackground implements BlurTask.BlurTaskListener {
         if (result != null) {
             background.setImageDrawable(new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(result, map.getWidth(), map.getHeight(), false)));
         } else {
-            ADialogs.alert(activity, activity.getString(R.string.error));
+            ADialogs.alert(activity, true, "Error", "Error while blurring background", "Ok", null);
         }
     }
 

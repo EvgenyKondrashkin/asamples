@@ -25,7 +25,6 @@ public class UpFirst extends MainActivity {
         label.setText("First Activity");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         name = getIntent().getStringExtra("NAME");
-//		getSupportActionBar().setTitle(name);
 
     }
 

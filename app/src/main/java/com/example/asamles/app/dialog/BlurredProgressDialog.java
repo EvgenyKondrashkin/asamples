@@ -19,15 +19,17 @@ public class BlurredProgressDialog extends DialogFragment {
     private String message;
     private ImageView background;
     private Bitmap map;
+	private boolean cancelable;
 
     public interface BlurredProgressDialogListener {
         public void onBlurredProgressDialogCancel(DialogFragment dialog);
     }
 
-    public static BlurredProgressDialog newInstance(String message) {
+    public static BlurredProgressDialog newInstance(String message, boolean cancelable) {
         BlurredProgressDialog fragment = new BlurredProgressDialog();
         Bundle args = new Bundle();
         args.putString(Constants.MESSAGE, message);
+		args.putBoolean(Constants.CANCELABLE, cancelable);
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,6 +38,7 @@ public class BlurredProgressDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         message = getArguments() != null ? getArguments().getString(Constants.MESSAGE) : null;
+		cancelable = getArguments() != null ? getArguments().getBoolean(Constants.CANCELABLE) : true;
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
         background = (ImageView) rootView.findViewById(R.id.image);
 
@@ -45,15 +48,14 @@ public class BlurredProgressDialog extends DialogFragment {
         ProgressDialog pd = new ProgressDialog(getActivity());
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setMessage(message);
-        pd.setCancelable(true);
-        pd.setCanceledOnTouchOutside(true);
+        pd.setCancelable(cancelable);
+        pd.setCanceledOnTouchOutside(cancelable);
         pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
                 listener.onBlurredProgressDialogCancel(BlurredProgressDialog.this);
             }
         });
         pd.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
         pd.show();
         return rootView;
     }

@@ -4,6 +4,7 @@ package com.example.asamles.app.dialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -27,182 +28,124 @@ import java.util.Calendar;
 
 public class ADialogs {
 
-    public static void openTime(Context context, final TextView label) {
+    private AlertDialog.Builder build(Context context, boolean cancelable, String title, String message) {
+		AlertDialog.Builder ad = new AlertDialog.Builder(context);
+		if(title != null) { ad.setTitle(title);}
+		if(message != null) { ad.setMessage(message);}
+        if(cancelable) { ad.setCancelable(cancelable);}
+		return ad;
+	}
+	
+	public static void openTime(Context context, final TextView label, boolean cancelable, String title, String positiveButton, String negativeButton) {
         final TimePicker tp;
         final CheckBox active;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View timeLayout = inflater.inflate(R.layout.time_dialog, null);
-        AlertDialog.Builder ad = new AlertDialog.Builder(context);
-        ad.setTitle("Wat");
-        ad.setView(timeLayout);
-        ad.setCancelable(true);
+        View timeLayout = inflater.inflate(R.layout.dialog_time, null);
         tp = (TimePicker) timeLayout.findViewById(R.id.timePicker);
         tp.setIs24HourView(true);
         tp.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         active = (CheckBox) timeLayout.findViewById(R.id.active);
-        ad.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-                Integer hour = tp.getCurrentHour();
-                Integer minute = tp.getCurrentMinute();
-                boolean activeIt = active.isChecked();
-                label.setText("Active:" + activeIt + "; Time" + hour + ":" + minute);
-                dialog.cancel();
-            }
-        }).create();
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                dialog.cancel();
-            }
-        });
-        ad.setCancelable(true);
-        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-                dialog.cancel();
-            }
-        });
-        ad.show();
-
+		AlertDialog.Builder ad = build(context, cancelable, title, null);
+        ad.setView(timeLayout);
+        if(positiveButton != null) {
+			ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					Integer hour = tp.getCurrentHour();
+					Integer minute = tp.getCurrentMinute();
+					boolean activeIt = active.isChecked();
+					label.setText("Active:" + activeIt + "; Time" + hour + ":" + minute);
+					dialog.cancel();
+				}
+			});
+		}
+		if(negativeButton != null) {
+			ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int arg1) {	dialog.cancel();}
+			});
+		}
+        if(cancelable) {
+			ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				public void onCancel(DialogInterface dialog) { dialog.cancel();	}
+			});
+		}
+        ad.create().show();
     }
-
-    public static void alert(Context context, String message) {
+//@TODO: DialogsMain, BlurBackground, ImageEditMain, PicassoMain
+    public static void alert(Context context, boolean cancelable, String title, String message, String positiveButton, String negativeButton) {
         final Activity activity = (Activity) context;
-        AlertDialog.Builder ad = new AlertDialog.Builder(context);
-        ad.setMessage(message);
-        ad.setCancelable(true);
-        ad.setPositiveButton(context.getString(R.string.close), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                activity.finish();
-                dialog.cancel();
-            }
-        }).create().show();
-        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-                activity.finish();
-                dialog.cancel();
-            }
-        });
-        AlertDialog dialog = ad.create();
-        // dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        Bitmap map = takeScreenShot(activity);
-        Bitmap fast = FastBlur.doBlur(map, 10, true);
-        final Drawable draw = new BitmapDrawable(context.getResources(), fast);
-        dialog.getWindow().setBackgroundDrawable(draw);
-        dialog.show();
+        AlertDialog.Builder ad = build(context, cancelable, title, message);
+        if(positiveButton != null) {
+			ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					activity.finish();
+					dialog.cancel();
+				}
+			});
+		}
+		if(negativeButton != null) {
+			ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					activity.finish();
+					dialog.cancel();
+				}
+			});
+		}
+		if(cancelable) {
+			ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				public void onCancel(DialogInterface dialog) {
+					activity.finish();
+					dialog.cancel();
+				}
+			});
+		}
+        ad.create().show();
     }
 
-    public static void seekBar2(Context context, final ImageView imageView, final ViewGroup container) {
+    public static void progress(Context context, boolean cancelable, String message) {
+        ProgressDialog pd = new ProgressDialog(context);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setMessage(message);
+        pd.setCancelable(cancelable);
+        pd.setCanceledOnTouchOutside(cancelable);
+		if(cancelable) {
+			pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				public void onCancel(DialogInterface dialog) {
+					dialog.cancel();
+				}
+			});
+		}
+        pd.show();
+    }
+//@TODO: DialogsMain, ImageEditMain	
+	public static void seekbar(Context context, boolean cancelable, String title, String positiveButton, String negativeButton) {
         final SeekBar seekBar;
-        container.setDrawingCacheEnabled(true);
-        container.buildDrawingCache(true);
-        Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
-        container.setDrawingCacheEnabled(false);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View seekLayout = inflater.inflate(R.layout.slider_item, null);
+        View seekLayout = inflater.inflate(R.layout.dialog_seekbar, null);
         seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
-        AlertDialog.Builder ad = new AlertDialog.Builder(context);
-//        ad.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        ad.setMessage("Wat");
+        AlertDialog.Builder ad = build(context, cancelable, title, null);
         ad.setView(seekLayout);
-        ad.setCancelable(true);
-        ad.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-                imageView.setAlpha(seekBar.getProgress());
-
-                dialog.cancel();
-            }
-        }).create();
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                dialog.cancel();
-            }
-        });
-        ad.setCancelable(true);
-        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-                dialog.cancel();
-            }
-        });
-        ad.show();
-    }
-
-    public static void seekBar(Context context, final ImageView imageView, final ViewGroup container) {
-        final SeekBar seekBar;
-
-        container.setDrawingCacheEnabled(true);
-        container.buildDrawingCache(true);
-        Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
-        container.setDrawingCacheEnabled(false);
-
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View seekLayout = inflater.inflate(R.layout.slider_item, null);
-
-
-        final Dialog dialog = new Dialog(context);
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//		dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-        dialog.setContentView(R.layout.slider_item);
-        // Set dialog title
-        dialog.setTitle("Custom Dialog");
-        Bitmap map = takeScreenShot((Activity) context);
-
-        Bitmap fast = FastBlur.doBlur(map, 10, true);
-        final Drawable draw = new BitmapDrawable(context.getResources(), fast);
-        dialog.getWindow().setBackgroundDrawable(draw);
-
-
-        // set values for custom dialog components - text, image and button
-        seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
-        seekBar.setProgress(100);
-
-        dialog.setCancelable(true);
-//        dialog.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//
-//                imageView.setAlpha(seekBar.getProgress());
-//
-//                dialog.cancel();
-//            }
-//        }).create();
-//        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int arg1) {
-//                dialog.cancel();
-//            }
-//        });
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-                dialog.cancel();
-            }
-        });
-
-        dialog.show();
-
-        // Button declineButton = (Button) dialog.findViewById(R.id.declineButton);
-        // if decline button is clicked, close the custom dialog
-        // declineButton.setOnClickListener(new OnClickListener() {
-        // @Override
-        // public void onClick(View v) {
-        // Close dialog
-        // dialog.dismiss();
-        // }
-        // });
-
-    }
-
-    private static Bitmap takeScreenShot(Activity activity) {
-        View view = activity.getWindow().getDecorView();
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-        Bitmap b1 = view.getDrawingCache();
-        Rect frame = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
-        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
-        int height = activity.getWindowManager().getDefaultDisplay().getHeight();
-
-        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);
-        view.destroyDrawingCache();
-        return b;
+		if(positiveButton != null) {
+			ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// seekBar.getProgress()
+					dialog.cancel();
+				}
+			});
+		}
+		if(negativeButton != null) {
+			ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
+		}
+		if(cancelable) {
+			ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				public void onCancel(DialogInterface dialog) {
+					dialog.cancel();
+				}
+			});
+		}
+        ad.create().show();
     }
 }

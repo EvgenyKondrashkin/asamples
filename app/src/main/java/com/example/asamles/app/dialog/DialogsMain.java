@@ -17,113 +17,123 @@ import com.example.asamles.app.seekbar.VerticalSeekBar;
 
 import java.util.Calendar;
 
-public class Dialogs extends Fragment {
-    private Button btn, btn2, btn3, btn4, btn5, btn6;
-    private TextView label, label2, label3, vsProgress, label5;
-    VerticalSeekBar verticalSeekBar = null;
+public class DialogsMain extends Fragment {
+    private Button button;
+	private Button button2;
+	private Button button3;
+	private Button button4;
+	private Button button5;
+	private Button button6;
+	private Button button7;
+	private Button button8;
+	private Button button9;
+    private TextView label;
+	private TextView vsProgress;
+	private TextView label5;
+	private boolean cancelable = true;
+    private VerticalSeekBar verticalSeekBar = null;
+	private int oldColor = -16777216;
 
-    public static Dialogs newInstance() {
-        Dialogs fragment = new Dialogs();
+    public static DialogsMain newInstance() {
+        DialogsMain fragment = new DialogsMain();
         return fragment;
     }
 
-    public Dialogs() {
-    }
+    public DialogsMain() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.dialog_fragment, container, false);
-//        rootView.setBackground(new BitmapDrawable(takeScreenShot(getActivity())));
+        View rootView = inflater.inflate(R.layout.fragment_dialog, container, false);
+//---------------------------------------------------------------------------------------
         verticalSeekBar = (VerticalSeekBar) rootView.findViewById(R.id.vertical_Seekbar);
         vsProgress = (TextView) rootView.findViewById(R.id.vertical_sb_progresstext);
         verticalSeekBar.setProgress(100);
         verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
-
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
-
             }
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 vsProgress.setText(progress + "");
-
             }
         });
-
-        btn = (Button) rootView.findViewById(R.id.time);
-        btn2 = (Button) rootView.findViewById(R.id.button);
-        btn3 = (Button) rootView.findViewById(R.id.button2);
-        btn4 = (Button) rootView.findViewById(R.id.button4);
-        btn5 = (Button) rootView.findViewById(R.id.button3);
-		btn6 = (Button) rootView.findViewById(R.id.button5);
+//---------------------------------------------------------------------------------------
+        button = (Button) rootView.findViewById(R.id.time);
+        button2 = (Button) rootView.findViewById(R.id.button);
+        button3 = (Button) rootView.findViewById(R.id.button2);
+        button4 = (Button) rootView.findViewById(R.id.button4);
+        button5 = (Button) rootView.findViewById(R.id.button3);
+		button6 = (Button) rootView.findViewById(R.id.button5);
+		button7 = (Button) rootView.findViewById(R.id.button6);
+		button8 = (Button) rootView.findViewById(R.id.button7);
+		button9 = (Button) rootView.findViewById(R.id.button8);
         label = (TextView) rootView.findViewById(R.id.textView);
-        label2 = (TextView) rootView.findViewById(R.id.textView2);
-        label3 = (TextView) rootView.findViewById(R.id.textView3);
         label5 = (TextView) rootView.findViewById(R.id.textView4);
 
-        label2.setText("" + System.currentTimeMillis());
-        Calendar date = Calendar.getInstance();
-        label3.setText("" + date.getTimeInMillis());
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                btn.setText("working!");
-                ADialogs.openTime(getActivity(), label);
-
+                button.setText("working!");
+                ADialogs.openTime(getActivity(), label, cancelable, "Title", "Set", "Cancel");
             }
         });
-        btn2.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                btn2.setText("working!");
-                ADialogs.alert(getActivity(), "Wat");
-
-
+                ADialogs.alert(getActivity(), cancelable, "Title", "Message", "Yes", null);
             }
         });
-        btn3.setOnClickListener(new View.OnClickListener() {
+		button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                btn3.setText("working!");
-                // Calendar date1 = Calendar.getInstance();
-                // date1.set(Calendar.HOUR_OF_DAY, 0);
-                // date1.set(Calendar.MINUTE, 0);
-                // date1.set(Calendar.SECOND, 0);
-                // date1.set(Calendar.MILLISECOND, 0);
-                // label3.setText("" + date1.getTimeInMillis());
+                ADialogs.seekbar(getActivity(), cancelable, "Title", "Set", "Cancel");
+            }
+        });
+		button8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                ADialogs.progress(getActivity(), cancelable, "Progress...");
+            }
+        });
+		button9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // ADialogs.progress(getActivity(),cancelable, "Progress...");
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                button3.setText("working!");
                 showAlertDialogFragment();
             }
         });
-        btn4.setOnClickListener(new View.OnClickListener() {
+        button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                btn4.setText("working!");
+                button4.setText("working!");
                 showProgressDialogFragment();
             }
         });
-        btn5.setOnClickListener(new View.OnClickListener() {
+        button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                btn5.setText("working!");
+                button5.setText("working!");
                 showColorpickerDialogFragment();
             }
         });
-		btn5.setOnClickListener(new View.OnClickListener() {
+		button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                btn6.setText("working!");
+                button6.setText("working!");
                 showCustomDialogFragment();
             }
         });
@@ -165,7 +175,7 @@ public class Dialogs extends Fragment {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance("Message");
+        BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance("Message", true);
         newFragment.setBlurredProgressDialogListener(new BlurredProgressDialog.BlurredProgressDialogListener() {
             @Override
             public void onBlurredProgressDialogCancel(DialogFragment dialog) {
@@ -175,8 +185,6 @@ public class Dialogs extends Fragment {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
     }
-
-    private int oldColor = -16777216;
 
     public void showColorpickerDialogFragment() {
         View v = getActivity().getWindow().getDecorView();
@@ -189,7 +197,7 @@ public class Dialogs extends Fragment {
                 oldColor = color;
 //                String hexColor = String.format("#%08X", (0xFFFFFFFF & color));
                 label5.setText("" + color);
-                btn5.setBackgroundColor(color);
+                button5.setBackgroundColor(color);
                 dialog.dismiss();
             }
 
@@ -211,7 +219,39 @@ public class Dialogs extends Fragment {
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         BlurredCustomViewDialog newFragment = new BlurredCustomViewDialog();
-		// newFragment.getDialog().set
+		AlertDialog.Builder ad = newFragment.build(getActivity(), cancelable, null, null, "Yes", "No");
+		View seekLayout = setCustomView(ad, R.layout.dialog_seekbar);
+		SeekBar seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
+		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                if(newFragment.set){
+					button6.setText("working! " + progress);
+				}
+            }
+        });
+		newFragment.setBlurredCustomAlertDialogListener(new BlurredCustomAlertDialog.BlurredCustomAlertDialogListener() {
+            @Override
+            public void onBlurredCustomAlertDialogPositiveClick(DialogFragment dialog, boolean set) {
+                
+				dialog.dismiss();
+            }
+
+            @Override
+            public void onBlurredCustomAlertDialogNegativeClick(DialogFragment dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onBlurredCustomAlertDialogCancel(DialogFragment dialog) {
+                dialog.dismiss();
+            }
+        });
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
     }
