@@ -84,8 +84,9 @@ public class DrawingView extends View {
 
     }
 
-    public void setColor(String newColor) {
+    public void setColor(int paintColor) {
         invalidate();
+        this.paintColor = paintColor;
         // paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
     }
@@ -109,10 +110,10 @@ public class DrawingView extends View {
         erase = isErase;
         if (erase) {
 			drawPaint.setColor(Color.WHITE);
-			drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+//			drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 		} else {
 			drawPaint.setColor(paintColor);
-			drawPaint.setXfermode(null);
+//			drawPaint.setXfermode(null);
 		}
     }
 

@@ -1,10 +1,15 @@
 package com.example.asamles.app.actionprovider;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.internal.widget.ActivityChooserModel;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,7 +28,7 @@ public class SizeAdapter {
 
     public SeekbarAdapter getAdapter(Context context, Bitmap title, SizeListener listener, int size) {
         this.listener = listener;
-        return new SeekbarAdapter(context, title, int size);
+        return new SeekbarAdapter(context, title, size);
     }
 
     public void setSizeListener(SizeListener listener) {
@@ -32,7 +37,7 @@ public class SizeAdapter {
 
     public class SeekbarAdapter extends BaseAdapter implements SeekBar.OnSeekBarChangeListener{
         private LayoutInflater mInflater;
-		private Context contex;
+		private Context context;
         // private String item;
         private Bitmap title;
 		private int size;
@@ -62,7 +67,7 @@ public class SizeAdapter {
             return 0;
         }
 
-		static class ViewHolder2 {
+		class ViewHolder2 {
 			ImageView icon;
 		}	
         @Override
@@ -76,22 +81,22 @@ public class SizeAdapter {
             } else {
                 holder2 = (ViewHolder2) convertView.getTag(R.layout.action_size_layout);
             }
-            holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, size, size, false)));
+            holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, size+2, size+2, false)));
             return convertView;
         }
 		
-		static class ViewHolder {
+		class ViewHolder {
 			SeekBar seekbar;
 		}
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.actionbar_seekbar_dropdown, null);
+                convertView = mInflater.inflate(R.layout.action_seekbar_dropdown, null);
                 holder.seekbar = (SeekBar) convertView.findViewById(R.id.seekBar1);
-                convertView.setTag(R.layout.actionbar_seekbar_dropdown, holder);
+                convertView.setTag(R.layout.action_seekbar_dropdown, holder);
             } else {
-                holder = (ViewHolder) convertView.getTag(R.layout.actionbar_seekbar_dropdown);
+                holder = (ViewHolder) convertView.getTag(R.layout.action_seekbar_dropdown);
             }
             holder.seekbar.setOnSeekBarChangeListener(this);
             holder.seekbar.setTag(position);
@@ -102,25 +107,26 @@ public class SizeAdapter {
 		@Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             int position = (Integer) seekBar.getTag();
-            if (mListener != null) {
-				holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, progress, progress, false)));
-                mListener.onProgressChanged(seekBar, progress, fromUser, position);
+            if (progress < 2) {progress = 2;}
+            if (listener != null) {
+		        size = progress;
+                listener.onProgressChanged(seekBar, progress, fromUser, position);
             }
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
             int position = (Integer) seekBar.getTag();
-            if (mListener != null) {
-                mListener.onStartTrackingTouch(seekBar, position);
+            if (listener != null) {
+                listener.onStartTrackingTouch(seekBar, position);
             }
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             int position = (Integer) seekBar.getTag();
-            if (mListener != null) {
-                mListener.onStopTrackingTouch(seekBar, position);
+            if (listener != null) {
+                listener.onStopTrackingTouch(seekBar, position);
             }
         }
 

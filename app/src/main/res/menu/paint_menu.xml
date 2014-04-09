@@ -28,6 +28,7 @@
         app:showAsAction="always" />
 	<item
         android:id="@+id/action_color"
+        android:icon="@drawable/action_colorpicker"
         android:title="Color"
         app:showAsAction="always" />
 	<item

@@ -2,18 +2,34 @@ package com.example.asamles.app.paint;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.actionprovider.SeekbarActionProvider;
+import com.example.asamles.app.actionprovider.SizeAdapter;
+import com.example.asamles.app.dialog.BlurredColorPickerDialog;
 
 import java.util.Random;
 import java.util.UUID;
@@ -46,15 +62,17 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.paint_menu, menu);
-		Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_pencil);
-		
-		MenuItem seekbarItem = menu.findItem(R.id.action_size);
-        SeekbarActionProvider seekbarActionProvider = (SeekbarActionProvider) MenuItemCompat.getActionProvider(seekbarItem);
-        seekbarActionProvider.setSeekbarActionProvider(getActivity(), this, icon, smallBrush);
-        
+
 		super.onCreateOptionsMenu(menu, inflater);
     }
-
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_brush);
+        MenuItem seekbarItem = menu.findItem(R.id.action_size);
+        SeekbarActionProvider seekbarActionProvider = (SeekbarActionProvider) MenuItemCompat.getActionProvider(seekbarItem);
+        seekbarActionProvider.setSeekbarActionProvider(getActivity(), this, icon, (int) smallBrush);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -100,18 +118,20 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener{
 
 	@Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList) {
-		drawView.setBrushSize((float) progress);	
+        smallBrush = progress;
+		drawView.setBrushSize((float) progress);
+//        getActivity().supportInvalidateOptionsMenu();
     }
     @Override
     public void onStartTrackingTouch(SeekBar seekBar, int positionInList) {}
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar, int positionInList) {}
+    public void onStopTrackingTouch(SeekBar seekBar, int positionInList) {
+        getActivity().supportInvalidateOptionsMenu();
+    }
 
     private void saveToGalery() {
         drawView.setDrawingCacheEnabled(true);
         drawView.buildDrawingCache(true);
-        Bitmap image = Bitmap.createBitmap(drawView.getDrawingCache(true));
-        int random = new Random().nextInt(1000);
 
         String imgSaved = MediaStore.Images.Media.insertImage(
                 getActivity().getContentResolver(), drawView.getDrawingCache(),
@@ -124,7 +144,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener{
         }
     }
 	
-	public void showColorPicker(MenuItem item) {
+	public void showColorPicker(final MenuItem item) {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -134,8 +154,11 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener{
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color) {
                 oldColor = color;
 //                String hexColor = String.format("#%08X", (0xFFFFFFFF & color));
-                item.setBackgroundColor(color);
+//                item.setBackgroundColor(color);
 				drawView.setColor(color);
+                GradientDrawable drawable = (GradientDrawable)getActivity().getResources().getDrawable(R.drawable.action_colorpicker);
+                drawable.setColor(color);
+                item.setIcon(drawable);
                 dialog.dismiss();
             }
             @Override
@@ -151,10 +174,10 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener{
         transaction.add(1, newFragment).commit();
     }
 	public void setMenuItemColor() {
-		for(imt i; i < flagedMenuItem.length; i++) {
-			if(flagedMenuItem){
-				
-			}
-		}
+//		for(int i = 0; i < flagedMenuItem.length; i++) {
+//			if(flagedMenuItem){
+//
+//			}
+//		}
 	}
 }

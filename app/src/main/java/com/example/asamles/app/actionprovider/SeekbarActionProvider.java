@@ -1,6 +1,7 @@
 package com.example.asamles.app.actionprovider;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.ActionProvider;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ public class SeekbarActionProvider extends ActionProvider {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.actionbar_spiner,
                 null);
+
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         SizeAdapter adapter = new SizeAdapter();
         spinner.setAdapter(adapter.getAdapter(context, icon, listener, size));

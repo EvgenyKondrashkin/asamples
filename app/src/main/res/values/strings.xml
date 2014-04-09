@@ -12,7 +12,6 @@
     <string-array name="main_list">
         <item>Location</item>
         <item>Alert Builders</item>
-		<item>ColorPicker</item>
         <item>Picasso Image grid</item>
         <item>Image Edit</item>
         <item>Paint</item>
@@ -28,7 +27,6 @@
 	<string-array name="fragment_names">
         <item>com.example.asamles.app.location.Location</item>
         <item>com.example.asamles.app.dialog.Dialogs</item>
-		<item>com.example.asamles.app.colorpicker.ColorPickerMain</item>
         <item>com.example.asamles.app.picassogridimage.PicassoMain</item>
         <item>com.example.asamles.app.imageedit.ImageEdit</item>
         <item>com.example.asamles.app.paint.PaintMain</item>
