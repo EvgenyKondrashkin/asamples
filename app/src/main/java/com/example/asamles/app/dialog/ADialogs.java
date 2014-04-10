@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,7 +33,6 @@ public class ADialogs {
         }
         return ad;
     }
-
     public static void openTime(Context context, final TextView label, boolean cancelable, String title, String positiveButton, String negativeButton) {
         final TimePicker tp;
         final CheckBox active;
@@ -79,7 +79,6 @@ public class ADialogs {
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    activity.finish();
                     dialog.cancel();
                 }
             });
@@ -87,7 +86,6 @@ public class ADialogs {
         if (negativeButton != null) {
             ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    activity.finish();
                     dialog.cancel();
                 }
             });
@@ -95,7 +93,6 @@ public class ADialogs {
         if (cancelable) {
             ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {
-                    activity.finish();
                     dialog.cancel();
                 }
             });
