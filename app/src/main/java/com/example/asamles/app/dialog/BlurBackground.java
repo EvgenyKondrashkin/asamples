@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.asamles.app.R;
 import com.example.asamles.app.imageedit.blur.BlurTask;
 
 public class BlurBackground implements BlurTask.BlurTaskListener {
@@ -60,7 +59,7 @@ public class BlurBackground implements BlurTask.BlurTaskListener {
     @Override
     public void onBlurTaskComplete(Bitmap result) {
         if (result != null) {
-            background.setImageDrawable(new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(result, map.getWidth(), map.getHeight(), false)));
+            background.setImageDrawable(new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(result, map.getWidth(), map.getHeight(), true)));
         } else {
             ADialogs.alert(activity, true, "Error", "Error while blurring background", "Ok", null);
         }
@@ -73,24 +72,33 @@ public class BlurBackground implements BlurTask.BlurTaskListener {
         int A, R, G, B;
         int pixel;
 
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
                 pixel = map.getPixel(x, y);
                 A = Color.alpha(pixel);
                 R = Color.red(pixel);
                 G = Color.green(pixel);
                 B = Color.blue(pixel);
                 R += value;
-                if(R > 255) { R = 255; }
-                else if(R < 0) { R = 0; }
+                if (R > 255) {
+                    R = 255;
+                } else if (R < 0) {
+                    R = 0;
+                }
 
                 G += value;
-                if(G > 255) { G = 255; }
-                else if(G < 0) { G = 0; }
+                if (G > 255) {
+                    G = 255;
+                } else if (G < 0) {
+                    G = 0;
+                }
 
                 B += value;
-                if(B > 255) { B = 255; }
-                else if(B < 0) { B = 0; }
+                if (B > 255) {
+                    B = 255;
+                } else if (B < 0) {
+                    B = 0;
+                }
 
                 bmOut.setPixel(x, y, Color.argb(A, R, G, B));
             }

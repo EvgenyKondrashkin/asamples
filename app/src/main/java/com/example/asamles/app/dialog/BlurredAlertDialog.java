@@ -24,7 +24,9 @@ public class BlurredAlertDialog extends DialogFragment {
 
     public interface BlurredAlertDialogListener {
         public void onBlurredAlertDialogPositiveClick(DialogFragment dialog);
+
         public void onBlurredAlertDialogNegativeClick(DialogFragment dialog);
+
         public void onBlurredAlertDialogCancel(DialogFragment dialog);
     }
 

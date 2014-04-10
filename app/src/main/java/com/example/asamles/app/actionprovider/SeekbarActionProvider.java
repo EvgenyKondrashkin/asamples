@@ -9,14 +9,12 @@ import android.widget.Spinner;
 
 import com.example.asamles.app.R;
 
-import java.util.ArrayList;
-
 
 public class SeekbarActionProvider extends ActionProvider {
     private Context context;
     private SizeAdapter.SizeListener listener;
-	private Bitmap icon;
-	private int size;
+    private Bitmap icon;
+    private int size;
 
     public SeekbarActionProvider(Context context) {
         super(context);
@@ -24,9 +22,9 @@ public class SeekbarActionProvider extends ActionProvider {
 
     public void setSeekbarActionProvider(Context context, SizeAdapter.SizeListener listener, Bitmap icon, int size) {
         this.listener = listener;
-		this.context = context;
-		this.icon = icon;
-		this.size = size;
+        this.context = context;
+        this.icon = icon;
+        this.size = size;
     }
 
     @Override

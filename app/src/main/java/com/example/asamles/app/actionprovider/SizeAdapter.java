@@ -1,28 +1,25 @@
 package com.example.asamles.app.actionprovider;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.internal.widget.ActivityChooserModel;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.example.asamles.app.R;
-
-import java.util.ArrayList;
 
 public class SizeAdapter {
     private SizeListener listener;
 
     public interface SizeListener {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList);
+
         public void onStartTrackingTouch(SeekBar seekBar, int positionInList);
+
         public void onStopTrackingTouch(SeekBar seekBar, int positionInList);
     }
 
@@ -35,21 +32,21 @@ public class SizeAdapter {
         this.listener = listener;
     }
 
-    public class SeekbarAdapter extends BaseAdapter implements SeekBar.OnSeekBarChangeListener{
+    public class SeekbarAdapter extends BaseAdapter implements SeekBar.OnSeekBarChangeListener {
         private LayoutInflater mInflater;
-		private Context context;
+        private Context context;
         // private String item;
         private Bitmap title;
-		private int size;
-		private ViewHolder2 holder2;
-		private ViewHolder holder;
-		
+        private int size;
+        private ViewHolder2 holder2;
+        private ViewHolder holder;
+
         public SeekbarAdapter(Context context, Bitmap title, int size) {
             mInflater = LayoutInflater.from(context);
-			this.context = context;
+            this.context = context;
             // this.item = item;
             this.title = title;
-			this.size = size;
+            this.size = size;
         }
 
         @Override
@@ -67,9 +64,10 @@ public class SizeAdapter {
             return 0;
         }
 
-		class ViewHolder2 {
-			ImageView icon;
-		}	
+        class ViewHolder2 {
+            ImageView icon;
+        }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -81,13 +79,14 @@ public class SizeAdapter {
             } else {
                 holder2 = (ViewHolder2) convertView.getTag(R.layout.action_size_layout);
             }
-            holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, size+2, size+2, false)));
+            holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, size + 2, size + 2, false)));
             return convertView;
         }
-		
-		class ViewHolder {
-			SeekBar seekbar;
-		}
+
+        class ViewHolder {
+            SeekBar seekbar;
+        }
+
         @Override
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -100,16 +99,19 @@ public class SizeAdapter {
             }
             holder.seekbar.setOnSeekBarChangeListener(this);
             holder.seekbar.setTag(position);
-			holder.seekbar.setProgress(size);
+            holder.seekbar.setProgress(size);
             return convertView;
 
         }
-		@Override
+
+        @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             int position = (Integer) seekBar.getTag();
-            if (progress < 2) {progress = 2;}
+            if (progress < 2) {
+                progress = 2;
+            }
             if (listener != null) {
-		        size = progress;
+                size = progress;
                 listener.onProgressChanged(seekBar, progress, fromUser, position);
             }
         }

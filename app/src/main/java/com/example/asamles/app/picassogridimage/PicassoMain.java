@@ -29,9 +29,9 @@ public class PicassoMain extends Fragment {
     public final String IS_GRID = "isGrid";
     public static final String ASSETS_FILE = "images.json";
     private MenuItem gridList;
-	private IconDrawable gridIcon;
-	private IconDrawable listIcon;
-	
+    private IconDrawable gridIcon;
+    private IconDrawable listIcon;
+
     public static PicassoMain newInstance() {
         PicassoMain fragment = new PicassoMain();
         return fragment;
@@ -51,14 +51,14 @@ public class PicassoMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-		
+
         View rootView = inflater.inflate(R.layout.fragment_picasso, container, false);
 
         ed = sPref.edit();
         JsonFromAssets JFA = new JsonFromAssets(ASSETS_FILE, getActivity());
         ArrayList<String> imgs = JFA.getFromJson();
         if (imgs == null) {
-			ADialogs.alert(getActivity(), false, "Error", this.getString(R.string.json_error), "Ok", null);
+            ADialogs.alert(getActivity(), false, "Error", this.getString(R.string.json_error), "Ok", null);
             return rootView;
         }
         grid = PicassoGridImages.newInstance(imgs);
@@ -72,17 +72,17 @@ public class PicassoMain extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.grid_menu, menu);
-		gridIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_th)
-				.colorRes(R.color.grey_light)
-				.actionBarSize();
-		listIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_th_list)
-				.colorRes(R.color.grey_light)
-				.actionBarSize();
+        gridIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_th)
+                .colorRes(R.color.grey_light)
+                .actionBarSize();
+        listIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_th_list)
+                .colorRes(R.color.grey_light)
+                .actionBarSize();
         gridList = menu.findItem(R.id.action_list);
         if (isGrid) {
-			gridList.setIcon(gridIcon);
+            gridList.setIcon(gridIcon);
         } else {
-			gridList.setIcon(listIcon);
+            gridList.setIcon(listIcon);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -93,10 +93,10 @@ public class PicassoMain extends Fragment {
             case R.id.action_list:
                 if (isGrid) {
                     isGrid = false;
-					item.setIcon(listIcon);
+                    item.setIcon(listIcon);
                 } else {
                     isGrid = true;
-					item.setIcon(gridIcon);
+                    item.setIcon(gridIcon);
                 }
                 ed.putBoolean(IS_GRID, isGrid);
                 ed.commit();

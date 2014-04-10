@@ -3,7 +3,6 @@ package com.example.asamles.app.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.ImageView;
 import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 
 public class BlurredColorPickerDialog extends DialogFragment {
@@ -26,7 +24,9 @@ public class BlurredColorPickerDialog extends DialogFragment {
 
     public interface BlurredColorPickerDialogListener {
         public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color);
+
         public void onBlurredAlertDialogNegativeClick(DialogFragment dialog);
+
         public void onBlurredAlertDialogCancel(DialogFragment dialog);
     }
 

@@ -58,15 +58,15 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.image_edit, menu);
-		menu.findItem(R.id.action_seek).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_eye_slash)
-			.colorRes(R.color.grey_light)
-			.actionBarSize());
-		menu.findItem(R.id.action_blur).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_tint)
-			.colorRes(R.color.grey_light)
-			.actionBarSize());
-		menu.findItem(R.id.action_rotate).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
-			.colorRes(R.color.grey_light)
-			.actionBarSize());
+        menu.findItem(R.id.action_seek).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_eye_slash)
+                .colorRes(R.color.grey_light)
+                .actionBarSize());
+        menu.findItem(R.id.action_blur).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_tint)
+                .colorRes(R.color.grey_light)
+                .actionBarSize());
+        menu.findItem(R.id.action_rotate).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
+                .colorRes(R.color.grey_light)
+                .actionBarSize());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -76,7 +76,7 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
 
             case R.id.action_seek:
                 // ADialogs.seekbar(getActivity(), imageView, container);
-				ADialogs.seekbar(getActivity(), true, "Opacity", "Set", "Cancel");
+                ADialogs.seekbar(getActivity(), true, "Opacity", "Set", "Cancel");
 //                container.setDrawingCacheEnabled(true);
 //                container.buildDrawingCache(true);
 //                Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());

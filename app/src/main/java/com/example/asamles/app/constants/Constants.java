@@ -7,5 +7,5 @@ public class Constants {
     public static final String TITLE = "TITLE";
     public static final String MESSAGE = "MESSAGE";
     public static final String COLOR = "COLOR";
-	public static final String CANCELABLE = "CANCELABLE";
+    public static final String CANCELABLE = "CANCELABLE";
 }

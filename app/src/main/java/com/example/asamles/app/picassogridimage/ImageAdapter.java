@@ -49,8 +49,6 @@ public class ImageAdapter extends BaseAdapter {
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.error)
                 .into(imageView);
-        // imageLoader.displayImage(imgs.get(position), imageView, options);
-
         return imageView;
     }
 }

@@ -19,7 +19,7 @@ public class BlurredProgressDialog extends DialogFragment {
     private String message;
     private ImageView background;
     private Bitmap map;
-	private boolean cancelable;
+    private boolean cancelable;
 
     public interface BlurredProgressDialogListener {
         public void onBlurredProgressDialogCancel(DialogFragment dialog);
@@ -29,7 +29,7 @@ public class BlurredProgressDialog extends DialogFragment {
         BlurredProgressDialog fragment = new BlurredProgressDialog();
         Bundle args = new Bundle();
         args.putString(Constants.MESSAGE, message);
-		args.putBoolean(Constants.CANCELABLE, cancelable);
+        args.putBoolean(Constants.CANCELABLE, cancelable);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +38,7 @@ public class BlurredProgressDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         message = getArguments() != null ? getArguments().getString(Constants.MESSAGE) : null;
-		cancelable = getArguments() != null ? getArguments().getBoolean(Constants.CANCELABLE) : true;
+        cancelable = getArguments() != null ? getArguments().getBoolean(Constants.CANCELABLE) : true;
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
         background = (ImageView) rootView.findViewById(R.id.image);
 
