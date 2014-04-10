@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.asamles.app.R;
 import com.example.asamles.app.actionprovider.SeekbarActionProvider;
 import com.example.asamles.app.actionprovider.SizeAdapter;
+import com.example.asamles.app.dialog.ADialogs;
 import com.example.asamles.app.dialog.BlurredAlertDialog;
 import com.example.asamles.app.dialog.BlurredColorPickerDialog;
 import com.example.asamles.app.dialog.BlurredProgressDialog;
@@ -178,14 +179,20 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     Runnable save = new Runnable() {
         @Override
         public void run() {
-            SaveLoadFile.saveToGallery(getActivity(),drawView);
+            String wat = SaveLoadFile.saveToGallaryAndApp(getActivity(), drawView);
+            Toast.makeText(getActivity().getApplicationContext(), "Saved as " + wat, Toast.LENGTH_LONG).show();
         }
     };
 
     Runnable load = new Runnable() {
         @Override
         public void run() {
-            loadFromGallery();
+            //loadFromGallery();
+            String[] wat = SaveLoadFile.loadAllFiles(getActivity());
+            drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), wat[0])));
+//            ADialogs dialog = new ADialogs(getActivity());
+//            dialog.alert(true,"path",wat,"Wyes","No");
+//            Toast.makeText(getActivity().getApplicationContext(), "Files are " + wat, Toast.LENGTH_LONG).show();
         }
     };
     private void loadFromGallery() {

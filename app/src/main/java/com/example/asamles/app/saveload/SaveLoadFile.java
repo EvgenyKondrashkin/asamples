@@ -2,18 +2,25 @@ package com.example.asamles.app.saveload;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.asamles.app.R;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class SaveLoadFile {
@@ -21,11 +28,16 @@ public class SaveLoadFile {
     public static String setName() {
         return UUID.randomUUID().toString() + ".png";
     }
-	public static void saveToGallery(Context context, View drawView) {
+    public static String saveToGallaryAndApp(Context context, View drawView) {
+        String fileName = setName();
+        saveToPaintGallery(context, drawView, fileName);
+//        saveToGallery(context, drawView, fileName);
+        return "qqq";
+    }
+	public static void saveToGallery(Context context, View drawView, String fileName) {
         // showProgressDialogFragment();
         drawView.setDrawingCacheEnabled(true);
         drawView.buildDrawingCache(true);
-        String fileName = setName();
         String imgSaved = MediaStore.Images.Media.insertImage(
                 context.getContentResolver(), drawView.getDrawingCache(),
                 fileName, context.getString(R.string.save_tag));
@@ -36,12 +48,52 @@ public class SaveLoadFile {
             Toast.makeText(context.getApplicationContext(), context.getString(R.string.save_negative_result), Toast.LENGTH_SHORT).show();
         }
     }
-    public static void saveToPaintGallery(Context context, View drawView) {
-        String fileName = setName();
-        File file = new File(context.getFilesDir(), fileName);
+    public static void saveToPaintGallery(Context context, View drawView, String fileName) {
+        drawView.setDrawingCacheEnabled(true);
+        drawView.buildDrawingCache(true);
+        Bitmap bitmap = drawView.getDrawingCache();
+         ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
+            // path to /data/data/yourapp/app_data/imageDir
+         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            // Create imageDir
+         File mypath=new File(directory,fileName);
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(mypath);;
+            bitmap.compress(Bitmap.CompressFormat.PNG, 10, fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        drawView.setDrawingCacheEnabled(false);
+
+        }
+
+    public static String[] loadAllFiles(Context context){
+        String[] SavedFiles = context.getApplicationContext().getDir("imageDir", Context.MODE_PRIVATE).list();
+        String wat = "Wat:";
+        for(int i=0; i<SavedFiles.length;i++)
+            wat = wat + " + " + SavedFiles[i];
+        return SavedFiles;
     }
-
-
+    public static Bitmap loadImageFromStorage(Context context, String name)
+    {
+        Bitmap b = null;
+        try {
+            File f=new File(context.getApplicationContext().getDir("imageDir", Context.MODE_PRIVATE), name);
+             b = BitmapFactory.decodeStream(new FileInputStream(f));
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return b;
+    }
     private String picturePath;
 
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
