@@ -1,6 +1,5 @@
 package com.example.asamles.app.dialog;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,21 +18,30 @@ import com.example.asamles.app.R;
 import java.util.Calendar;
 
 public class ADialogs {
-
-    private static AlertDialog.Builder build(Context context, boolean cancelable, String title, String message) {
+	private Context context;
+	private ADialogsListener aListener = null;
+	private ADialogsTimeListener timeListener = null;
+	private ADialogsProgressListener progressListener = null;
+    private ADialogsSeekBarListener seekbarListener = null;
+	public ADialogs(Context context) {
+		this.context = context;
+	}
+    private AlertDialog.Builder build(boolean cancelable, String title, String message) {
         AlertDialog.Builder ad = new AlertDialog.Builder(context);
-        if (title != null) {
-            ad.setTitle(title);
-        }
-        if (message != null) {
-            ad.setMessage(message);
-        }
-        if (cancelable) {
-            ad.setCancelable(cancelable);
-        }
+        if (title != null) { ad.setTitle(title); }
+        if (message != null) { ad.setMessage(message); }
+        if (cancelable) { ad.setCancelable(cancelable); }
         return ad;
     }
-    public static void openTime(Context context, final TextView label, boolean cancelable, String title, String positiveButton, String negativeButton) {
+	public interface ADialogsTimeListener {
+        public void onADialogsTimePositiveClick(DialogInterface dialog, TimePicker tp, CheckBox active);
+        public void onADialogsTimeNegativeClick(DialogInterface dialog);
+        public void onADialogsTimeCancel(DialogInterface dialog);
+    }
+	public void setADialogsTimeListener(ADialogsTimeListener timeListener) {
+        this.timeListener = timeListener;
+    }
+    public  void openTime(boolean cancelable, String title, String positiveButton, String negativeButton) {
         final TimePicker tp;
         final CheckBox active;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -42,65 +50,86 @@ public class ADialogs {
         tp.setIs24HourView(true);
         tp.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         active = (CheckBox) timeLayout.findViewById(R.id.active);
-        AlertDialog.Builder ad = build(context, cancelable, title, null);
+        AlertDialog.Builder ad = build(cancelable, title, null);
         ad.setView(timeLayout);
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    Integer hour = tp.getCurrentHour();
-                    Integer minute = tp.getCurrentMinute();
-                    boolean activeIt = active.isChecked();
-                    label.setText("Active:" + activeIt + "; Time" + hour + ":" + minute);
-                    dialog.cancel();
+					if (timeListener != null) {
+						timeListener.onADialogsTimePositiveClick(dialog, tp, active);
+					} else { dialog.cancel(); }
                 }
             });
         }
         if (negativeButton != null) {
             ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int arg1) {
-                    dialog.cancel();
+                    if (timeListener != null) {
+						timeListener.onADialogsTimeNegativeClick(dialog);
+					} else { dialog.cancel(); }
                 }
             });
         }
         if (cancelable) {
             ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {
-                    dialog.cancel();
+                    if (timeListener != null) {
+						timeListener.onADialogsTimeCancel(dialog);
+					} else { dialog.cancel(); }
                 }
             });
         }
         ad.create().show();
     }
 
-    //@TODO: DialogsMain, BlurBackground, ImageEditMain, PicassoMain
-    public static void alert(Context context, boolean cancelable, String title, String message, String positiveButton, String negativeButton) {
+    //@TODO: DialogsMain, BlurBackground, ImageEditMain, PicassoMain, BlurredCustomDialog
+	public interface ADialogsListener {
+        public void onADialogsPositiveClick(DialogInterface dialog);
+        public void onADialogsNegativeClick(DialogInterface dialog);
+        public void onADialogsCancel(DialogInterface dialog);
+    }
+	public void setADialogsListener(ADialogsListener aListener) {
+        this.aListener = aListener;
+    }
+    public void alert(boolean cancelable, String title, String message, String positiveButton, String negativeButton) {
         final Activity activity = (Activity) context;
-        AlertDialog.Builder ad = build(context, cancelable, title, message);
+        AlertDialog.Builder ad = build(cancelable, title, message);
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
+                    if (aListener != null) {
+						aListener.onADialogsPositiveClick(dialog);
+					} else { dialog.cancel(); }
                 }
             });
         }
         if (negativeButton != null) {
             ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
+                    if (aListener != null) {
+						aListener.onADialogsNegativeClick(dialog);
+					} else { dialog.cancel(); }
                 }
             });
         }
         if (cancelable) {
             ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {
-                    dialog.cancel();
+					if (aListener != null) {
+						aListener.onADialogsCancel(dialog);
+					} else { dialog.cancel(); }
                 }
             });
         }
         ad.create().show();
     }
-
-    public static void progress(Context context, boolean cancelable, String message) {
+	public interface ADialogsProgressListener {
+        public void onADialogsProgressCancel(DialogInterface dialog);
+    }
+	public void setADialogsTimeListener(ADialogsProgressListener progressListener) {
+        this.progressListener = progressListener;
+    }
+    public void progress(boolean cancelable, String message) {
         ProgressDialog pd = new ProgressDialog(context);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setMessage(message);
@@ -109,7 +138,9 @@ public class ADialogs {
         if (cancelable) {
             pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {
-                    dialog.cancel();
+                    if (progressListener != null) {
+						progressListener.onADialogsProgressCancel(dialog);
+					} else { dialog.cancel(); }
                 }
             });
         }
@@ -117,18 +148,26 @@ public class ADialogs {
     }
 
     //@TODO: DialogsMain, ImageEditMain
-    public static void seekbar(Context context, boolean cancelable, String title, String positiveButton, String negativeButton) {
+	public interface ADialogsSeekBarListener {
+        public void onADialogsSeekBarPositiveClick(DialogInterface dialog, SeekBar seekbar);
+    }
+	public void setADialogsSeekBarListener(ADialogsSeekBarListener seekbarListener) {
+        this.seekbarListener = seekbarListener;
+    }
+    public void seekbar(boolean cancelable, String title, int progress, String positiveButton, String negativeButton) {
         final SeekBar seekBar;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View seekLayout = inflater.inflate(R.layout.dialog_seekbar, null);
         seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
-        AlertDialog.Builder ad = build(context, cancelable, title, null);
+		seekBar.setProgress(progress);
+        AlertDialog.Builder ad = build(cancelable, title, null);
         ad.setView(seekLayout);
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    // seekBar.getProgress()
-                    dialog.cancel();
+                    if (seekbarListener != null) {
+						seekbarListener.onADialogsSeekBarPositiveClick(dialog, seekBar);
+					} else { dialog.cancel(); }
                 }
             });
         }

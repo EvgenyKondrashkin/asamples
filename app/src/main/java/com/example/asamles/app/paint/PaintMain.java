@@ -30,6 +30,7 @@ import com.example.asamles.app.actionprovider.SizeAdapter;
 import com.example.asamles.app.dialog.BlurredAlertDialog;
 import com.example.asamles.app.dialog.BlurredColorPickerDialog;
 import com.example.asamles.app.dialog.BlurredProgressDialog;
+import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
@@ -144,7 +145,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
                 getActivity().supportInvalidateOptionsMenu();
                 break;
             case R.id.action_save:
-                checkDialog("Save", "Are you sure you want to clear your drawing?", save);
+                checkDialog(this.getString(R.string.save_title), this.getString(R.string.save_message), save);
                 break;
             case R.id.action_pencil:
                 erase = false;
@@ -152,14 +153,13 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
                 getActivity().supportInvalidateOptionsMenu();
                 break;
             case R.id.action_clear:
-//                clearDialog();
-                checkDialog("clear", "Are you sure you want to clear your drawing?", clear);
+                checkDialog(this.getString(R.string.clear_title), this.getString(R.string.clear_paint_message), clear);
                 break;
             case R.id.action_color:
                 showColorPicker(item);
                 break;
             case R.id.action_load:
-                checkDialog("Load from Gallery", "Are you sure you want to clear your drawing and load from Galary?", load);
+                checkDialog(this.getString(R.string.load_paint_title), this.getString(R.string.load_paint_message), load);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -178,26 +178,9 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     Runnable save = new Runnable() {
         @Override
         public void run() {
-            saveToGallery();
+            SaveLoadFile.saveToGallery(getActivity(),drawView);
         }
     };
-
-    private void saveToGallery() {
-        // showProgressDialogFragment();
-        drawView.setDrawingCacheEnabled(true);
-        drawView.buildDrawingCache(true);
-
-        String imgSaved = MediaStore.Images.Media.insertImage(
-                getActivity().getContentResolver(), drawView.getDrawingCache(),
-                UUID.randomUUID().toString() + ".png", "drawing");
-        drawView.setDrawingCacheEnabled(false);
-        if (imgSaved != null) {
-            Toast.makeText(getActivity().getApplicationContext(), "Drawing saved to Gallery!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Oops! Image could not be saved.", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
     Runnable load = new Runnable() {
         @Override
@@ -205,87 +188,21 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
             loadFromGallery();
         }
     };
-
     private void loadFromGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        PaintGalery paintGallery = PaintGalery.newInstance();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.container, paintGallery).commit();
     }
-
-    private String picturePath;
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) {
-            return;
-        }
-        if (requestCode == SELECT_PICTURE) {
-            Uri selectedImageUri = data.getData();
-            picturePath = getPath(selectedImageUri);
-            // System.out.println("Image Path : " + selectedImagePath);
-            drawView.setBackgroundDrawable(new BitmapDrawable(getActivity().getResources(), BitmapFactory.decodeFile(picturePath)));
-
-//			drawView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-//			int widht = drawView.getRight();
-//			int height = drawView.getBottom();
-//
-//			drawView.setBackground(new BitmapDrawable(getActivity().getResources(), lessResolution(picturePath, widht, height)));
-//                img.setImageURI(selectedImageUri);
-        }
-
-    }
-
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-    public static Bitmap lessResolution(String filePath, int width, int height) {
-        int reqHeight = width;
-        int reqWidth = height;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(filePath, options);
-    }
-
-    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            // Choose the smallest ratio as inSampleSize value, this will guarantee
-            // a final image with both dimensions larger than or equal to the
-            // requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-        return inSampleSize;
-    }
-
     public void showColorPicker(final MenuItem item) {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        BlurredColorPickerDialog newFragment = BlurredColorPickerDialog.newInstance("Choose color", oldColor);
+        BlurredColorPickerDialog newFragment = BlurredColorPickerDialog.newInstance(this.getString(R.string.colorpicker_title), oldColor);
         newFragment.setBlurredColorPickerDialogListener(new BlurredColorPickerDialog.BlurredColorPickerDialogListener() {
             @Override
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color) {
@@ -342,7 +259,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance("Saving...", false);
+        BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance(this.getString(R.string.progress_save_message), false);
         newFragment.setBlurredProgressDialogListener(new BlurredProgressDialog.BlurredProgressDialogListener() {
             @Override
             public void onBlurredProgressDialogCancel(DialogFragment dialog) {

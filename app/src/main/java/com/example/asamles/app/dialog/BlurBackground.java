@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.asamles.app.R;
 import com.example.asamles.app.imageedit.blur.BlurTask;
 
 public class BlurBackground implements BlurTask.BlurTaskListener {
@@ -61,7 +62,8 @@ public class BlurBackground implements BlurTask.BlurTaskListener {
         if (result != null) {
             background.setImageDrawable(new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(result, map.getWidth(), map.getHeight(), true)));
         } else {
-            ADialogs.alert(activity, true, "Error", "Error while blurring background", "Ok", null);
+            ADialogs alertDialog = new ADialogs(activity);
+			alertDialog.alert(true, activity.getString(R.string.error), activity.getString(R.string.blur_background_error), activity.getString(R.string.ok), null);
         }
     }
 

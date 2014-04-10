@@ -1,4 +1,4 @@
-package com.example.asamles.app.picassogridimage;
+package com.example.asamles.app.paint;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,30 +9,28 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.picassogridimage.ImageAdapter;
+import com.example.asamles.app.picassogridimage.ImagePager;
 
 import java.util.ArrayList;
 
-public class PicassoGridImages extends Fragment {
+public class PaintGalery extends Fragment {
 
     public static final String STACK_NAME = "image";
     public static final String IMAGES = "images";
     private ArrayList<String> imgs = new ArrayList<String>();
 
-    public static PicassoGridImages newInstance(ArrayList<String> imgs) {
-        PicassoGridImages fragment = new PicassoGridImages();
-        Bundle args = new Bundle();
-        args.putStringArrayList(IMAGES, imgs);
-        fragment.setArguments(args);
+    public static PaintGalery newInstance() {
+        PaintGalery fragment = new PaintGalery();
         return fragment;
     }
 
-    public PicassoGridImages() {
+    public PaintGalery() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.grid_images_fragment, container, false);
-        imgs = getArguments().getStringArrayList(IMAGES);
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
         gridView.setAdapter(new ImageAdapter(getActivity(), imgs));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

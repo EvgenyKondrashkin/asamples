@@ -1,5 +1,9 @@
 package com.example.asamles.app.imageedit;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.asamles.app.R;
@@ -25,13 +30,16 @@ import com.joanzapata.android.iconify.Iconify;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener {
-
+    private static final int SELECT_PICTURE = 1;
     private ImageView imageView;
     private PhotoViewAttacher mAttacher;
     private float angle = 0;
+	private int opacity = 100;
+	private float opacityIndex = 255/100;
     private Bitmap bitmap;
     private ViewGroup container;
     private FrameLayout frameLayout;
+	private ADialogs seekbarDialog;
 
     public static ImageEditMain newInstance() {
         ImageEditMain fragment = new ImageEditMain();
@@ -75,16 +83,18 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
         switch (item.getItemId()) {
 
             case R.id.action_seek:
-                // ADialogs.seekbar(getActivity(), imageView, container);
-                ADialogs.seekbar(getActivity(), true, "Opacity", "Set", "Cancel");
-//                container.setDrawingCacheEnabled(true);
-//                container.buildDrawingCache(true);
-//                Bitmap cs = Bitmap.createBitmap(container.getDrawingCache());
-//                imageView.setImageBitmap(cs);
-//                container.setDrawingCacheEnabled(false);
+				seekbarDialog = new ADialogs(getActivity());
+                seekbarDialog.seekbar(true, getActivity().getString(R.string.opacity), opacity, getActivity().getString(R.string.set), getActivity().getString(R.string.cancel));
+				seekbarDialog.setADialogsSeekBarListener(new ADialogs.ADialogsSeekBarListener(){
+                    @Override
+                    public void onADialogsSeekBarPositiveClick(DialogInterface dialog, SeekBar seekbar) {
+						opacity = seekbar.getProgress();
+                        imageView.setAlpha((int)(opacity*opacityIndex));
+                        dialog.dismiss();
+                    }
+                });
                 return true;
             case R.id.action_blur:
-                Toast.makeText(getActivity(), "Blur", Toast.LENGTH_LONG).show();
                 blur(bitmap, imageView);
                 return true;
             case R.id.action_rotate:
@@ -108,14 +118,16 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
 
     public void onBlurTaskComplete(Bitmap result) {
         if (result != null) {
-            // ImageView bluredImageView = new ImageView(getActivity());
-            // bluredImageView.setLayoutParams(imageView.getLayoutParams());
-            // bluredImageView.setImageDrawable(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(result, bitmap.getWidth(), bitmap.getHeight(), false)));
-            // bluredImageView.setTag("Blured");
-            // frameLayout.addView(bluredImageView);
             imageView.setImageDrawable(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(result, bitmap.getWidth(), bitmap.getHeight(), false)));
         } else {
-            ADialogs.alert(getActivity(), true, "Error", "Error while blurring", "Ok", null);
+            ADialogs alertDialog = new ADialogs(getActivity());
+			alertDialog.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.blur_task_error), getActivity().getString(R.string.ok), null);
         }
+    }
+    private void loadFromGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
     }
 }

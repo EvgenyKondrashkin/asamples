@@ -84,7 +84,8 @@ public class BlurredCustomAlertDialog extends DialogFragment {
             customLayout = inflater.inflate(resId, null);
             ad.setView(customLayout);
         } else {
-            ADialogs.alert(context, true, "Error", "Error setCustomView dialog!", "Ok", null);
+            ADialogs alertDialog = new ADialogs(context);
+            alertDialog.alert(true, context.getString(R.string.error), context.getString(R.string.custom_view_dialog_error), context.getString(R.string.ok), null);
         }
         return customLayout;
     }
@@ -101,7 +102,8 @@ public class BlurredCustomAlertDialog extends DialogFragment {
             dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             dialog.show();
         } else {
-            ADialogs.alert(context, true, "Error", "Error setCustomView dialog!", "Ok", null);
+            ADialogs alertDialog = new ADialogs(context);
+            alertDialog.alert(true, context.getString(R.string.error), context.getString(R.string.custom_view_dialog_error), context.getString(R.string.ok), null);
         }
     }
 }

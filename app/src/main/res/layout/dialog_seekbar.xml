@@ -10,5 +10,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
         android:layout_gravity="center_horizontal"
-        android:max="255"/>
+        android:max="100"/>
 </RelativeLayout>

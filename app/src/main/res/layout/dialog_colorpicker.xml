@@ -13,23 +13,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:color_wheel_radius="128dp"
         app:color_wheel_thickness="24dp"
-        app:color_center_radius="54dp"
-        app:color_center_halo_radius="60dp"
+        app:color_center_radius="64dp"
+        app:color_center_halo_radius="70dp"
         app:color_pointer_radius="16dp"
         app:color_pointer_halo_radius="22dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         />
 
-    <com.larswerkman.holocolorpicker.SVBar
-        android:id="@+id/svbar"
-        android:layout_width="200dp"
-        android:layout_height="112dp"
+    <com.larswerkman.holocolorpicker.SaturationBar
+        android:id="@+id/saturationbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="5dip"
+        android:layout_margin="2dip"
         android:layout_below="@+id/picker"
+        android:layout_centerHorizontal="true"/>
+    <com.larswerkman.holocolorpicker.ValueBar
+        android:id="@+id/valuebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="2dip"
+        android:layout_below="@+id/saturationbar"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

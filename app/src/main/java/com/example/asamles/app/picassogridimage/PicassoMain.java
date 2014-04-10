@@ -37,8 +37,7 @@ public class PicassoMain extends Fragment {
         return fragment;
     }
 
-    public PicassoMain() {
-    }
+    public PicassoMain() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,17 +52,16 @@ public class PicassoMain extends Fragment {
         setHasOptionsMenu(true);
 
         View rootView = inflater.inflate(R.layout.fragment_picasso, container, false);
-
         ed = sPref.edit();
         JsonFromAssets JFA = new JsonFromAssets(ASSETS_FILE, getActivity());
         ArrayList<String> imgs = JFA.getFromJson();
         if (imgs == null) {
-            ADialogs.alert(getActivity(), false, "Error", this.getString(R.string.json_error), "Ok", null);
+            ADialogs alertDialog = new ADialogs(getActivity());
+			alertDialog.alert(false, this.getString(R.string.error), this.getString(R.string.json_error), this.getString(R.string.ok), null);
             return rootView;
         }
         grid = PicassoGridImages.newInstance(imgs);
         list = PicassoListImages.newInstance(imgs);
-
 
         showContent(isGrid);
         return rootView;
@@ -109,13 +107,10 @@ public class PicassoMain extends Fragment {
 
     private void showContent(boolean isGrid) {
         if (isGrid) {
-            Toast.makeText(getActivity(), "Grid", Toast.LENGTH_LONG).show();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frag_content, grid)
                     .commit();
         } else {
-            Toast.makeText(getActivity(), "List", Toast.LENGTH_LONG).show();
-
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frag_content, list)
                     .commit();

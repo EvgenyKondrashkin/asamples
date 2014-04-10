@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TimeDialog"
-        android:id="@+id/time"
+        android:id="@+id/time_dialog_button"
         android:textColor="#000000"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true" />
@@ -39,45 +39,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AlertDialog"
-        android:id="@+id/button"
-        android:layout_below="@+id/time"
+        android:id="@+id/alert_dialog_button"
+        android:layout_below="@+id/time_dialog_button"
         android:layout_alignParentLeft="true" />
 	
 	<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SeekbarDialog"
-        android:id="@+id/button6"
-        android:layout_below="@+id/button"
+        android:id="@+id/seekbar_dialog_button"
+        android:layout_below="@+id/alert_dialog_button"
         android:layout_alignParentLeft="true" />
 		
 	<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ProgressDialog"
-        android:id="@+id/button7"
-        android:layout_below="@+id/button6"
+        android:id="@+id/progress_dialog_button"
+        android:layout_below="@+id/seekbar_dialog_button"
         android:layout_alignParentLeft="true" />
 	<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CustomDialog"
-        android:id="@+id/button8"
-        android:layout_below="@+id/button7"
+        android:id="@+id/custom_dialog_button"
+        android:layout_below="@+id/progress_dialog_button"
         android:layout_alignParentLeft="true" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BlurredAlertDialog"
-        android:id="@+id/button2"
-        android:layout_below="@+id/button8"
+        android:id="@+id/blurred_alert_dialog_button"
+        android:layout_below="@+id/custom_dialog_button"
         android:layout_alignParentLeft="true" />
 	<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BlurredProgressDialog"
-        android:id="@+id/button4"
-        android:layout_below="@+id/button2"
+        android:id="@+id/blurred_progress_dialog_button"
+        android:layout_below="@+id/blurred_alert_dialog_button"
         android:layout_alignParentLeft="true" />
 
     <TextView
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:text="Color"
         android:id="@+id/textView4"
-        android:layout_below="@+id/button4"
+        android:layout_below="@+id/blurred_progress_dialog_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -93,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BlurredColorPicker"
-        android:id="@+id/button3"
+        android:id="@+id/blurred_colorpicker_dialog_button"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -102,8 +102,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BlurredCustomDialog"
-        android:id="@+id/button5"
-        android:layout_below="@+id/button3"
+        android:id="@+id/blurred_custom_dialog_button"
+        android:layout_below="@+id/blurred_colorpicker_dialog_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

@@ -15,12 +15,20 @@ import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SVBar;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
 
-public class BlurredColorPickerDialog extends DialogFragment {
+public class BlurredColorPickerDialog extends DialogFragment implements ColorPicker.OnColorChangedListener {
     private String title;
     private BlurredColorPickerDialogListener listener;
     private ImageView background;
     private int color;
+    private int newColor;
+
+    @Override
+    public void onColorChanged(int newColor) {
+        this.newColor = newColor;
+    }
 
     public interface BlurredColorPickerDialogListener {
         public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color);
@@ -46,7 +54,7 @@ public class BlurredColorPickerDialog extends DialogFragment {
         color = getArguments() != null ? getArguments().getInt(Constants.COLOR) : 0;
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
         background = (ImageView) rootView.findViewById(R.id.image);
-
+        newColor = color;
         BlurBackground blurred = new BlurBackground(getActivity(), background);
         blurred.setBlurredBackground();
 
@@ -54,27 +62,29 @@ public class BlurredColorPickerDialog extends DialogFragment {
         LayoutInflater dialogInflater = getActivity().getLayoutInflater();
         View colorPickerLayout = dialogInflater.inflate(R.layout.dialog_colorpicker, null);
         adb.setView(colorPickerLayout);
-        final ColorPicker picker = (ColorPicker) colorPickerLayout.findViewById(R.id.picker);
-        SVBar svBar = (SVBar) colorPickerLayout.findViewById(R.id.svbar);
-
-        picker.addSVBar(svBar);
+        ColorPicker picker = (ColorPicker) colorPickerLayout.findViewById(R.id.picker);
+        SaturationBar saturationBar = (SaturationBar) colorPickerLayout.findViewById(R.id.saturationbar);
+        ValueBar valueBar = (ValueBar) colorPickerLayout.findViewById(R.id.valuebar);
         picker.setOldCenterColor(color);
+		picker.addSaturationBar(saturationBar);
+        picker.addValueBar(valueBar);
         picker.setColor(color);
-        adb.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+        picker.setOnColorChangedListener(this);
+        adb.setPositiveButton(getActivity().getString(R.string.set), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                listener.onBlurredAlertDialogPositiveClick(BlurredColorPickerDialog.this, picker.getColor());
-            }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        listener.onBlurredAlertDialogNegativeClick(BlurredColorPickerDialog.this);
-                    }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    public void onCancel(DialogInterface dialog) {
-                        listener.onBlurredAlertDialogCancel(BlurredColorPickerDialog.this);
-                    }
-                });
+                listener.onBlurredAlertDialogPositiveClick(BlurredColorPickerDialog.this, newColor);
+			}
+			})
+            .setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    listener.onBlurredAlertDialogNegativeClick(BlurredColorPickerDialog.this);
+                }
+            })
+            .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                public void onCancel(DialogInterface dialog) {
+                    listener.onBlurredAlertDialogCancel(BlurredColorPickerDialog.this);
+                }
+            });
 
         Dialog dialog = adb.create();
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);

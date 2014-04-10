@@ -1,9 +1,11 @@
 package com.example.asamles.app.dialog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -24,9 +26,7 @@ public class BlurredAlertDialog extends DialogFragment {
 
     public interface BlurredAlertDialogListener {
         public void onBlurredAlertDialogPositiveClick(DialogFragment dialog);
-
         public void onBlurredAlertDialogNegativeClick(DialogFragment dialog);
-
         public void onBlurredAlertDialogCancel(DialogFragment dialog);
     }
 
@@ -42,24 +42,25 @@ public class BlurredAlertDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+		Context context = getActivity();
         title = getArguments() != null ? getArguments().getString(Constants.TITLE) : null;
         message = getArguments() != null ? getArguments().getString(Constants.MESSAGE) : null;
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
         background = (ImageView) rootView.findViewById(R.id.image);
 
-        BlurBackground blurred = new BlurBackground(getActivity(), background);
+        BlurBackground blurred = new BlurBackground((Activity)context, background);
         blurred.setBlurredBackground();
 
-        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder adb = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(true)
-                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         listener.onBlurredAlertDialogPositiveClick(BlurredAlertDialog.this);
                     }
                 })
-                .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         listener.onBlurredAlertDialogNegativeClick(BlurredAlertDialog.this);
                     }
