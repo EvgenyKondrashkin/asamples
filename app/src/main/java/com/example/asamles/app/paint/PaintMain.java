@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -40,9 +41,8 @@ import java.util.UUID;
 public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
 
     private DrawingView drawView;
-    private float smallBrush = 10;
-    private static final int SELECT_PICTURE = 1;
-    private int oldColor = -16777216;
+    private float smallBrush;
+    private int oldColor;
     private IconDrawable pencilIcon;
     private IconDrawable eraserIcon;
     private IconDrawable pencilIconSelected;
@@ -54,9 +54,18 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     private MenuItem seekbarItem;
     private SeekbarActionProvider seekbarActionProvider;
     private boolean erase = false;
+	private String image = null;
+    public static final String BITMAP = "BITMAP";
 
     public static PaintMain newInstance() {
         PaintMain fragment = new PaintMain();
+        return fragment;
+    }
+	public static PaintMain newInstance(String image) {
+        PaintMain fragment = new PaintMain();
+		Bundle args = new Bundle();
+        args.putString(BITMAP, image);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -66,12 +75,17 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        image = getArguments() != null ? getArguments().getString(BITMAP) : null;
+		oldColor = Color.BLACK;
+		smallBrush = 10;
+		setHasOptionsMenu(true);
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View rootView = inflater.inflate(R.layout.fragment_paint, container, false);
 
         drawView = (DrawingView) rootView.findViewById(R.id.drawing);
+		if(image != null) {
+			drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), image)));
+		}
         return rootView;
     }
 
@@ -165,45 +179,41 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
         return true;
-
     }
 
     Runnable clear = new Runnable() {
         @Override
         public void run() {
             drawView.clear();
+			drawView.setBackgroundColor(Color.WHITE);
         }
     };
     Runnable save = new Runnable() {
         @Override
         public void run() {
-            String wat = SaveLoadFile.saveToGallaryAndApp(getActivity(), drawView);
-            Toast.makeText(getActivity().getApplicationContext(), "Saved as " + wat, Toast.LENGTH_LONG).show();
+            drawView.setDrawingCacheEnabled(true);
+            drawView.buildDrawingCache(true);
+            Bitmap bitmap = drawView.getDrawingCache();
+            SaveLoadFile.saveToGallaryAndApp(getActivity(), bitmap);
+            drawView.setDrawingCacheEnabled(false);
         }
     };
 
     Runnable load = new Runnable() {
         @Override
         public void run() {
-            //loadFromGallery();
-            String[] wat = SaveLoadFile.loadAllFiles(getActivity());
-            drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), wat[0])));
-//            ADialogs dialog = new ADialogs(getActivity());
-//            dialog.alert(true,"path",wat,"Wyes","No");
-//            Toast.makeText(getActivity().getApplicationContext(), "Files are " + wat, Toast.LENGTH_LONG).show();
+            loadFromGallery(SaveLoadFile.loadAllFiles(getActivity()));
+            // String[] wat = SaveLoadFile.loadAllFiles(getActivity());
+			// loadFromGallery
+            // drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), wat[0])));
         }
     };
-    private void loadFromGallery() {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
+    private void loadFromGallery(String[] image) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        PaintGalery paintGallery = PaintGalery.newInstance();
+        PaintGalery paintGallery = PaintGalery.newInstance(image);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.container, paintGallery).commit();
+        transaction.replace(R.id.container, paintGallery).addToBackStack("Paint").commit();
     }
     public void showColorPicker(final MenuItem item) {
         View v = getActivity().getWindow().getDecorView();
@@ -221,12 +231,10 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
                 dialog.dismiss();
                 getActivity().supportInvalidateOptionsMenu();
             }
-
             @Override
             public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) {
                 dialog.dismiss();
             }
-
             @Override
             public void onBlurredAlertDialogCancel(DialogFragment dialog) {
                 dialog.dismiss();
@@ -246,17 +254,11 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
                 type.run();
                 dialog.dismiss();
-            }
-
+			}
             @Override
-            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) {
-                dialog.dismiss();
-            }
-
+            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) { dialog.dismiss();}
             @Override
-            public void onBlurredAlertDialogCancel(DialogFragment dialog) {
-                dialog.dismiss();
-            }
+            public void onBlurredAlertDialogCancel(DialogFragment dialog) { dialog.dismiss();}
         });
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
@@ -267,12 +269,6 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         v.setId(1);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance(this.getString(R.string.progress_save_message), false);
-        newFragment.setBlurredProgressDialogListener(new BlurredProgressDialog.BlurredProgressDialogListener() {
-            @Override
-            public void onBlurredProgressDialogCancel(DialogFragment dialog) {
-                dialog.dismiss();
-            }
-        });
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
     }

@@ -4,12 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +29,9 @@ import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.dialog.ADialogs;
+import com.example.asamles.app.dialog.BlurredAlertDialog;
 import com.example.asamles.app.imageedit.blur.BlurTask;
+import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
@@ -106,6 +114,12 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
                 imageView.setImageBitmap(bitmap);
                 mAttacher.update();
                 return true;
+            case R.id.action_save:
+                checkDialog(this.getString(R.string.save_title), this.getString(R.string.save_message), save);
+                return true;
+            case R.id.action_load:
+                checkDialog(this.getString(R.string.load_paint_title), this.getString(R.string.load_paint_message), load);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -124,10 +138,64 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
 			alertDialog.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.blur_task_error), getActivity().getString(R.string.ok), null);
         }
     }
+    Runnable save = new Runnable() {
+        @Override
+        public void run() {
+            SaveLoadFile.saveToGallery(getActivity(), bitmap, null);
+        }
+    };
+
+    Runnable load = new Runnable() {
+        @Override
+        public void run() {
+            loadFromGallery();
+
+        }
+    };
+    public void checkDialog(String title, String message, final Runnable type) {
+        View v = getActivity().getWindow().getDecorView();
+        v.setId(1);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        BlurredAlertDialog newFragment = BlurredAlertDialog.newInstance(title, message);
+        newFragment.setBlurredAlertDialogListener(new BlurredAlertDialog.BlurredAlertDialogListener() {
+            @Override
+            public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
+                type.run();
+                dialog.dismiss();
+            }
+            @Override
+            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) { dialog.dismiss();}
+            @Override
+            public void onBlurredAlertDialogCancel(DialogFragment dialog) { dialog.dismiss();}
+        });
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(1, newFragment).commit();
+    }
+
     private void loadFromGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
     }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        if (requestCode == SELECT_PICTURE) {
+            Uri selectedImageUri = data.getData();
+            String picturePath = SaveLoadFile.loadFromGallery(getActivity(), data);
+            // System.out.println("Image Path : " + selectedImagePath);
+            imageView.setImageURI(selectedImageUri);
+            mAttacher = new PhotoViewAttacher(imageView);
+        }
+
+    }
+//    public String getPath(Uri uri) {
+//        String[] projection = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+//    }
 }
