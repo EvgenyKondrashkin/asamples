@@ -40,7 +40,7 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ImageView imageView;
         if (convertView == null) {
-            imageView = (ImageView) LayoutInflater.from(context).inflate(R.layout.item_grid_image, parent, false);
+            imageView = (ImageView) LayoutInflater.from(context).inflate(R.layout.grid_images_item, parent, false);
         } else {
             imageView = (ImageView) convertView;
         }

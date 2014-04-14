@@ -88,8 +88,8 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         switch (item.getItemId()) {
-
             case R.id.action_seek:
 				seekbarDialog = new ADialogs(getActivity());
                 seekbarDialog.seekbar(true, getActivity().getString(R.string.opacity), opacity, getActivity().getString(R.string.set), getActivity().getString(R.string.cancel));
@@ -103,13 +103,12 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
                 });
                 return true;
             case R.id.action_blur:
-                blur(bitmap, imageView);
+                blur(image, imageView);
                 return true;
             case R.id.action_rotate:
                 angle = -90;
                 Matrix matrix = new Matrix();
                 matrix.postRotate(angle);
-                Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 bitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
                 imageView.setImageBitmap(bitmap);
                 mAttacher.update();
@@ -132,7 +131,8 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
 
     public void onBlurTaskComplete(Bitmap result) {
         if (result != null) {
-            imageView.setImageDrawable(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(result, bitmap.getWidth(), bitmap.getHeight(), false)));
+            bitmap = Bitmap.createScaledBitmap(result, bitmap.getWidth(), bitmap.getHeight(), true);
+            imageView.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
         } else {
             ADialogs alertDialog = new ADialogs(getActivity());
 			alertDialog.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.blur_task_error), getActivity().getString(R.string.ok), null);

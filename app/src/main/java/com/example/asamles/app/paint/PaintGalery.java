@@ -44,9 +44,9 @@ public class PaintGalery extends Fragment {
 			imgsList.add("file:"+directory.getAbsolutePath()+"/"+imgs[i]);
 		}
 		
-        View rootView = inflater.inflate(R.layout.grid_images_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.paint_gallery, container, false);
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
-        gridView.setAdapter(new ImageAdapter(getActivity(), imgsList));
+        gridView.setAdapter(new GalleryImageAdapter(getActivity(), imgsList));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 getActivity().getSupportFragmentManager().beginTransaction()
