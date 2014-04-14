@@ -57,8 +57,8 @@ public class Animals implements Parcelable {
         }
     };
 
-    public void setId(String img) {
-        this.img = img;
+    public void setId(int _id) {
+        this._id = _id;
     }
 
     public void setName(String name) {

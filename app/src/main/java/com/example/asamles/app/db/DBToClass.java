@@ -64,7 +64,7 @@ public class DBToClass {
         Animals animal = new Animals();
         if (c.moveToFirst()) {
             do {
-                animal.setId(c.getString(idColIndex));
+                animal.setId(c.getInt(idColIndex));
                 animal.setName(c.getString(nameColIndex));
                 animal.setContent(c.getString(contentColIndex));
                 animal.setType(c.getInt(typeColIndex));

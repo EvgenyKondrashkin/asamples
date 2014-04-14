@@ -43,18 +43,6 @@ public class DBMain extends Fragment implements DBToClass.DBToClassListener {
         return rootView;
     }
 
-//	@Override
-//    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//        PagerTextFragment fragment= PagerTextFragment.newInstance(news.get(position).getImgs(), news.get(position).getTitle(), news.get(position).getContent());
-//        FragmentManager manager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction ft = manager.beginTransaction();
-//        ft.setCustomAnimations(R.anim.push_down_in,R.anim.push_down_out,R.anim.left_right_in,R.anim.left_right_out);
-//        ft.replace(R.id.container, fragment);
-//        ft.addToBackStack("news");
-//        ft.commit();
-
-//    }
-
 
     @Override
     public void onDBToClassListener(ArrayList<Animals> animals) {
