@@ -30,7 +30,13 @@
 	<string name="load_paint_title">Load from gallery</string>
 	<string name="load_paint_message">Are you sure you want to load your drawing from Galary?</string>
 	<string name="clear_paint_message">Are you sure you want to clear your drawing?</string>
-	<!--ImageMain-->
+	<!--ImageEditMain-->
+    <string-array name="seek_list">
+        <item>Brightnessn</item>
+        <item>Contrast</item>
+        <item>Opacity</item>
+        <item>Blur</item>
+    </string-array>
 	<string name="opacity">Opacity</string>
 	<string name="load_edit_title">Load image</string>
 	<string name="load_edit_message">Are you sure you want to load new image from Galary?</string>

@@ -16,17 +16,20 @@ import com.example.asamles.app.R;
 import com.qozix.tileview.TileView;
 
 public class TiledMain extends Fragment {
-    private Button btn, btn2;
 
-    private int[] mInfoX = {2292, 3528};
-    private int[] mInfoY = {538, 957};
-    private int[] mParkX = {1044, 1230, 1188, 2526, 3810, 4080};
-    private int[] mParkY = {616, 395, 850, 760, 850, 927};
+    private int[][] mInfoXY = {{2292, 3528},{538, 957}};
+    private int[][] mParkXY = {{1044, 1230, 1188, 2526, 3810, 4080},{616, 395, 850, 760, 850, 927}};
+	private int sizeX = 4800;
+	private int sizeY = 1700;
+	private int mMuseumX = 2583;
+	private int mMuseumY = 400;
+	private float center = -0.5f;
     private TileView tileView;
     private ImageView mMuseum;
-    private ImageView[] mInfo = new ImageView[2];
-    private ImageView[] mPark = new ImageView[6];
+    private ImageView[] mInfo = new ImageView[mInfoXY.length];
+    private ImageView[] mPark = new ImageView[mParkXY.length];
     private boolean marker = false;
+	private int activityOrientation;
 
     public static TiledMain newInstance() {
         TiledMain fragment = new TiledMain();
@@ -45,21 +48,20 @@ public class TiledMain extends Fragment {
 
         tileView = new TileView(getActivity());
         tileView = getTileView();
-        tileView.setSize(4800, 1700);
+        tileView.setSize(sizeX, sizeY);
 
         tileView.addDetailLevel(1f, "tiles/central_park/1000/2xbig_map-%col%_%row%.png", "tiles/central_park/small_map.png", 256, 256);
         tileView.addDetailLevel(0.5f, "tiles/central_park/500/big_map_%col%_%row%.jpg", "tiles/central_park/small_map.png", 128, 128);
         tileView.addDetailLevel(0.25f, "tiles/central_park/250/not_big_map-%col%_%row%.png", "tiles/central_park/small_map.png", 256, 256);
-        tileView.setScale(0.25f);
+        tileView.setScaleToFit(true);
+        tileView.setScale(0);
 
-        tileView.defineRelativeBounds(0, 0, 4800, 1700);
-        tileView.moveToAndCenter(4800 / 2, 1700 / 2);
-        tileView.slideToAndCenter(4800 / 2, 1700 / 2);
+        tileView.defineRelativeBounds(0, 0, sizeX, sizeY);
+        tileView.moveToAndCenter(sizeX / 2, sizeY / 2);
+        tileView.slideToAndCenter(sizeX / 2, sizeY / 2);
 
         return tileView;
     }
-
-    private int activityOrientation;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -106,12 +108,12 @@ public class TiledMain extends Fragment {
         mMuseum = new ImageView(getActivity());
         mMuseum.setImageResource(R.drawable.m_museum);
         mMuseum.setTag("Museum");
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < mInfo.length; i++) {
             mInfo[i] = new ImageView(getActivity());
             mInfo[i].setImageResource(R.drawable.m_info);
             mInfo[i].setTag("Info");
         }
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < mPark.length; i++) {
             mPark[i] = new ImageView(getActivity());
             mPark[i].setImageResource(R.drawable.m_park);
             mPark[i].setTag("Park");
@@ -122,20 +124,20 @@ public class TiledMain extends Fragment {
 
         if (!marker) {
             marker = true;
-            tileView.addMarker(mMuseum, 2583, 400, -0.5f, -0.5f);
-            for (int i = 0; i < 2; i++) {
-                tileView.addMarker(mInfo[i], mInfoX[i], mInfoY[i], -0.5f, -0.5f);
+            tileView.addMarker(mMuseum, mMuseumX, mMuseumY, center, center);
+            for (int i = 0; i < mInfoXY.length; i++) {
+                tileView.addMarker(mInfo[i], mInfoXY[i][0], mInfoXY[0][i], center, center);
             }
-            for (int i = 0; i < 6; i++) {
-                tileView.addMarker(mPark[i], mParkX[i], mParkY[i], -0.5f, -0.5f);
+            for (int i = 0; i < mParkXY.length; i++) {
+                tileView.addMarker(mPark[i], mParkXY[i][0], mParkXY[0][i], center, center);
             }
         } else {
             marker = false;
             tileView.removeMarker(mMuseum);
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < mInfoXY.length; i++) {
                 tileView.removeMarker(mInfo[i]);
             }
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < mParkXY.length; i++) {
                 tileView.removeMarker(mPark[i]);
             }
         }

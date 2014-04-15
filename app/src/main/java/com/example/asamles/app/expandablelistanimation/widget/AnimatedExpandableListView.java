@@ -164,8 +164,9 @@ public class AnimatedExpandableListView extends ExpandableListView {
             int childIndex = groupFlatPos - getFirstVisiblePosition();
             if (childIndex < getChildCount()) {
                 // Get the view for the group is it is on screen...
+
                 View v = getChildAt(childIndex);
-                if (v.getBottom() >= getBottom()) {
+                if ((v == null)||(v.getBottom() >= getBottom())) {
                     // If the user is not going to be able to see the animation
                     // we just collapse the group without an animation.
                     // This resolves the case where getChildView will not be

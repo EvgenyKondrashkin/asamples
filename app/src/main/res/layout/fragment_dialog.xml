@@ -40,8 +40,8 @@
         android:layout_height="wrap_content"
         android:text="AlertDialog"
         android:id="@+id/alert_dialog_button"
-        android:layout_below="@+id/time_dialog_button"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignTop="@+id/time_dialog_button"
+        android:layout_toRightOf="@+id/time_dialog_button" />
 	
 	<Button
         android:layout_width="wrap_content"
