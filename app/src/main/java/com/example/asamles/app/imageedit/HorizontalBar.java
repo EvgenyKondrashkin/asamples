@@ -28,6 +28,7 @@ public class HorizontalBar extends Fragment{
     private ImageButton loadButton;
     private ImageButton saveButton;
     private ViewGroup container;
+    private boolean mShowingBack;
     public static HorizontalBar newInstance() {
         HorizontalBar fragment = new HorizontalBar();
         return fragment;
@@ -42,7 +43,7 @@ public class HorizontalBar extends Fragment{
         name = getActivity().getResources().getStringArray(R.array.seek_list);
         View rootView = inflater.inflate(R.layout.imageedit_horizontal_scroll, container, false);
         setButtons(rootView);
-
+        mShowingBack = false;
         return rootView;
     }
     private void setButtons(View view){
@@ -99,7 +100,20 @@ public class HorizontalBar extends Fragment{
                 .colorRes(R.color.grey_light).sizeDp(32));
     }
     public void openSeekbar(int type, int value){
+        if (mShowingBack) {
+            getFragmentManager().popBackStack();
+            return;
+        }
+
+        // Flip to the back.
+
+        mShowingBack = true;
+
+        // Create and commit a new fragment transaction that adds the fragment for the back of
+        // the card, uses custom animations, and is part of the fragment manager's back stack.
+
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out, R.anim.left_right_in, R.anim.left_right_out);
         ft.replace(R.id.bottomLayout, SeekbarFragment.newInstance(type, value));
         ft.addToBackStack("seekbar");
         ft.commit();

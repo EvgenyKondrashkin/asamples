@@ -73,7 +73,7 @@ public class SeekbarFragment extends Fragment {
 ////                ImageEditMain.bitmap = ImageEditior.doBrightness(ImageEditMain.bitmap, progressValue);
 //                ImageEditMain.imageView.setImageBitmap(bitmap);
 //                ImageEditMain.mAttacher.update();
-                bitmap = ImageEditior.changeBitmapContrastBrightness(ImageEditMain.bitmap, 0,progressValue);
+                bitmap = ImageEditior.changeBitmapBrightness(ImageEditMain.bitmap,progressValue);
                 ImageEditMain.imageView.setImageBitmap(bitmap);
                 ImageEditMain.mAttacher.update();
             }

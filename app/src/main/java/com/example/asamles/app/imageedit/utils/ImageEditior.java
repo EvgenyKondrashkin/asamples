@@ -1,11 +1,14 @@
 package com.example.asamles.app.imageedit.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 
 public class ImageEditior {
 
@@ -91,5 +94,19 @@ public class ImageEditior {
         canvas.drawBitmap(bmp, 0, 0, paint);
 
         return ret;
+    }
+    public static Bitmap doAlpha(Bitmap bitmap, Context context, int alpha){
+
+        BitmapDrawable bmpDrawable = new BitmapDrawable(context.getResources(), bitmap);
+        bmpDrawable.setAlpha(alpha);
+        return bmpDrawable.getBitmap();
+    }
+    public static Bitmap doRotate(Bitmap bitmap, Context context, int angle){
+
+        angle = -90;
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return bitmap;
     }
 }
