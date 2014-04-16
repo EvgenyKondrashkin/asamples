@@ -75,6 +75,7 @@ public class ImageEditior {
 
         return ret;
     }
+    //0-10
     public static Bitmap changeBitmapContrast(Bitmap bmp, float contrast)
     {
         ColorMatrix cm = new ColorMatrix(new float[]
@@ -94,6 +95,24 @@ public class ImageEditior {
         canvas.drawBitmap(bmp, 0, 0, paint);
 
         return ret;
+    }
+
+    public static Bitmap changeBitmapSaturation(Bitmap src, float settingSat) {
+
+        int w = src.getWidth();
+        int h = src.getHeight();
+
+        Bitmap bitmapResult =
+                Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas canvasResult = new Canvas(bitmapResult);
+        Paint paint = new Paint();
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(settingSat);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        paint.setColorFilter(filter);
+        canvasResult.drawBitmap(src, 0, 0, paint);
+
+        return bitmapResult;
     }
     public static Bitmap doAlpha(Bitmap bitmap, Context context, int alpha){
 

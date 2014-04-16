@@ -32,9 +32,9 @@
 	<string name="clear_paint_message">Are you sure you want to clear your drawing?</string>
 	<!--ImageEditMain-->
     <string-array name="seek_list">
-        <item>Brightnessn</item>
+        <item>Brightness</item>
         <item>Contrast</item>
-        <item>Opacity</item>
+        <item>Saturation</item>
         <item>Blur</item>
     </string-array>
 	<string name="opacity">Opacity</string>

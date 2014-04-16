@@ -16,92 +16,114 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             >
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/brightness"
                 android:background="@null"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-sun-o}"
+				android:textSize="32dp"
+				android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/contrast"
                 android:background="@null"
                 android:layout_toRightOf="@+id/brightness"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-adjust}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/saturation"
+                android:background="@null"
+                android:layout_toRightOf="@+id/contrast"
+                android:text="{fa-magic}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
+                android:padding="12dp"/>
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rotate"
                 android:background="@null"
-                android:layout_toRightOf="@+id/contrast"
-                android:src="@drawable/ic_launcher"
+                android:layout_toRightOf="@+id/saturation"
+                android:text="{fa-undo}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/opacity"
-                android:background="@null"
-                android:layout_toRightOf="@+id/rotate"
-                android:src="@drawable/ic_launcher"
-                android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/blur"
                 android:background="@null"
-                android:layout_toRightOf="@+id/opacity"
-                android:src="@drawable/ic_launcher"
+                android:layout_toRightOf="@+id/rotate"
+                android:text="{fa-tint}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/crop"
                 android:background="@null"
                 android:layout_toRightOf="@+id/blur"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-crop}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/filter"
                 android:background="@null"
                 android:layout_toRightOf="@+id/crop"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-picture-o}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/sticker"
                 android:background="@null"
                 android:layout_toRightOf="@+id/filter"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-tag}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/photo"
                 android:background="@null"
                 android:layout_toRightOf="@+id/sticker"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-camera}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/load"
                 android:background="@null"
                 android:layout_toRightOf="@+id/photo"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-arrow-circle-o-down}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
-            <ImageButton
+            <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/save"
                 android:background="@null"
                 android:layout_toRightOf="@+id/load"
-                android:src="@drawable/ic_launcher"
+                android:text="{fa-floppy-o}"
+                android:textSize="32dp"
+                android:textColor="#FF959595"
                 android:padding="12dp"/>
         </RelativeLayout>
     </HorizontalScrollView>
