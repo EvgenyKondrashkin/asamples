@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.imageedit.ImageEditMain;
@@ -49,7 +50,7 @@ public class FilterFragment extends Fragment {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.imageedit_filter_scroll, container, false);
         mainBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-        smallBitmap = Bitmap.createScaledBitmap(mainBitmap, 64, 64, true);
+        smallBitmap = Bitmap.createScaledBitmap(mainBitmap, container.getHeight(), container.getHeight(), true);
         setButtons(rootView);
 
 

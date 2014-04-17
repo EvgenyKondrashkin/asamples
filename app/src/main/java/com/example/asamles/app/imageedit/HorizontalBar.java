@@ -164,7 +164,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
         FilterFragment fragment = FilterFragment.newInstance();
         ft.replace(R.id.bottomLayout, fragment);
-//        ft.addToBackStack("filter");
+        ft.addToBackStack("filter");
         ft.commit();
     }
 
