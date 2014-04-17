@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="64dp"
+
+    android:background="@color/dark">
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/horizontalScrollView"
+        android:layout_centerHorizontal="true"
+        >
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/grayscale"
+                android:background="@null" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sepia"
+                android:background="@null"
+                android:layout_toRightOf="@+id/grayscale"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/invert"
+                android:background="@null"
+                android:layout_toRightOf="@+id/sepia"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/swap"
+                android:background="@null"
+                android:layout_toRightOf="@+id/invert"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/polaroid"
+                android:background="@null"
+                android:layout_toRightOf="@+id/swap"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/blackwhite"
+                android:background="@null"
+                android:layout_toRightOf="@+id/polaroid"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/oldframe"
+                android:background="@null"
+                android:layout_toRightOf="@+id/blackwhite"/>
+        </RelativeLayout>
+    </HorizontalScrollView>
+</RelativeLayout>

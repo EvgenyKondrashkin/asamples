@@ -168,7 +168,7 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
     Runnable load = new Runnable() {
         @Override
         public void run() {
-            loadFromGallery();
+            //loadFromGallery();
 
         }
     };
@@ -192,12 +192,12 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
         transaction.add(1, newFragment).commit();
     }
 
-    private void loadFromGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
-    }
+//    private void loadFromGallery() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
+//    }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {
             return;
