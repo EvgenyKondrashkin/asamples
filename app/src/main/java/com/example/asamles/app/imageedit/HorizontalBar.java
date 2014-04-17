@@ -73,7 +73,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
             @Override
             public void onClick(View v) {
                 type = 1;
-                index = 1/50;
+                index = (float)1/50;
                 openSeekbar(name[type],value);
             }
         });
@@ -82,7 +82,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
             @Override
             public void onClick(View v) {
                 type = 2;
-                index = 1/50;
+                index = (float)1/50;
                 openSeekbar(name[type],value);
             }
         });
@@ -180,18 +180,18 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     }
 
     private Bitmap changeBitmap(int progress) {
-        float changedValue = progress;
+        float changedValue = (float)progress;
         switch (type){
             case 0:
-                changedValue = (progress-50)*index;
+                changedValue = (float)(progress-50)*index;
                 bitmap = ImageEditior.changeBitmapBrightness(ImageEditMain.bitmap, changedValue);
                 break;
             case 1:
-                changedValue = (progress-50)*index+1;
+                changedValue = (float)(progress-50)*index+1;
                 bitmap = ImageEditior.changeBitmapContrast(ImageEditMain.bitmap, changedValue);
                 break;
             case 2:
-                changedValue = (progress-50)*index+1;
+                changedValue = (float)(progress-50)*index+1;
                 bitmap = ImageEditior.changeBitmapSaturation(ImageEditMain.bitmap, changedValue);
                 break;
         }

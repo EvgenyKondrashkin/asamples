@@ -78,11 +78,13 @@ public class ImageEditior {
     //0-10
     public static Bitmap changeBitmapContrast(Bitmap bmp, float contrast)
     {
+        float scale = contrast;
+       float translate = (-.5f * scale + .5f) * 255.f;
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
-                        contrast, 0, 0, 0, 0,
-                        0, contrast, 0, 0, 0,
-                        0, 0, contrast, 0, 0,
+                        scale, 0, 0, 0, translate,
+                        0, scale, 0, 0, translate,
+                        0, 0, scale, 0, translate,
                         0, 0, 0, 1, 0
                 });
 
