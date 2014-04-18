@@ -19,6 +19,8 @@
 	<string name="colorpicker_title">Choose color</string>
 	<string name="progress_save_message">Saving...</string>
 	<!--Save-->
+	<string name="photo_title">Make photo?</string>
+	<string name="photo_message">Are you sure you want to make photo?</string>
 	<string name="save_title">Save</string>
 	<string name="save_message">Save your image to device Gallery?</string>
 	<string name="save_positive_result">Drawing saved to Gallery!</string>
@@ -35,9 +37,10 @@
         <item>Brightness</item>
         <item>Contrast</item>
         <item>Saturation</item>
-        <item>Blur</item>
     </string-array>
 	<string name="opacity">Opacity</string>
+	<string name="photo_edit_title">Make Photo</string>
+	<string name="photo_edit_message">Are you sure you want to make photo?</string>
 	<string name="load_edit_title">Load image</string>
 	<string name="load_edit_message">Are you sure you want to load new image from Galary?</string>
 	<string name="load_intent_title">Select picture</string>

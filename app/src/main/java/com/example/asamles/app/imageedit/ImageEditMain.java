@@ -42,29 +42,12 @@ import com.joanzapata.android.iconify.Iconify;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener {
+public class ImageEditMain extends Fragment  {
     private static final int SELECT_PICTURE = 1;
+	static final int REQUEST_IMAGE_CAPTURE = 2;
     public static ImageView imageView;
     public static PhotoViewAttacher mAttacher;
-    private float angle = 0;
-	private int opacity = 100;
-	private float opacityIndex = 255/100;
-    public static Bitmap bitmap;
-    private ViewGroup container;
-    private RelativeLayout rootLayout;
-	private ADialogs seekbarDialog;
-    public static int value = 50;
-    private ImageButton brightnessButton;
-    private ImageButton contrastButton;
-    private ImageButton rotateButton;
-    private ImageButton opacityButton;
-    private ImageButton blurButton;
-    private ImageButton cropButton;
-    private ImageButton filterButton;
-    private ImageButton stickerButton;
-    private ImageButton photoButton;
-    private ImageButton loadButton;
-    private ImageButton saveButton;
+    public Bitmap bitmap;
 
     public static ImageEditMain newInstance() {
         ImageEditMain fragment = new ImageEditMain();
@@ -77,13 +60,10 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.container = container;
         View rootView = inflater.inflate(R.layout.fragment_imageedit, container, false);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.bottomLayout, HorizontalBar.newInstance());
         ft.commit();
-//        setButtons(rootView);
-        rootLayout = (RelativeLayout) rootView.findViewById(R.id.frameLayout);
         setHasOptionsMenu(true);
         imageView = (ImageView) rootView.findViewById(R.id.image);
         bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
@@ -93,122 +73,113 @@ public class ImageEditMain extends Fragment implements BlurTask.BlurTaskListener
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.image_edit, menu);
-//        menu.findItem(R.id.action_seek).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_eye_slash)
-//                .colorRes(R.color.grey_light)
-//                .actionBarSize());
-//        menu.findItem(R.id.action_blur).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_tint)
-//                .colorRes(R.color.grey_light)
-//                .actionBarSize());
-//        menu.findItem(R.id.action_rotate).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
-//                .colorRes(R.color.grey_light)
-//                .actionBarSize());
+       inflater.inflate(R.menu.image_edit_menu, menu);
+       menu.findItem(R.id.action_photo).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_camera)
+               .colorRes(R.color.grey_light)
+               .actionBarSize());
+       menu.findItem(R.id.action_load).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_th)
+               .colorRes(R.color.grey_light)
+               .actionBarSize());
+		menu.findItem(R.id.action_save).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_floppy_o)
+               .colorRes(R.color.grey_light)
+               .actionBarSize());
+        menu.setGroupVisible(R.id.menu_group_imageedit, true);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-//        switch (item.getItemId()) {
-//            case R.id.action_seek:
-//				seekbarDialog = new ADialogs(getActivity());
-//                seekbarDialog.seekbar(true, getActivity().getString(R.string.opacity), opacity, getActivity().getString(R.string.set), getActivity().getString(R.string.cancel));
-//				seekbarDialog.setADialogsSeekBarListener(new ADialogs.ADialogsSeekBarListener(){
-//                    @Override
-//                    public void onADialogsSeekBarPositiveClick(DialogInterface dialog, SeekBar seekbar) {
-//						opacity = seekbar.getProgress();
-//                        imageView.setAlpha((int)(opacity*opacityIndex));
-//                        dialog.dismiss();
-//                    }
-//                });
-//                return true;
-//            case R.id.action_blur:
-//                blur(image, imageView);
-//                return true;
-//            case R.id.action_rotate:
-//                angle = -90;
-//                Matrix matrix = new Matrix();
-//                matrix.postRotate(angle);
-//                bitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-//                imageView.setImageBitmap(bitmap);
-//                mAttacher.update();
-//                return true;
-//            case R.id.action_save:
-//                checkDialog(this.getString(R.string.save_title), this.getString(R.string.save_message), save);
-//                return true;
-//            case R.id.action_load:
-//                checkDialog(this.getString(R.string.load_paint_title), this.getString(R.string.load_paint_message), load);
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_photo:
+               checkDialog(this.getString(R.string.photo_title), this.getString(R.string.photo_message), photo);
+               return true;
+			case R.id.action_save:
+               checkDialog(this.getString(R.string.save_title), this.getString(R.string.save_message), save);
+               return true;
+			case R.id.action_load:
+               checkDialog(this.getString(R.string.load_paint_title), this.getString(R.string.load_paint_message), load);
+               return true;
+           default:
+               return super.onOptionsItemSelected(item);
+		}
+	}
 
-    private void blur(Bitmap bkg, ImageView view) {
-        BlurTask task = new BlurTask(bkg, view, this);
-        task.execute();
-    }
-
-    public void onBlurTaskComplete(Bitmap result) {
-        if (result != null) {
-            bitmap = Bitmap.createScaledBitmap(result, bitmap.getWidth(), bitmap.getHeight(), true);
-            imageView.setImageDrawable(new BitmapDrawable(getResources(), bitmap));
-        } else {
-            ADialogs alertDialog = new ADialogs(getActivity());
-			alertDialog.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.blur_task_error), getActivity().getString(R.string.ok), null);
-        }
-    }
     Runnable save = new Runnable() {
         @Override
         public void run() {
-            SaveLoadFile.saveToGallery(getActivity(), bitmap, null);
+            Bitmap saveBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+            SaveLoadFile.saveToGallery(getActivity(), saveBitmap, null);
         }
     };
 
     Runnable load = new Runnable() {
         @Override
         public void run() {
-            //loadFromGallery();
-
+            loadFromGallery();
         }
     };
+	
+	Runnable photo = new Runnable() {
+        @Override
+        public void run() {
+            makePhoto();
+        }
+    };
+	
     public void checkDialog(String title, String message, final Runnable type) {
-        View v = getActivity().getWindow().getDecorView();
-        v.setId(1);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        BlurredAlertDialog newFragment = BlurredAlertDialog.newInstance(title, message);
-        newFragment.setBlurredAlertDialogListener(new BlurredAlertDialog.BlurredAlertDialogListener() {
+        ADialogs alertDialog = new ADialogs(getActivity());
+        alertDialog.alert(true, title, message, getActivity().getString(R.string.ok), getActivity().getString(R.string.cancel));
+        alertDialog.setADialogsListener(new ADialogs.ADialogsListener() {
             @Override
-            public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
+            public void onADialogsPositiveClick(DialogInterface dialog) {
                 type.run();
                 dialog.dismiss();
             }
-            @Override
-            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) { dialog.dismiss();}
-            @Override
-            public void onBlurredAlertDialogCancel(DialogFragment dialog) { dialog.dismiss();}
-        });
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(1, newFragment).commit();
-    }
 
-//    private void loadFromGallery() {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
-//    }
+            @Override
+            public void onADialogsNegativeClick(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onADialogsCancel(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
+    }
+	private void makePhoto() {
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+			startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+		}
+	}
+   private void loadFromGallery() {
+       Intent intent = new Intent();
+       intent.setType("image/*");
+       intent.setAction(Intent.ACTION_GET_CONTENT);
+       startActivityForResult(Intent.createChooser(intent, getActivity().getString(R.string.load_intent_title)), SELECT_PICTURE);
+	}
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {
             return;
         }
+        if(bitmap != null) {
+            bitmap.recycle();
+            bitmap = null;}
         if (requestCode == SELECT_PICTURE) {
             Uri selectedImageUri = data.getData();
-            String picturePath = SaveLoadFile.loadFromGallery(getActivity(), data);
-            // System.out.println("Image Path : " + selectedImagePath);
+//            String picturePath = SaveLoadFile.loadFromGallery(getActivity(), data);
+            bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
             imageView.setImageURI(selectedImageUri);
             mAttacher = new PhotoViewAttacher(imageView);
         }
+		if (requestCode == REQUEST_IMAGE_CAPTURE) {
+			Bundle extras = data.getExtras();
+			Bitmap imageBitmap = (Bitmap) extras.get("data");
+            bitmap = imageBitmap;
+			imageView.setImageBitmap(imageBitmap);
+			mAttacher = new PhotoViewAttacher(imageView);
+    }
 
     }
 }

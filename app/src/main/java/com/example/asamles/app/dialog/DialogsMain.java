@@ -144,7 +144,8 @@ public class DialogsMain extends Fragment {
         customDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
+                ADialogs alertDialog = new ADialogs(getActivity());
+                alertDialog.alert(cancelable, getActivity().getString(R.string.title), getActivity().getString(R.string.message), getActivity().getString(R.string.ok), null);
             }
         });
         blurredAlertDialogButton.setOnClickListener(new View.OnClickListener() {

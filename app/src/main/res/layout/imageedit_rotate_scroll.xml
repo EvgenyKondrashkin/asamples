@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="64dp"
+    android:id="@+id/bottm"
+    android:background="@color/dark"
+    android:gravity="center_horizontal">
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/horizontalScrollView"
+        android:padding="4dp">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rotate_right"
+                android:background="@null" 
+				android:padding="12dp"
+                android:src="@drawable/ic_launcher" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rotate_left"
+                android:background="@null"
+                android:layout_toRightOf="@+id/rotate_right"
+				android:padding="12dp"
+                android:src="@drawable/ic_launcher"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/flip_vertical"
+                android:background="@null"
+                android:padding="12dp"
+                android:src="@drawable/ic_launcher"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/rotate_left" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/flip_horizontal"
+                android:background="@null"
+                android:layout_toRightOf="@+id/flip_vertical"
+				android:padding="12dp"
+                android:src="@drawable/ic_launcher"/>
+        </RelativeLayout>
+    </HorizontalScrollView>
+</RelativeLayout>

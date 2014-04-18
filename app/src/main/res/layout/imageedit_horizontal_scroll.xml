@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="64dp"
-
-    android:background="@color/dark">
+    android:background="@color/dark"
+    android:gravity="center_horizontal">
     <HorizontalScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/horizontalScrollView"
         android:layout_centerHorizontal="true"
@@ -58,19 +58,9 @@
             <IconButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/blur"
-                android:background="@null"
-                android:layout_toRightOf="@+id/rotate"
-                android:text="{fa-tint}"
-                android:textSize="32dp"
-                android:textColor="#FF959595"
-                android:padding="12dp"/>
-            <IconButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/crop"
                 android:background="@null"
-                android:layout_toRightOf="@+id/blur"
+                android:layout_toRightOf="@+id/rotate"
                 android:text="{fa-crop}"
                 android:textSize="32dp"
                 android:textColor="#FF959595"
@@ -92,36 +82,6 @@
                 android:background="@null"
                 android:layout_toRightOf="@+id/filter"
                 android:text="{fa-tag}"
-                android:textSize="32dp"
-                android:textColor="#FF959595"
-                android:padding="12dp"/>
-            <IconButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/photo"
-                android:background="@null"
-                android:layout_toRightOf="@+id/sticker"
-                android:text="{fa-camera}"
-                android:textSize="32dp"
-                android:textColor="#FF959595"
-                android:padding="12dp"/>
-            <IconButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/load"
-                android:background="@null"
-                android:layout_toRightOf="@+id/photo"
-                android:text="{fa-arrow-circle-o-down}"
-                android:textSize="32dp"
-                android:textColor="#FF959595"
-                android:padding="12dp"/>
-            <IconButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/save"
-                android:background="@null"
-                android:layout_toRightOf="@+id/load"
-                android:text="{fa-floppy-o}"
                 android:textSize="32dp"
                 android:textColor="#FF959595"
                 android:padding="12dp"/>

@@ -8,13 +8,18 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.dialog.utils.ImageTextCheckbox;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ADialogs {
@@ -23,6 +28,7 @@ public class ADialogs {
 	private ADialogsTimeListener timeListener = null;
 	private ADialogsProgressListener progressListener = null;
     private ADialogsSeekBarListener seekbarListener = null;
+    private ADialogsCustomListListener listListener = null;
 	public ADialogs(Context context) {
 		this.context = context;
 	}
@@ -159,15 +165,66 @@ public class ADialogs {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View seekLayout = inflater.inflate(R.layout.dialog_seekbar, null);
         seekBar = (SeekBar) seekLayout.findViewById(R.id.seekBar);
-		seekBar.setProgress(progress);
+        seekBar.setProgress(progress);
         AlertDialog.Builder ad = build(cancelable, title, null);
         ad.setView(seekLayout);
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     if (seekbarListener != null) {
-						seekbarListener.onADialogsSeekBarPositiveClick(dialog, seekBar);
-					} else { dialog.cancel(); }
+                        seekbarListener.onADialogsSeekBarPositiveClick(dialog, seekBar);
+                    } else { dialog.cancel(); }
+                }
+            });
+        }
+        if (negativeButton != null) {
+            ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+        }
+        if (cancelable) {
+            ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                public void onCancel(DialogInterface dialog) {
+                    dialog.cancel();
+                }
+            });
+        }
+        ad.create().show();
+    }
+    public interface ADialogsCustomListListener {
+        public void onADialogsCustomListPositiveClick(DialogInterface dialog, ArrayList<ImageTextCheckbox> list);
+    }
+    public void setADialogsCustomListListener(ADialogsCustomListListener listListener) {
+        this.listListener = listListener;
+    }
+
+    public void customList(boolean cancelable, String title, final ArrayList<ImageTextCheckbox> list, BaseAdapter adapter, int[] checked, String positiveButton, String negativeButton) {
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View listLayout = inflater.inflate(R.layout.dialog_custom_list, null);
+
+        ListView listMenu = (ListView) listLayout.findViewById(R.id.listMenu);
+        listMenu.setAdapter(adapter);
+        listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(list.get(position).getCheck()){
+                    list.get(position).setCheck(false);
+                } else {
+                    list.get(position).setCheck(true);
+                }
+            }
+        });
+        AlertDialog.Builder ad = build(cancelable, title, null);
+        ad.setView(listLayout);
+        if (positiveButton != null) {
+            ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if (listListener != null) {
+                        listListener.onADialogsCustomListPositiveClick(dialog, list);
+                    } else { dialog.cancel(); }
                 }
             });
         }

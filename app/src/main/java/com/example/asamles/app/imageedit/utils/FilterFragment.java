@@ -19,25 +19,22 @@ import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
 
-public class FilterFragment extends Fragment {
-    private String name;
-    public static final String TYPE = "TYPE";
-    public static final String VALUE = "VALUE";
+public class FilterFragment extends Fragment implements View.OnClickListener {
     private ImageButton grayscaleButton;
     private ImageButton sepiaButton;
     private ImageButton invertButton;
     private ImageButton swapButton;
     private ImageButton polaroidButton;
     private ImageButton blackwhiteButton;
+    private Bitmap finalBitmap;
     private Bitmap mainBitmap;
     private Bitmap smallBitmap;
     private ImageButton oldframeButton;
+    private ImageButton bokehButton;
+    private ImageButton tintButton;
 
-    public static FilterFragment newInstance() {//String name) {
+    public static FilterFragment newInstance() {
         FilterFragment fragment = new FilterFragment();
-//        Bundle args = new Bundle();
-//        args.putString(TYPE, name);
-//        fragment.setArguments(args);
         return fragment;
     }
     public FilterFragment() {
@@ -46,10 +43,10 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        name = getArguments() != null ? getArguments().getString(TYPE) : null;
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.imageedit_filter_scroll, container, false);
         mainBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
+        finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
         smallBitmap = Bitmap.createScaledBitmap(mainBitmap, container.getHeight(), container.getHeight(), true);
         setButtons(rootView);
 
@@ -60,74 +57,46 @@ public class FilterFragment extends Fragment {
     private void setButtons(View view){
         grayscaleButton = (ImageButton) view.findViewById(R.id.grayscale);
         grayscaleButton.setImageBitmap(ImageEditior.doGrayscale(smallBitmap));
-        grayscaleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateImage(ImageEditior.doGrayscale(mainBitmap));
-            }
-        });
+        grayscaleButton.setOnClickListener(this);
         sepiaButton = (ImageButton) view.findViewById(R.id.sepia);
         sepiaButton.setImageBitmap(ImageEditior.doSepia(smallBitmap));
-        sepiaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateImage(ImageEditior.doSepia(mainBitmap));
-            }
-        });
+        sepiaButton.setOnClickListener(this);
         invertButton = (ImageButton) view.findViewById(R.id.invert);
         invertButton.setImageBitmap(ImageEditior.doInvert(smallBitmap));
-        invertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateImage(ImageEditior.doInvert(mainBitmap));
-            }
-        });
+        invertButton.setOnClickListener(this);
         swapButton = (ImageButton) view.findViewById(R.id.swap);
         swapButton.setImageBitmap(ImageEditior.doSwap(smallBitmap));
-        swapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateImage(ImageEditior.doSwap(mainBitmap));
-            }
-        });
+        swapButton.setOnClickListener(this);
 		polaroidButton = (ImageButton) view.findViewById(R.id.polaroid);
         polaroidButton.setImageBitmap(ImageEditior.doPolaroid(smallBitmap));
-        polaroidButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateImage(ImageEditior.doPolaroid(mainBitmap));
-            }
-        });
+        polaroidButton.setOnClickListener(this);
 		blackwhiteButton = (ImageButton) view.findViewById(R.id.blackwhite);
         blackwhiteButton.setImageBitmap(ImageEditior.doBlackWhite(smallBitmap));
-        blackwhiteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateImage(ImageEditior.doBlackWhite(mainBitmap));
-            }
-        });
+        blackwhiteButton.setOnClickListener(this);
         oldframeButton = (ImageButton) view.findViewById(R.id.oldframe);
         oldframeButton.setImageBitmap(ImageEditior.doOldPhoto(smallBitmap, getActivity()));
-        oldframeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateImage(ImageEditior.doOldPhoto(mainBitmap, getActivity()));
-            }
-        });
+        oldframeButton.setOnClickListener(this);
+        bokehButton = (ImageButton) view.findViewById(R.id.bokeh);
+        bokehButton.setImageBitmap(ImageEditior.doBokehPhoto(smallBitmap, getActivity()));
+        bokehButton.setOnClickListener(this);
+//        tintButton = (ImageButton) view.findViewById(R.id.tint);
+//        tintButton.setImageBitmap(ImageEditior.doTint(smallBitmap, 50));
+//        tintButton.setOnClickListener(this);
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.done_menu, menu);
         menu.findItem(R.id.action_done).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_check)
                 .colorRes(R.color.grey_light)
                 .actionBarSize());
-
+        menu.setGroupVisible(R.id.menu_group_imageedit, false);
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-
+                finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -136,5 +105,54 @@ public class FilterFragment extends Fragment {
     private void updateImage(Bitmap bitmap){
         ImageEditMain.imageView.setImageBitmap(bitmap);
         ImageEditMain.mAttacher.update();
+    }
+
+    @Override
+    public void onClick(View v) {
+        mainBitmap = finalBitmap;
+        switch (v.getId()){
+            case R.id.grayscale:
+                mainBitmap = ImageEditior.doGrayscale(mainBitmap);
+                break;
+            case R.id.sepia:
+                mainBitmap = ImageEditior.doSepia(mainBitmap);
+                break;
+            case R.id.invert:
+                mainBitmap = ImageEditior.doInvert(mainBitmap);
+                break;
+            case R.id.swap:
+                mainBitmap = ImageEditior.doSwap(mainBitmap);
+                break;
+            case R.id.polaroid:
+                mainBitmap = ImageEditior.doPolaroid(mainBitmap);
+                break;
+            case R.id.blackwhite:
+                mainBitmap = ImageEditior.doBlackWhite(mainBitmap);
+                break;
+            case R.id.oldframe:
+                mainBitmap = ImageEditior.doOldPhoto(mainBitmap, getActivity());
+                break;
+            case R.id.bokeh:
+                mainBitmap = ImageEditior.doBokehPhoto(mainBitmap, getActivity());
+                break;
+//            case R.id.tint:
+//                mainBitmap = ImageEditior.doTint(mainBitmap, 50);
+//                break;
+        }
+        updateImage(mainBitmap);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        updateImage(finalBitmap);
+        if(mainBitmap != null) {
+            mainBitmap.recycle();
+            mainBitmap = null;}
+        if(finalBitmap != null) {
+            finalBitmap.recycle();
+            finalBitmap = null;}
+        if(smallBitmap != null) {
+            smallBitmap.recycle();
+            smallBitmap = null;}
     }
 }
