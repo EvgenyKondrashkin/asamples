@@ -18,6 +18,12 @@
 	<string name="cancel">Cancel</string>
 	<string name="colorpicker_title">Choose color</string>
 	<string name="progress_save_message">Saving...</string>
+
+    <string-array name="shape_list">
+        <item>R.drawable.hexagon1</item>
+        <item>R.drawable.hexagon2</item>
+        <item>R.drawable.hexagon3</item>
+    </string-array>
 	<!--Save-->
 	<string name="photo_title">Make photo?</string>
 	<string name="photo_message">Are you sure you want to make photo?</string>
@@ -93,4 +99,5 @@
         <item>Yeaahh!</item>
 		<item>You are my shaker!</item>
     </string-array>
+
 </resources>

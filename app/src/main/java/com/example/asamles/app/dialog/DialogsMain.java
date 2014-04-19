@@ -18,7 +18,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.dialog.utils.ImageCheckboxListAdapter;
+import com.example.asamles.app.dialog.utils.ImageTextCheckbox;
 import com.example.asamles.app.seekbar.VerticalSeekBar;
+
+import java.util.ArrayList;
 
 public class DialogsMain extends Fragment {
     private Button timeDialogButton;
@@ -144,8 +148,10 @@ public class DialogsMain extends Fragment {
         customDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                ArrayList<ImageTextCheckbox> list = new ArrayList<ImageTextCheckbox>();
+
                 ADialogs alertDialog = new ADialogs(getActivity());
-                alertDialog.alert(cancelable, getActivity().getString(R.string.title), getActivity().getString(R.string.message), getActivity().getString(R.string.ok), null);
+                alertDialog.customList(cancelable, getActivity().getString(R.string.title), list, getActivity().getString(R.string.ok), null);
             }
         });
         blurredAlertDialogButton.setOnClickListener(new View.OnClickListener() {
