@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.dialog.ADialogs;
+import com.example.asamles.app.imageedit.utils.ImageEditior;
 import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
@@ -172,7 +173,7 @@ public class ImageEditMain extends Fragment {
         }
         if (requestCode == SELECT_PICTURE) {
             Uri selectedImageUri = data.getData();
-//            String picturePath = SaveLoadFile.loadFromGallery(getActivity(), data);
+            String picturePath = SaveLoadFile.loadFromGallery(getActivity(), data);
 //            try {
 //                BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(String.valueOf(selectedImageUri),true);
 //                Bitmap region = decoder.decodeRegion(new Rect(10, 10, 50, 50), null);
@@ -182,7 +183,7 @@ public class ImageEditMain extends Fragment {
 //                alert.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.image_edit_error), getActivity().getString(R.string.ok), getActivity().getString(R.string.cancel));
 //            }
 
-            bitmap = imageLoader.loadImageSync(String.valueOf(selectedImageUri));
+            bitmap = ImageEditior.decodeSampledBitmapFromResource(picturePath, 800, 600);//imageLoader.loadImageSync(String.valueOf(selectedImageUri));
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             Bundle extras = data.getExtras();

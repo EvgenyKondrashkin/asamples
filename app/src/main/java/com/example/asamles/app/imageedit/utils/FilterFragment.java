@@ -59,6 +59,7 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
     private void setButtons(View view){
+        ImageEditior.loadFrames(getActivity());
         grayscaleButton = (ImageButton) view.findViewById(R.id.grayscale);
         grayscaleButton.setImageBitmap(ImageEditior.doGrayscale(smallBitmap));
         grayscaleButton.setOnClickListener(this);
@@ -83,9 +84,6 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         bokehButton = (ImageButton) view.findViewById(R.id.bokeh);
         bokehButton.setImageBitmap(ImageEditior.doBokehPhoto(smallBitmap, getActivity()));
         bokehButton.setOnClickListener(this);
-        tintButton = (ImageButton) view.findViewById(R.id.tint);
-        tintButton.setImageBitmap(ImageEditior.doTint(smallBitmap, 50));
-        tintButton.setOnClickListener(this);
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.done_menu, menu);
@@ -140,9 +138,6 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.bokeh:
                 mainBitmap = ImageEditior.doBokehPhoto(mainBitmap, getActivity());
-                break;
-            case R.id.tint:
-                mainBitmap = ImageEditior.doTint(mainBitmap, 50);
                 break;
         }
         updateImage(mainBitmap);

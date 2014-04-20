@@ -9,6 +9,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.net.Uri;
 
 import com.example.asamles.app.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -26,6 +27,8 @@ public class ImageEditior {
     private static Bitmap frame;
     private static Canvas canvas;
     private static Paint paint = new Paint();
+    private static Bitmap oldFrame;
+    private static Bitmap bokehFrame;
 
     public ImageEditior(Bitmap bmp){
         result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
@@ -78,8 +81,18 @@ public class ImageEditior {
 
         return changeBitmapSeekbar(bmp, cm);
     }
+    public static Bitmap doAlpha(Bitmap bmp, float alpha) {
+        ColorMatrix cm = new ColorMatrix(new float[]
+                {
+                        1, 0, 0, 0, 0,
+                        0, 1, 0, 0, 0,
+                        0, 0, 1, 0, 0,
+                        0, 0, 0, alpha, 0
+                });
 
-    public static Bitmap doAlpha(Bitmap bmp, int alpha) {
+        return changeBitmap(bmp, cm);
+    }
+    public static Bitmap doAlpha1(Bitmap bmp, int alpha) {
         result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(result);
@@ -179,84 +192,32 @@ public class ImageEditior {
 
         return changeBitmap(bmp, cm);
     }
-
+    public static void loadFrames(Context context){
+        oldFrame = BitmapFactory.decodeResource(context.getResources(), R.drawable.old_frame);
+        bokehFrame = BitmapFactory.decodeResource(context.getResources(), R.drawable.bokeh);
+    }
     public static Bitmap doOldPhoto(Bitmap bmp, Context context) {
         bitmap = doSepia(bmp);
-        int w = bmp.getWidth();
-        int h = bmp.getHeight();
-        frame =  decodeSampledBitmapFromResource(context.getResources(), R.drawable.old_frame, w, h);
-//        frame = imageLoader.loadImageSync("drawable://"+R.drawable.old_frame);
-//        frame = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.old_frame), bmp.getWidth(), bmp.getHeight(), true);
-        frame = doAlpha(frame, 127);
 
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawBitmap(bitmap, new Matrix(), null);
-        canvas.drawBitmap(frame, new Matrix(), null);
+        frame = Bitmap.createScaledBitmap(oldFrame, bmp.getWidth(), bmp.getHeight(), true);
+        frame = doAlpha(frame, 0.5f);
+
+        Canvas canvasFrame = new Canvas(bitmap);
+        canvasFrame.drawBitmap(bitmap, new Matrix(), null);
+        canvasFrame.drawBitmap(frame, new Matrix(), null);
         return bitmap;
     }
 
-//    static ImageLoaderConfiguration config;
-//    static ImageLoader imageLoader;
     public static Bitmap doBokehPhoto(Bitmap bmp, Context context) {
-        bitmap = onSaturation(bmp, 2);
-//         config = new ImageLoaderConfiguration.Builder(context)
-//                .memoryCacheExtraOptions(bmp.getWidth(), bmp.getHeight())
-//                .build();
-//        imageLoader = ImageLoader.getInstance();
-//        imageLoader.init(config);
-//        frame = imageLoader.loadImageSync("drawable://"+R.drawable.bokeh);
-//        int w = bmp.getWidth();
-//        int h = bmp.getHeight();
-//        frame = getResizedBitmap(bmp, )
-//        frame = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.bokeh), bmp.getWidth(), bmp.getHeight(), true);
-        frame =  decodeSampledBitmapFromResource(context.getResources(), R.drawable.bokeh, bmp.getWidth(), bmp.getHeight());
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawBitmap(bitmap, new Matrix(), null);
-        canvas.drawBitmap(frame, new Matrix(), null);
+        bitmap = bmp.copy(bmp.getConfig(), true);
+        frame = Bitmap.createScaledBitmap(bokehFrame, bmp.getWidth(), bmp.getHeight(), true);
+//        frame =  decodeSampledBitmapFromResource(context.getResources(), R.drawable.bokeh, bmp.getWidth(), bmp.getHeight());
+        Canvas canvasFrame = new Canvas(bitmap);
+        canvasFrame.drawBitmap(bitmap, new Matrix(), null);
+        canvasFrame.drawBitmap(frame, new Matrix(), null);
         return bitmap;
     }
 
-    public static Bitmap doTint(Bitmap src, int degree) {
-
-        int width = src.getWidth();
-        int height = src.getHeight();
-
-        int[] pix = new int[width * height];
-        src.getPixels(pix, 0, width, 0, 0, width, height);
-
-        int RY, GY, BY, RYY, GYY, BYY, R, G, B, Y;
-        double angle = (PI * (double) degree) / HALF_CIRCLE_DEGREE;
-
-        int S = (int) (RANGE * Math.sin(angle));
-        int C = (int) (RANGE * Math.cos(angle));
-
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++) {
-                int index = y * width + x;
-                int r = (pix[index] >> 16) & 0xff;
-                int g = (pix[index] >> 8) & 0xff;
-                int b = pix[index] & 0xff;
-                RY = (70 * r - 59 * g - 11 * b) / 100;
-                GY = (-30 * r + 41 * g - 11 * b) / 100;
-                BY = (-30 * r - 59 * g + 89 * b) / 100;
-                Y = (30 * r + 59 * g + 11 * b) / 100;
-                RYY = (S * BY + C * RY) / 256;
-                BYY = (C * BY - S * RY) / 256;
-                GYY = (-51 * RYY - 19 * BYY) / 100;
-                R = Y + RYY;
-                R = (R < 0) ? 0 : ((R > 255) ? 255 : R);
-                G = Y + GYY;
-                G = (G < 0) ? 0 : ((G > 255) ? 255 : G);
-                B = Y + BYY;
-                B = (B < 0) ? 0 : ((B > 255) ? 255 : B);
-                pix[index] = 0xff000000 | (R << 16) | (G << 8) | B;
-            }
-
-        result = Bitmap.createBitmap(width, height, src.getConfig());
-        result.setPixels(pix, 0, width, 0, 0, width, height);
-        pix = null;
-        return result;
-    }
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -279,21 +240,22 @@ public class ImageEditior {
 
         return inSampleSize;
     }
-    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+    public static Bitmap decodeSampledBitmapFromUri(String uri,
                                                          int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
+        BitmapFactory.decodeFile(uri, options);
 
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
+        return BitmapFactory.decodeFile(uri, options);
     }
+    
     public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
 
         int width = bm.getWidth();

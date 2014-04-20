@@ -23,5 +23,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile 'com.google.android.gms:play-services:4.0.+'
     compile 'com.larswerkman:HoloColorPicker:1.4'
+    compile project(':cropper')
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
