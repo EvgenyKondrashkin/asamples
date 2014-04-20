@@ -30,6 +30,11 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
     private ImageButton flipVerticalButton;
     private ImageButton flipHorizontalButton;
     private Bitmap mainBitmap;
+    private OkFragmentListener doneListener = null;
+
+    public void setOkFragmentListener(OkFragmentListener doneListener) {
+        this.doneListener = doneListener;
+    }
 
     public static RotateFragment newInstance() {
         RotateFragment fragment = new RotateFragment();
@@ -98,7 +103,9 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.action_done:
                 finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                if(doneListener != null){
+                    doneListener.onDone(getTag());
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -113,13 +120,10 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
         updateImage(finalBitmap);
         if(mainBitmap != null) {
-            mainBitmap.recycle();
             mainBitmap = null;}
         if(finalBitmap != null) {
-            finalBitmap.recycle();
             finalBitmap = null;}
         if(bitmap != null) {
-            bitmap.recycle();
             bitmap = null;}
     }
 }

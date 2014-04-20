@@ -1,7 +1,5 @@
 package com.example.asamles.app.imageedit;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -16,36 +14,25 @@ import android.widget.SeekBar;
 import com.example.asamles.app.R;
 import com.example.asamles.app.imageedit.utils.FilterFragment;
 import com.example.asamles.app.imageedit.utils.ImageEditior;
+import com.example.asamles.app.imageedit.utils.OkFragmentListener;
 import com.example.asamles.app.imageedit.utils.RotateFragment;
 import com.example.asamles.app.imageedit.utils.SeekbarFragment;
-import com.example.asamles.app.saveload.SaveLoadFile;
-import com.joanzapata.android.iconify.IconDrawable;
-import com.joanzapata.android.iconify.Iconify;
-
-import java.util.concurrent.Callable;
 
 public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFragmentListener {
-    private static final int SELECT_PICTURE = 1;
     private String[] name;
     private int value = 50;
-    private int progressValue = 50;
     private float index;
-	private int angle = 0;
     private Bitmap bitmap, mainBitmap;
     private IconButton brightnessButton;
     private IconButton contrastButton;
     private IconButton rotateButton;
     private IconButton saturationButton;
-    private IconButton blurButton;
     private IconButton cropButton;
     private IconButton filterButton;
     private IconButton stickerButton;
-    private IconButton photoButton;
-    private IconButton loadButton;
-    private IconButton saveButton;
-//    private ViewGroup container;
-//    private boolean mShowingBack;
     private int type;
+    private float changedValue;
+    private ImageEditior imageEditior;
 
     public static HorizontalBar newInstance() {
         HorizontalBar fragment = new HorizontalBar();
@@ -57,9 +44,9 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        this.container = container;
         name = getActivity().getResources().getStringArray(R.array.seek_list);
-		mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
+//		mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
+//        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         View rootView = inflater.inflate(R.layout.imageedit_horizontal_scroll, container, false);
         setButtons(rootView);
         return rootView;
@@ -90,7 +77,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
             public void onClick(View v) {
                 type = 2;
                 index = (float)1/50;
-                openSeekbar(name[type],value);
+                openSeekbar(name[type], value);
             }
         });
         rotateButton = (IconButton) view.findViewById(R.id.rotate);
@@ -123,26 +110,51 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         });
     }
     public void openSeekbar(String name, int value){
+        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
+        imageEditior = new ImageEditior(mainBitmap);
+//        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
         SeekbarFragment fragment = SeekbarFragment.newInstance(name, value);
+        fragment.setOkFragmentListener(new OkFragmentListener() {
+            @Override
+            public void onDone(String tag) {
+                   getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
         fragment.setSeekbarFragmentListener(this);
         ft.add(R.id.bottomLayout, fragment);
         ft.addToBackStack("seekbar");
         ft.commit();
     }
     public void openFilter(){
+//        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
+//        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
         FilterFragment fragment = FilterFragment.newInstance();
+        fragment.setOkFragmentListener(new OkFragmentListener() {
+            @Override
+            public void onDone(String tag) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
         ft.add(R.id.bottomLayout, fragment);
         ft.addToBackStack("filter");
         ft.commit();
     }
     public void openRotate(){
+//        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
+//        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
         RotateFragment fragment = RotateFragment.newInstance();
+        fragment.setOkFragmentListener(new OkFragmentListener() {
+            @Override
+            public void onDone(String tag) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
         ft.add(R.id.bottomLayout, fragment);
         ft.addToBackStack("rotate");
         ft.commit();
@@ -159,21 +171,19 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     }
 
     private Bitmap changeBitmap(int progress) {
-        float changedValue;
-//        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
         Bitmap bitmap = mainBitmap;
         switch (type){
             case 0:
                 changedValue = (float)(progress-50)*index;
-                bitmap = ImageEditior.changeBitmapBrightness(mainBitmap, changedValue);
+                bitmap = imageEditior.onBrightness(mainBitmap, changedValue);
                 break;
             case 1:
                 changedValue = (float)(progress-50)*index+1;
-                bitmap = ImageEditior.changeBitmapContrast(mainBitmap, changedValue);
+                bitmap = ImageEditior.onContrast(mainBitmap, changedValue);
                 break;
             case 2:
                 changedValue = (float)(progress-50)*index+1;
-                bitmap = ImageEditior.changeBitmapSaturation(mainBitmap, changedValue);
+                bitmap = ImageEditior.onSaturation(mainBitmap, changedValue);
                 break;
         }
         return bitmap;

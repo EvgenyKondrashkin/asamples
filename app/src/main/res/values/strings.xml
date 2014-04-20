@@ -19,10 +19,15 @@
 	<string name="colorpicker_title">Choose color</string>
 	<string name="progress_save_message">Saving...</string>
 
-    <string-array name="shape_list">
-        <item>R.drawable.hexagon1</item>
-        <item>R.drawable.hexagon2</item>
-        <item>R.drawable.hexagon3</item>
+    <array name="shape_list">
+        <item>@drawable/m_info</item>
+        <item>@drawable/m_museum</item>
+        <item>@drawable/m_park</item>
+    </array>
+    <string-array name="item_list">
+        <item>Information</item>
+        <item>Museum</item>
+        <item>Park</item>
     </string-array>
 	<!--Save-->
 	<string name="photo_title">Make photo?</string>
@@ -52,6 +57,7 @@
 	<string name="load_intent_title">Select picture</string>
 	<string name="clear_edit_message">Are you sure you want to clear image?</string>
     <string name="load_negative_result">Sorry, there s mistake while loading your picture!</string>
+    <string name="image_edit_error">This image large than expected, try to use smaller!</string>
     <!--MainMenu-->
     <string-array name="main_list">
         <item>Location</item>

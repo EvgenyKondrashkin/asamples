@@ -32,6 +32,11 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
     private ImageButton oldframeButton;
     private ImageButton bokehButton;
     private ImageButton tintButton;
+    private OkFragmentListener doneListener = null;
+
+    public void setOkFragmentListener(OkFragmentListener doneListener) {
+        this.doneListener = doneListener;
+    }
 
     public static FilterFragment newInstance() {
         FilterFragment fragment = new FilterFragment();
@@ -45,9 +50,8 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.imageedit_filter_scroll, container, false);
-        mainBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
         finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-        smallBitmap = Bitmap.createScaledBitmap(mainBitmap, container.getHeight(), container.getHeight(), true);
+        smallBitmap = ImageEditior.getResizedBitmap(finalBitmap, container.getHeight(), container.getHeight());//Bitmap.createScaledBitmap(finalBitmap, container.getHeight(), container.getHeight(), true);
         setButtons(rootView);
 
 
@@ -79,9 +83,9 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         bokehButton = (ImageButton) view.findViewById(R.id.bokeh);
         bokehButton.setImageBitmap(ImageEditior.doBokehPhoto(smallBitmap, getActivity()));
         bokehButton.setOnClickListener(this);
-//        tintButton = (ImageButton) view.findViewById(R.id.tint);
-//        tintButton.setImageBitmap(ImageEditior.doTint(smallBitmap, 50));
-//        tintButton.setOnClickListener(this);
+        tintButton = (ImageButton) view.findViewById(R.id.tint);
+        tintButton.setImageBitmap(ImageEditior.doTint(smallBitmap, 50));
+        tintButton.setOnClickListener(this);
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.done_menu, menu);
@@ -96,7 +100,9 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.action_done:
                 finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                if(doneListener != null){
+                    doneListener.onDone(getTag());
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -135,9 +141,9 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
             case R.id.bokeh:
                 mainBitmap = ImageEditior.doBokehPhoto(mainBitmap, getActivity());
                 break;
-//            case R.id.tint:
-//                mainBitmap = ImageEditior.doTint(mainBitmap, 50);
-//                break;
+            case R.id.tint:
+                mainBitmap = ImageEditior.doTint(mainBitmap, 50);
+                break;
         }
         updateImage(mainBitmap);
     }
@@ -146,13 +152,10 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
         updateImage(finalBitmap);
         if(mainBitmap != null) {
-            mainBitmap.recycle();
             mainBitmap = null;}
         if(finalBitmap != null) {
-            finalBitmap.recycle();
             finalBitmap = null;}
         if(smallBitmap != null) {
-            smallBitmap.recycle();
             smallBitmap = null;}
     }
 }

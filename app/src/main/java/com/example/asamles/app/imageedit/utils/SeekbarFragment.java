@@ -26,6 +26,11 @@ public class SeekbarFragment extends Fragment  {
     private Bitmap finalBitmap;
     public static final String TYPE = "TYPE";
     public static final String VALUE = "VALUE";
+    private OkFragmentListener doneListener = null;
+
+    public void setOkFragmentListener(OkFragmentListener doneListener) {
+        this.doneListener = doneListener;
+    }
 
     private SeekbarFragmentListener seekbarListener = null;
     public interface SeekbarFragmentListener {
@@ -97,7 +102,9 @@ public class SeekbarFragment extends Fragment  {
         switch (item.getItemId()) {
             case R.id.action_done:
                 finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                if(doneListener != null){
+                    doneListener.onDone(getTag());
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -108,7 +115,6 @@ public class SeekbarFragment extends Fragment  {
         super.onDestroy();
         updateImage(finalBitmap);
         if(finalBitmap != null) {
-            finalBitmap.recycle();
             finalBitmap = null;}
 
     }

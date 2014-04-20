@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.dialog.utils.ImageCheckboxListAdapter;
 import com.example.asamles.app.dialog.utils.ImageTextCheckbox;
 
 import java.util.ArrayList;
@@ -200,23 +201,26 @@ public class ADialogs {
         this.listListener = listListener;
     }
 
-    public void customList(boolean cancelable, String title, final ArrayList<ImageTextCheckbox> list, BaseAdapter adapter, int[] checked, String positiveButton, String negativeButton) {
-
+    public void customList(Context context, boolean cancelable, String title, final ArrayList<ImageTextCheckbox> list, String positiveButton, String negativeButton) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View listLayout = inflater.inflate(R.layout.dialog_custom_list, null);
 
         ListView listMenu = (ListView) listLayout.findViewById(R.id.listMenu);
-        listMenu.setAdapter(adapter);
+        final ImageCheckboxListAdapter adapter = new ImageCheckboxListAdapter(context, list);
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(list.get(position).getCheck()){
                     list.get(position).setCheck(false);
+//                    adapter.setChecked(false);
                 } else {
                     list.get(position).setCheck(true);
+//                    adapter.setChecked(true);
                 }
+                adapter.notifyDataSetChanged();
             }
         });
+        listMenu.setAdapter(adapter);
         AlertDialog.Builder ad = build(cancelable, title, null);
         ad.setView(listLayout);
         if (positiveButton != null) {

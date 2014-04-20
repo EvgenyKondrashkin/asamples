@@ -2,6 +2,7 @@ package com.example.asamles.app.dialog;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -41,7 +42,8 @@ public class DialogsMain extends Fragment {
     private VerticalSeekBar verticalSeekBar = null;
     private int oldColor = Color.BLACK;
 	private int progress = 50;
-
+    ArrayList<ImageTextCheckbox> list = new ArrayList<ImageTextCheckbox>();
+    ImageCheckboxListAdapter adapter;
     public static DialogsMain newInstance() {
         DialogsMain fragment = new DialogsMain();
         return fragment;
@@ -76,6 +78,16 @@ public class DialogsMain extends Fragment {
                 vsProgress.setText(progress + "");
             }
         });
+//---------------------------------------------------------------------------------------
+
+
+        TypedArray images = getActivity().getResources().obtainTypedArray(R.array.shape_list);
+        String[] itemText = getActivity().getResources().getStringArray(R.array.item_list);
+        ImageTextCheckbox item = null;
+        for(int i=0;i<images.length();i++) {
+            item = new ImageTextCheckbox(images.getResourceId(i,-1),itemText[i], false);
+            list.add(item);
+        }
 //---------------------------------------------------------------------------------------
         timeDialogButton = (Button) rootView.findViewById(R.id.time_dialog_button);
         alertDialogButton = (Button) rootView.findViewById(R.id.alert_dialog_button);
@@ -148,10 +160,20 @@ public class DialogsMain extends Fragment {
         customDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                ArrayList<ImageTextCheckbox> list = new ArrayList<ImageTextCheckbox>();
 
                 ADialogs alertDialog = new ADialogs(getActivity());
-                alertDialog.customList(cancelable, getActivity().getString(R.string.title), list, getActivity().getString(R.string.ok), null);
+                alertDialog.customList(getActivity(), cancelable, getActivity().getString(R.string.title), list, getActivity().getString(R.string.ok), getActivity().getString(R.string.cancel));
+                alertDialog.setADialogsCustomListListener(new ADialogs.ADialogsCustomListListener() {
+                    @Override
+                    public void onADialogsCustomListPositiveClick(DialogInterface dialog, ArrayList<ImageTextCheckbox> list) {
+                        int count = 0;
+                        for(int i = 0; i<list.size(); i++){
+                            if (list.get(i).getCheck())
+                                count++;
+                        }
+                        customDialogButton.setText("Checked = "+count);
+                    }
+                });
             }
         });
         blurredAlertDialogButton.setOnClickListener(new View.OnClickListener() {
