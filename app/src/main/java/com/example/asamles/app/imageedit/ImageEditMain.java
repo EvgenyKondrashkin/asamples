@@ -59,13 +59,13 @@ public class ImageEditMain extends Fragment {
         ft.commit();
         setHasOptionsMenu(true);
         imageView = (ImageView) rootView.findViewById(R.id.image);
-        bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
+        bitmap = ImageEditior.decodeSampledBitmapFromResource(getResources(), R.raw.photo, 800, 600);
 
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity())
-                .build();
-        imageLoader = ImageLoader.getInstance();
-        imageLoader.init(config);
+//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity())
+//                .build();
+//        imageLoader = ImageLoader.getInstance();
+//        imageLoader.init(config);
 
         imageView.setImageBitmap(bitmap);
         mAttacher = new PhotoViewAttacher(imageView);
@@ -183,7 +183,7 @@ public class ImageEditMain extends Fragment {
 //                alert.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.image_edit_error), getActivity().getString(R.string.ok), getActivity().getString(R.string.cancel));
 //            }
 
-            bitmap = ImageEditior.decodeSampledBitmapFromResource(picturePath, 800, 600);//imageLoader.loadImageSync(String.valueOf(selectedImageUri));
+            bitmap = ImageEditior.decodeSampledBitmapFromUri(picturePath, 800, 600);//imageLoader.loadImageSync(String.valueOf(selectedImageUri));
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             Bundle extras = data.getExtras();

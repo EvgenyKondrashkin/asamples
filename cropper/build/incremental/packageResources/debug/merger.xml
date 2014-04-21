@@ -2,14 +2,14 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="D:\develop\asamples\cropper\res" >
+        <source path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res" >
             <file
                 name="crop_image_view"
-                path="D:\develop\asamples\cropper\res\layout\crop_image_view.xml"
+                path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res\layout\crop_image_view.xml"
                 qualifiers=""
                 type="layout" />
             <file
-                path="D:\develop\asamples\cropper\res\values\attrs.xml"
+                path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res\values\attrs.xml"
                 qualifiers="" >
                 <declare-styleable name="CropImageView" >
                     <attr name="guidelines" >
@@ -38,19 +38,19 @@
                 </declare-styleable>
             </file>
             <file
-                path="D:\develop\asamples\cropper\res\values\colors.xml"
+                path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res\values\colors.xml"
                 qualifiers="" >
                 <color name="black_translucent" >#50000000
                 </color>
             </file>
             <file
-                path="D:\develop\asamples\cropper\res\values\strings.xml"
+                path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res\values\strings.xml"
                 qualifiers="" >
                 <string name="app_name" >Cropper
                 </string>
             </file>
             <file
-                path="D:\develop\asamples\cropper\res\values\styles.xml"
+                path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res\values\styles.xml"
                 qualifiers="" >
 
                 <style
@@ -72,7 +72,7 @@
                 </style>
             </file>
             <file
-                path="D:\develop\asamples\cropper\res\values-v11\styles.xml"
+                path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res\values-v11\styles.xml"
                 qualifiers="v11" >
 
                 <style
@@ -83,7 +83,7 @@
                 </style>
             </file>
             <file
-                path="D:\develop\asamples\cropper\res\values-v14\styles.xml"
+                path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\res\values-v14\styles.xml"
                 qualifiers="v14" >
 
                 <style
@@ -94,11 +94,11 @@
                 </style>
             </file>
         </source>
-        <source path="D:\develop\asamples\cropper\build\res\rs\debug" />
-        <source path="D:\develop\asamples\cropper\build\res\generated\debug" />
+        <source path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\build\res\rs\debug" />
+        <source path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\build\res\generated\debug" />
     </dataSet>
     <dataSet config="debug" >
-        <source path="D:\develop\asamples\cropper\src\debug\res" />
+        <source path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\src\debug\res" />
     </dataSet>
 
 </merger>

@@ -2,10 +2,10 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="D:\develop\asamples\cropper\src\main\assets" />
+        <source path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\src\main\assets" />
     </dataSet>
     <dataSet config="release" >
-        <source path="D:\develop\asamples\cropper\src\release\assets" />
+        <source path="C:\Documents and Settings\evgeny.kondrashkin\asamples\cropper\src\release\assets" />
     </dataSet>
 
 </merger>
