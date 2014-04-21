@@ -12,6 +12,7 @@ import android.widget.IconButton;
 import android.widget.SeekBar;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.imageedit.utils.CropperFragment;
 import com.example.asamles.app.imageedit.utils.FilterFragment;
 import com.example.asamles.app.imageedit.utils.ImageEditior;
 import com.example.asamles.app.imageedit.utils.OkFragmentListener;
@@ -91,7 +92,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         cropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openCrop();
             }
         });
         filterButton = (IconButton) view.findViewById(R.id.filter);
@@ -157,6 +158,22 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         });
         ft.add(R.id.bottomLayout, fragment);
         ft.addToBackStack("rotate");
+        ft.commit();
+    }
+    public void openCrop(){
+//        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
+//        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
+        CropperFragment fragment = CropperFragment.newInstance();
+        fragment.setOkFragmentListener(new OkFragmentListener() {
+            @Override
+            public void onDone(String tag) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+        ft.add(R.id.container, fragment);
+        ft.addToBackStack("cropper");
         ft.commit();
     }
 

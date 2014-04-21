@@ -1,6 +1,7 @@
 package com.example.asamles.app.imageedit.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,7 +21,10 @@ public class CropperFragment extends Fragment {
     private Bitmap finalBitmap;
 	private CropImageView cropImageView;
 	private OkFragmentListener doneListener = null;
-	
+    public void setOkFragmentListener(OkFragmentListener doneListener) {
+        this.doneListener = doneListener;
+    }
+
     public static CropperFragment newInstance() {
         CropperFragment fragment = new CropperFragment();
         return fragment;
@@ -35,6 +39,9 @@ public class CropperFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.imageedit_cropper, container, false);
         setHasOptionsMenu(true);
 		cropImageView = (CropImageView) rootView.findViewById(R.id.cropper);
+        cropImageView.setGuidelines(1);
+        finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
+        cropImageView.setImageBitmap(finalBitmap);
         return rootView;
     }
 
