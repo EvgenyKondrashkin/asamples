@@ -41,8 +41,8 @@ import java.util.UUID;
 public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
 
     private DrawingView drawView;
-    private float smallBrush;
-    private int oldColor;
+    private float smallBrush = 10;
+    private int oldColor = Color.BLACK;
     private IconDrawable pencilIcon;
     private IconDrawable eraserIcon;
     private IconDrawable pencilIconSelected;
@@ -54,20 +54,20 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     private MenuItem seekbarItem;
     private SeekbarActionProvider seekbarActionProvider;
     private boolean erase = false;
-	private String image = null;
+	private String imageFromGallery = null;
     public static final String BITMAP = "BITMAP";
 
     public static PaintMain newInstance() {
         PaintMain fragment = new PaintMain();
         return fragment;
     }
-	public static PaintMain newInstance(String image) {
-        PaintMain fragment = new PaintMain();
-		Bundle args = new Bundle();
-        args.putString(BITMAP, image);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//	public static PaintMain newInstance(String image) {
+//        PaintMain fragment = new PaintMain();
+//		Bundle args = new Bundle();
+//        args.putString(BITMAP, image);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     public PaintMain() {
     }
@@ -75,16 +75,22 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        image = getArguments() != null ? getArguments().getString(BITMAP) : null;
-		oldColor = Color.BLACK;
-		smallBrush = 10;
+//        image = getArguments() != null ? getArguments().getString(BITMAP) : null;
+//		oldColor = Color.BLACK;
+//		smallBrush = 10;
 		setHasOptionsMenu(true);
 		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View rootView = inflater.inflate(R.layout.fragment_paint, container, false);
 
         drawView = (DrawingView) rootView.findViewById(R.id.drawing);
-		if(image != null) {
-			drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), image)));
+        drawView.setColor(oldColor);
+        drawView.setBrushSize(smallBrush);
+		if(imageFromGallery != null) {
+            if (android.os.Build.VERSION.SDK_INT >= 16){
+			    drawView.setBackground(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromStorage(getActivity(), imageFromGallery)));
+            } else {
+                drawView.setBackgroundDrawable(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromStorage(getActivity(), imageFromGallery)));
+            }
 		}
         return rootView;
     }
@@ -116,6 +122,9 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         brushIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_brush);
         menu.findItem(R.id.action_save).setIcon(saveIcon);
         menu.findItem(R.id.action_clear).setIcon(clearIcon);
+        GradientDrawable drawable = (GradientDrawable) getActivity().getResources().getDrawable(R.drawable.action_colorpicker);
+        drawable.setColor(oldColor);
+        menu.findItem(R.id.action_color).setIcon(drawable);
         seekbarItem = menu.findItem(R.id.action_size);
         seekbarActionProvider = (SeekbarActionProvider) MenuItemCompat.getActionProvider(seekbarItem);
         super.onCreateOptionsMenu(menu, inflater);
@@ -125,7 +134,8 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_brush);
-        seekbarActionProvider.setSeekbarActionProvider(getActivity(), this, icon, (int) smallBrush);
+        seekbarActionProvider.setSeekbarActionProvider(this, icon, (int) smallBrush);
+
         if (erase) {
             menu.findItem(R.id.action_erase).setIcon(eraserIconSelected);
             menu.findItem(R.id.action_pencil).setIcon(pencilIcon);
@@ -138,7 +148,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList) {
         smallBrush = progress;
-        drawView.setBrushSize((float) progress);
+        drawView.setBrushSize((float) smallBrush);
 //        getActivity().supportInvalidateOptionsMenu();
     }
 
@@ -195,7 +205,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
             drawView.setDrawingCacheEnabled(true);
             drawView.buildDrawingCache(true);
             Bitmap bitmap = drawView.getDrawingCache();
-            SaveLoadFile.saveToGallaryAndApp(getActivity(), bitmap);
+            SaveLoadFile.saveToPaintGallery(getActivity(), bitmap, SaveLoadFile.setName(getActivity()));
             drawView.setDrawingCacheEnabled(false);
         }
     };
@@ -204,14 +214,23 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         @Override
         public void run() {
             loadFromGallery(SaveLoadFile.loadAllFiles(getActivity()));
-            // String[] wat = SaveLoadFile.loadAllFiles(getActivity());
-			// loadFromGallery
-            // drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), wat[0])));
         }
     };
     private void loadFromGallery(String[] image) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         PaintGalery paintGallery = PaintGalery.newInstance(image);
+        paintGallery.setOkFragmentListener(new PaintGalery.DoneFragmentListener() {
+            @Override
+            public void onDone(String tag, String image) {
+                if(image != null) {
+                    imageFromGallery = image;
+                }
+                getActivity().getSupportFragmentManager().popBackStack();
+//                if(image != null) {
+//                    drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), image)));
+//                }
+            }
+        });
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, paintGallery).addToBackStack("Paint").commit();
     }
@@ -224,9 +243,9 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
             @Override
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog, int color) {
                 oldColor = color;
-                drawView.setColor(color);
+                drawView.setColor(oldColor);
                 GradientDrawable drawable = (GradientDrawable) getActivity().getResources().getDrawable(R.drawable.action_colorpicker);
-                drawable.setColor(color);
+                drawable.setColor(oldColor);
                 item.setIcon(drawable);
                 dialog.dismiss();
                 getActivity().supportInvalidateOptionsMenu();

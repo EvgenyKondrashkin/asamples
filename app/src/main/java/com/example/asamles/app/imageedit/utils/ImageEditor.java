@@ -15,7 +15,7 @@ import com.example.asamles.app.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-public class ImageEditior {
+public class ImageEditor {
 
     public static final int FLIP_VERTICAL = 1;
     public static final int FLIP_HORIZONTAL = 2;
@@ -27,7 +27,7 @@ public class ImageEditior {
     private static Bitmap oldFrame;
     private static Bitmap bokehFrame;
 
-    public ImageEditior(Bitmap bmp){
+    public ImageEditor(Bitmap bmp){
         result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
         canvas = new Canvas(result);
     }
@@ -88,16 +88,6 @@ public class ImageEditior {
                 });
 
         return changeBitmap(bmp, cm);
-    }
-    public static Bitmap doAlpha1(Bitmap bmp, int alpha) {
-        result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(result);
-        Paint transparentpaint = new Paint();
-        transparentpaint.setAlpha(alpha); // 0 - 255
-        canvas.drawBitmap(bmp, 0, 0, transparentpaint);
-
-        return result;
     }
 
     public static Bitmap doRotate(Bitmap bmp, int direction) {

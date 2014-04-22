@@ -3,9 +3,6 @@ package com.example.asamles.app.imageedit;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,18 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.dialog.ADialogs;
-import com.example.asamles.app.imageedit.utils.ImageEditior;
+import com.example.asamles.app.imageedit.utils.ImageEditor;
 import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import java.io.IOException;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -60,7 +53,7 @@ public class ImageEditMain extends Fragment {
         setHasOptionsMenu(true);
         imageView = (ImageView) rootView.findViewById(R.id.image);
 //        bitmap = BitmapFactory.decodeResource(getResources(), R.raw.photo);
-        bitmap = ImageEditior.decodeSampledBitmapFromResource(getResources(), R.raw.photo, 800, 600);
+        bitmap = ImageEditor.decodeSampledBitmapFromResource(getResources(), R.raw.photo, 800, 600);
 
 //        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity())
 //                .build();
@@ -183,7 +176,7 @@ public class ImageEditMain extends Fragment {
 //                alert.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.image_edit_error), getActivity().getString(R.string.ok), getActivity().getString(R.string.cancel));
 //            }
 
-            bitmap = ImageEditior.decodeSampledBitmapFromUri(picturePath, 800, 600);//imageLoader.loadImageSync(String.valueOf(selectedImageUri));
+            bitmap = ImageEditor.decodeSampledBitmapFromUri(picturePath, 800, 600);//imageLoader.loadImageSync(String.valueOf(selectedImageUri));
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             Bundle extras = data.getExtras();
@@ -193,5 +186,10 @@ public class ImageEditMain extends Fragment {
         mAttacher = new PhotoViewAttacher(imageView);
 
 
+    }
+	@Override
+    public void onDestroy() {
+        super.onDestroy();
+//		mAttacher.cleanup();
     }
 }

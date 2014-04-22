@@ -22,6 +22,13 @@ public class PaintGalery extends Fragment {
     public static final String STACK_NAME = "image";
     public static final String IMAGES = "images";
     private String[] imgs;
+    private DoneFragmentListener doneListener = null;
+    public interface DoneFragmentListener {
+        void onDone(String tag, String image);
+    }
+    public void setOkFragmentListener(DoneFragmentListener doneListener) {
+        this.doneListener = doneListener;
+    }
 
     public static PaintGalery newInstance(String[] imgs) {
         PaintGalery fragment = new PaintGalery();
@@ -49,9 +56,12 @@ public class PaintGalery extends Fragment {
         gridView.setAdapter(new GalleryImageAdapter(getActivity(), imgsList));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, PaintMain.newInstance(imgs[position]))
-                        .commit();
+                if(doneListener != null){
+                    doneListener.onDone(getTag(), imgs[position]);
+                }
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.container, PaintMain.newInstance(imgs[position]))
+//                        .commit();
             }
         });
         return rootView;

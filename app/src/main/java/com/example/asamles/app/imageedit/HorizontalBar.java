@@ -14,7 +14,7 @@ import android.widget.SeekBar;
 import com.example.asamles.app.R;
 import com.example.asamles.app.imageedit.utils.CropperFragment;
 import com.example.asamles.app.imageedit.utils.FilterFragment;
-import com.example.asamles.app.imageedit.utils.ImageEditior;
+import com.example.asamles.app.imageedit.utils.ImageEditor;
 import com.example.asamles.app.imageedit.utils.OkFragmentListener;
 import com.example.asamles.app.imageedit.utils.RotateFragment;
 import com.example.asamles.app.imageedit.utils.SeekbarFragment;
@@ -33,7 +33,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     private IconButton stickerButton;
     private int type;
     private float changedValue;
-    private ImageEditior imageEditior;
+    private ImageEditor imageEditor;
 
     public static HorizontalBar newInstance() {
         HorizontalBar fragment = new HorizontalBar();
@@ -112,7 +112,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     }
     public void openSeekbar(String name, int value){
         mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
-        imageEditior = new ImageEditior(mainBitmap);
+        imageEditor = new ImageEditor(mainBitmap);
 //        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
@@ -124,7 +124,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
             }
         });
         fragment.setSeekbarFragmentListener(this);
-        ft.add(R.id.bottomLayout, fragment);
+        ft.replace(R.id.bottomLayout, fragment);
         ft.addToBackStack("seekbar");
         ft.commit();
     }
@@ -140,7 +140,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        ft.add(R.id.bottomLayout, fragment);
+        ft.replace(R.id.bottomLayout, fragment);
         ft.addToBackStack("filter");
         ft.commit();
     }
@@ -156,7 +156,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        ft.add(R.id.bottomLayout, fragment);
+        ft.replace(R.id.bottomLayout, fragment);
         ft.addToBackStack("rotate");
         ft.commit();
     }
@@ -164,15 +164,15 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
 //        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
 //        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
-        CropperFragment fragment = CropperFragment.newInstance();
+//        ft.setCustomAnimations(R.anim.flip_enter, R.anim.flip_exit, R.anim.flip_enter, R.anim.flip_exit);
+        CropperFragment fragment = CropperFragment.newInstance("Rotate", 50);
         fragment.setOkFragmentListener(new OkFragmentListener() {
             @Override
             public void onDone(String tag) {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        ft.add(R.id.container, fragment);
+        ft.replace(R.id.container, fragment);
         ft.addToBackStack("cropper");
         ft.commit();
     }
@@ -192,15 +192,15 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         switch (type){
             case 0:
                 changedValue = (float)(progress-50)*index;
-                bitmap = imageEditior.onBrightness(mainBitmap, changedValue);
+                bitmap = imageEditor.onBrightness(mainBitmap, changedValue);
                 break;
             case 1:
                 changedValue = (float)(progress-50)*index+1;
-                bitmap = ImageEditior.onContrast(mainBitmap, changedValue);
+                bitmap = ImageEditor.onContrast(mainBitmap, changedValue);
                 break;
             case 2:
                 changedValue = (float)(progress-50)*index+1;
-                bitmap = ImageEditior.onSaturation(mainBitmap, changedValue);
+                bitmap = ImageEditor.onSaturation(mainBitmap, changedValue);
                 break;
         }
         return bitmap;

@@ -18,11 +18,12 @@ public class SeekbarActionProvider extends ActionProvider {
 
     public SeekbarActionProvider(Context context) {
         super(context);
+        this.context = context;
     }
 
-    public void setSeekbarActionProvider(Context context, SizeAdapter.SizeListener listener, Bitmap icon, int size) {
+    public void setSeekbarActionProvider(SizeAdapter.SizeListener listener, Bitmap icon, int size) {
         this.listener = listener;
-        this.context = context;
+//        this.context = this.getContext();
         this.icon = icon;
         this.size = size;
     }
@@ -30,7 +31,7 @@ public class SeekbarActionProvider extends ActionProvider {
     @Override
     public View onCreateActionView() {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         View view = layoutInflater.inflate(R.layout.actionbar_spiner,
                 null);
 

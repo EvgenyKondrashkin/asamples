@@ -10,6 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.edmodo.cropper.CropImageView;
 import com.example.asamles.app.R;
@@ -18,15 +20,25 @@ import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
 public class CropperFragment extends Fragment {
+    private int value;
+    private String name;
+	private SeekBar seekbar;
+    private TextView nameView;
     private Bitmap finalBitmap;
+    public static final String TYPE = "TYPE";
+    public static final String VALUE = "VALUE";
 	private CropImageView cropImageView;
 	private OkFragmentListener doneListener = null;
     public void setOkFragmentListener(OkFragmentListener doneListener) {
         this.doneListener = doneListener;
     }
 
-    public static CropperFragment newInstance() {
+    public static CropperFragment newInstance(String name, int value) {
         CropperFragment fragment = new CropperFragment();
+		Bundle args = new Bundle();
+        args.putString(TYPE, name);
+        args.putInt(VALUE, value);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -36,12 +48,35 @@ public class CropperFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+		name = getArguments() != null ? getArguments().getString(TYPE) : null;
+        value = getArguments() != null ? getArguments().getInt(VALUE) : 0;
+		
         View rootView = inflater.inflate(R.layout.imageedit_cropper, container, false);
         setHasOptionsMenu(true);
 		cropImageView = (CropImageView) rootView.findViewById(R.id.cropper);
         cropImageView.setGuidelines(1);
         finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
         cropImageView.setImageBitmap(finalBitmap);
+		
+		nameView = (TextView) rootView.findViewById(R.id.textView);
+        nameView.setText(name);
+		
+		seekbar = (SeekBar) rootView.findViewById(R.id.seekBar);
+        seekbar.setProgress(value);
+		final int index = 90/50;
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				cropImageView.rotateImage((progress-50)*index);
+            }
+        });
+		
         return rootView;
     }
 
@@ -74,5 +109,8 @@ public class CropperFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         updateImage(finalBitmap);
+        if(finalBitmap != null) {
+            finalBitmap = null;}
+
     }
 }

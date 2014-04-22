@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.imageedit.ImageEditMain;
@@ -76,16 +75,16 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
         switch (v.getId()){
             case R.id.rotate_right:
-                bitmap = ImageEditior.doRotate(mainBitmap, 1);
+                bitmap = ImageEditor.doRotate(mainBitmap, 1);
                 break;
             case R.id.rotate_left:
-                bitmap = ImageEditior.doRotate(mainBitmap, -1);
+                bitmap = ImageEditor.doRotate(mainBitmap, -1);
                 break;
             case R.id.flip_vertical:
-                bitmap = ImageEditior.doFlip(mainBitmap, 1);
+                bitmap = ImageEditor.doFlip(mainBitmap, 1);
                 break;
             case R.id.flip_horizontal:
-                bitmap = ImageEditior.doFlip(mainBitmap, 2);
+                bitmap = ImageEditor.doFlip(mainBitmap, 2);
                 break;
         }
         updateImage(bitmap);

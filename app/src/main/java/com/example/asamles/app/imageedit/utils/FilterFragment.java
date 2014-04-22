@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.imageedit.ImageEditMain;
@@ -51,7 +50,7 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.imageedit_filter_scroll, container, false);
         finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-        smallBitmap = ImageEditior.getResizedBitmap(finalBitmap, container.getHeight(), container.getHeight());//Bitmap.createScaledBitmap(finalBitmap, container.getHeight(), container.getHeight(), true);
+        smallBitmap = ImageEditor.getResizedBitmap(finalBitmap, container.getHeight(), container.getHeight());//Bitmap.createScaledBitmap(finalBitmap, container.getHeight(), container.getHeight(), true);
         setButtons(rootView);
 
 
@@ -59,30 +58,30 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
     private void setButtons(View view){
-        ImageEditior.loadFrames(getActivity());
+        ImageEditor.loadFrames(getActivity());
         grayscaleButton = (ImageButton) view.findViewById(R.id.grayscale);
-        grayscaleButton.setImageBitmap(ImageEditior.doGrayscale(smallBitmap));
+        grayscaleButton.setImageBitmap(ImageEditor.doGrayscale(smallBitmap));
         grayscaleButton.setOnClickListener(this);
         sepiaButton = (ImageButton) view.findViewById(R.id.sepia);
-        sepiaButton.setImageBitmap(ImageEditior.doSepia(smallBitmap));
+        sepiaButton.setImageBitmap(ImageEditor.doSepia(smallBitmap));
         sepiaButton.setOnClickListener(this);
         invertButton = (ImageButton) view.findViewById(R.id.invert);
-        invertButton.setImageBitmap(ImageEditior.doInvert(smallBitmap));
+        invertButton.setImageBitmap(ImageEditor.doInvert(smallBitmap));
         invertButton.setOnClickListener(this);
         swapButton = (ImageButton) view.findViewById(R.id.swap);
-        swapButton.setImageBitmap(ImageEditior.doSwap(smallBitmap));
+        swapButton.setImageBitmap(ImageEditor.doSwap(smallBitmap));
         swapButton.setOnClickListener(this);
 		polaroidButton = (ImageButton) view.findViewById(R.id.polaroid);
-        polaroidButton.setImageBitmap(ImageEditior.doPolaroid(smallBitmap));
+        polaroidButton.setImageBitmap(ImageEditor.doPolaroid(smallBitmap));
         polaroidButton.setOnClickListener(this);
 		blackwhiteButton = (ImageButton) view.findViewById(R.id.blackwhite);
-        blackwhiteButton.setImageBitmap(ImageEditior.doBlackWhite(smallBitmap));
+        blackwhiteButton.setImageBitmap(ImageEditor.doBlackWhite(smallBitmap));
         blackwhiteButton.setOnClickListener(this);
         oldframeButton = (ImageButton) view.findViewById(R.id.oldframe);
-        oldframeButton.setImageBitmap(ImageEditior.doOldPhoto(smallBitmap, getActivity()));
+        oldframeButton.setImageBitmap(ImageEditor.doOldPhoto(smallBitmap, getActivity()));
         oldframeButton.setOnClickListener(this);
         bokehButton = (ImageButton) view.findViewById(R.id.bokeh);
-        bokehButton.setImageBitmap(ImageEditior.doBokehPhoto(smallBitmap, getActivity()));
+        bokehButton.setImageBitmap(ImageEditor.doBokehPhoto(smallBitmap, getActivity()));
         bokehButton.setOnClickListener(this);
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -116,28 +115,28 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
         mainBitmap = finalBitmap;
         switch (v.getId()){
             case R.id.grayscale:
-                mainBitmap = ImageEditior.doGrayscale(mainBitmap);
+                mainBitmap = ImageEditor.doGrayscale(mainBitmap);
                 break;
             case R.id.sepia:
-                mainBitmap = ImageEditior.doSepia(mainBitmap);
+                mainBitmap = ImageEditor.doSepia(mainBitmap);
                 break;
             case R.id.invert:
-                mainBitmap = ImageEditior.doInvert(mainBitmap);
+                mainBitmap = ImageEditor.doInvert(mainBitmap);
                 break;
             case R.id.swap:
-                mainBitmap = ImageEditior.doSwap(mainBitmap);
+                mainBitmap = ImageEditor.doSwap(mainBitmap);
                 break;
             case R.id.polaroid:
-                mainBitmap = ImageEditior.doPolaroid(mainBitmap);
+                mainBitmap = ImageEditor.doPolaroid(mainBitmap);
                 break;
             case R.id.blackwhite:
-                mainBitmap = ImageEditior.doBlackWhite(mainBitmap);
+                mainBitmap = ImageEditor.doBlackWhite(mainBitmap);
                 break;
             case R.id.oldframe:
-                mainBitmap = ImageEditior.doOldPhoto(mainBitmap, getActivity());
+                mainBitmap = ImageEditor.doOldPhoto(mainBitmap, getActivity());
                 break;
             case R.id.bokeh:
-                mainBitmap = ImageEditior.doBokehPhoto(mainBitmap, getActivity());
+                mainBitmap = ImageEditor.doBokehPhoto(mainBitmap, getActivity());
                 break;
         }
         updateImage(mainBitmap);

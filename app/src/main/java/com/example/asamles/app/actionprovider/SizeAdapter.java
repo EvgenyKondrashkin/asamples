@@ -2,6 +2,7 @@ package com.example.asamles.app.actionprovider;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 
 public class SizeAdapter {
@@ -23,9 +25,9 @@ public class SizeAdapter {
         public void onStopTrackingTouch(SeekBar seekBar, int positionInList);
     }
 
-    public SeekbarAdapter getAdapter(Context context, Bitmap title, SizeListener listener, int size) {
+    public SeekbarAdapter getAdapter(Context context, Bitmap pointIcon, SizeListener listener, int size) {
         this.listener = listener;
-        return new SeekbarAdapter(context, title, size);
+        return new SeekbarAdapter(context, pointIcon, size);
     }
 
     public void setSizeListener(SizeListener listener) {
@@ -34,18 +36,19 @@ public class SizeAdapter {
 
     public class SeekbarAdapter extends BaseAdapter implements SeekBar.OnSeekBarChangeListener {
         private LayoutInflater mInflater;
-        private Context context;
+//        private Context context;
         // private String item;
-        private Bitmap title;
+        private Bitmap pointIcon;
         private int size;
         private ViewHolder2 holder2;
         private ViewHolder holder;
 
-        public SeekbarAdapter(Context context, Bitmap title, int size) {
+        public SeekbarAdapter(Context context, Bitmap pointIcon, int size) {
             mInflater = LayoutInflater.from(context);
-            this.context = context;
+//            this.context = context;
             // this.item = item;
-            this.title = title;
+//            this.pointIcon = pointIcon;
+            this.pointIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_brush);
             this.size = size;
         }
 
@@ -79,7 +82,7 @@ public class SizeAdapter {
             } else {
                 holder2 = (ViewHolder2) convertView.getTag(R.layout.action_size_layout);
             }
-            holder2.icon.setImageDrawable(new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(title, size + 2, size + 2, false)));
+            holder2.icon.setImageBitmap(Bitmap.createScaledBitmap(pointIcon, size + 2, size + 2, false));
             return convertView;
         }
 
