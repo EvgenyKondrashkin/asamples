@@ -19,6 +19,14 @@ import java.util.List;
 
 
 public class AnimatedExpandableListView extends ExpandableListView {
+    
+    // AnimatedExpandableListView v1.0 from
+    // https://github.com/idunnololz/AnimatedExpandableListView
+    //
+    // Java Author: idunnololz
+    // https://github.com/idunnololz
+    // created 01.04.2014
+    
     /*
      * A detailed explanation for how this class works:
      * 
