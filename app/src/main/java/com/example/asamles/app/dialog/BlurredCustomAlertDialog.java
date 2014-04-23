@@ -34,7 +34,6 @@ public class BlurredCustomAlertDialog extends DialogFragment {
         ImageView background = (ImageView) rootView.findViewById(R.id.image);
         BlurBackground blurred = new BlurBackground(getActivity(), background);
         blurred.setBlurredBackground();
-
         return rootView;
     }
 

@@ -18,7 +18,7 @@ import com.example.asamles.app.imageedit.ImageEditMain;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
-public class SeekbarFragment extends Fragment  {
+public class SeekbarFragment extends Fragment {
     private SeekBar seekbar;
     private TextView nameView;
     private int value;
@@ -33,15 +33,20 @@ public class SeekbarFragment extends Fragment  {
     }
 
     private SeekbarFragmentListener seekbarListener = null;
+
     public interface SeekbarFragmentListener {
         public void onSeekbarFragmentStopTrackingTouch(SeekBar seekBar);
+
         public void onSeekbarFragmentStartTrackingTouch(SeekBar seekBar);
+
         public void onSeekbarFragmentProgressChanged(SeekBar seekBar, int progress,
-                                      boolean fromUser);
+                                                     boolean fromUser);
     }
+
     public void setSeekbarFragmentListener(SeekbarFragmentListener seekbarListener) {
         this.seekbarListener = seekbarListener;
     }
+
     public static SeekbarFragment newInstance(String name, int value) {
         SeekbarFragment fragment = new SeekbarFragment();
         Bundle args = new Bundle();
@@ -50,6 +55,7 @@ public class SeekbarFragment extends Fragment  {
         fragment.setArguments(args);
         return fragment;
     }
+
     public SeekbarFragment() {
     }
 
@@ -71,24 +77,33 @@ public class SeekbarFragment extends Fragment  {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (seekbarListener != null) {
                     seekbarListener.onSeekbarFragmentStopTrackingTouch(seekBar);
-                } else { seekbarListener.onSeekbarFragmentStopTrackingTouch(null); }
+                } else {
+                    seekbarListener.onSeekbarFragmentStopTrackingTouch(null);
+                }
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 if (seekbarListener != null) {
                     seekbarListener.onSeekbarFragmentStartTrackingTouch(seekBar);
-                } else { seekbarListener.onSeekbarFragmentStartTrackingTouch(null); }
+                } else {
+                    seekbarListener.onSeekbarFragmentStartTrackingTouch(null);
+                }
             }
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 if (seekbarListener != null) {
                     seekbarListener.onSeekbarFragmentProgressChanged(seekBar, progress, fromUser);
-                } else { seekbarListener.onSeekbarFragmentProgressChanged(null, 0, false); }
+                } else {
+                    seekbarListener.onSeekbarFragmentProgressChanged(null, 0, false);
+                }
             }
         });
         return rootView;
     }
+
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.done_menu, menu);
         menu.findItem(R.id.action_done).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_check)
@@ -97,12 +112,13 @@ public class SeekbarFragment extends Fragment  {
         menu.setGroupVisible(R.id.menu_group_imageedit, false);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
                 finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-                if(doneListener != null){
+                if (doneListener != null) {
                     doneListener.onDone(getTag());
                 }
                 return true;
@@ -110,15 +126,18 @@ public class SeekbarFragment extends Fragment  {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         updateImage(finalBitmap);
-        if(finalBitmap != null) {
-            finalBitmap = null;}
+        if (finalBitmap != null) {
+            finalBitmap = null;
+        }
 
     }
-    private void updateImage(Bitmap bitmap){
+
+    private void updateImage(Bitmap bitmap) {
         ImageEditMain.imageView.setImageBitmap(bitmap);
         ImageEditMain.mAttacher.update();
     }

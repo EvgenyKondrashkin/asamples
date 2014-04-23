@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.SVBar;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
@@ -66,26 +65,25 @@ public class BlurredColorPickerDialog extends DialogFragment implements ColorPic
         SaturationBar saturationBar = (SaturationBar) colorPickerLayout.findViewById(R.id.saturationbar);
         ValueBar valueBar = (ValueBar) colorPickerLayout.findViewById(R.id.valuebar);
         picker.setOldCenterColor(color);
-		picker.addSaturationBar(saturationBar);
+        picker.addSaturationBar(saturationBar);
         picker.addValueBar(valueBar);
         picker.setColor(color);
         picker.setOnColorChangedListener(this);
         adb.setPositiveButton(getActivity().getString(R.string.set), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 listener.onBlurredAlertDialogPositiveClick(BlurredColorPickerDialog.this, newColor);
-			}
-			})
-            .setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    listener.onBlurredAlertDialogNegativeClick(BlurredColorPickerDialog.this);
-                }
-            })
-            .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                public void onCancel(DialogInterface dialog) {
-                    listener.onBlurredAlertDialogCancel(BlurredColorPickerDialog.this);
-                }
-            });
-
+            }
+        })
+                .setNegativeButton(getActivity().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        listener.onBlurredAlertDialogNegativeClick(BlurredColorPickerDialog.this);
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    public void onCancel(DialogInterface dialog) {
+                        listener.onBlurredAlertDialogCancel(BlurredColorPickerDialog.this);
+                    }
+                });
         Dialog dialog = adb.create();
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

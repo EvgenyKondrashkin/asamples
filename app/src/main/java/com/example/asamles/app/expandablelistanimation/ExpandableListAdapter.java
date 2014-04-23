@@ -18,6 +18,7 @@ public class ExpandableListAdapter extends AnimatedExpandableListView.AnimatedEx
     private LayoutInflater inflater;
     private ArrayList<Animals> items;
     private int color;
+
     public ExpandableListAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
@@ -25,11 +26,13 @@ public class ExpandableListAdapter extends AnimatedExpandableListView.AnimatedEx
     public void setData(ArrayList<Animals> items) {
         this.items = items;
     }
+
     private int groupColor() {
         Random random = new Random();
         int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
         return color;
     }
+
     @Override
     public Animals getChild(int groupPosition, int childPosition) {
         return items.get(groupPosition);

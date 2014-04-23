@@ -1,16 +1,12 @@
 package com.example.asamles.app.paint;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,20 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.actionprovider.SeekbarActionProvider;
 import com.example.asamles.app.actionprovider.SizeAdapter;
-import com.example.asamles.app.dialog.ADialogs;
+import com.example.asamles.app.constants.Constants;
 import com.example.asamles.app.dialog.BlurredAlertDialog;
 import com.example.asamles.app.dialog.BlurredColorPickerDialog;
 import com.example.asamles.app.dialog.BlurredProgressDialog;
 import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
-
-import java.util.UUID;
 
 public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
 
@@ -54,20 +47,12 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     private MenuItem seekbarItem;
     private SeekbarActionProvider seekbarActionProvider;
     private boolean erase = false;
-	private String imageFromGallery = null;
-    public static final String BITMAP = "BITMAP";
+    private String imageFromGallery = null;
 
     public static PaintMain newInstance() {
         PaintMain fragment = new PaintMain();
         return fragment;
     }
-//	public static PaintMain newInstance(String image) {
-//        PaintMain fragment = new PaintMain();
-//		Bundle args = new Bundle();
-//        args.putString(BITMAP, image);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 
     public PaintMain() {
     }
@@ -75,23 +60,20 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        image = getArguments() != null ? getArguments().getString(BITMAP) : null;
-//		oldColor = Color.BLACK;
-//		smallBrush = 10;
-		setHasOptionsMenu(true);
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setHasOptionsMenu(true);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View rootView = inflater.inflate(R.layout.fragment_paint, container, false);
 
         drawView = (DrawingView) rootView.findViewById(R.id.drawing);
         drawView.setColor(oldColor);
         drawView.setBrushSize(smallBrush);
-		if(imageFromGallery != null) {
-            if (android.os.Build.VERSION.SDK_INT >= 16){
-			    drawView.setBackground(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromStorage(getActivity(), imageFromGallery)));
+        if (imageFromGallery != null) {
+            if (android.os.Build.VERSION.SDK_INT >= 16) {
+                drawView.setBackground(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromPublicStorage(Constants.PAINT_GALLERY, imageFromGallery)));
             } else {
-                drawView.setBackgroundDrawable(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromStorage(getActivity(), imageFromGallery)));
+                drawView.setBackgroundDrawable(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromPublicStorage(Constants.PAINT_GALLERY, imageFromGallery)));
             }
-		}
+        }
         return rootView;
     }
 
@@ -170,7 +152,11 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
                 getActivity().supportInvalidateOptionsMenu();
                 break;
             case R.id.action_save:
-                checkDialog(this.getString(R.string.save_title), this.getString(R.string.save_message), save);
+                if (imageFromGallery == null) {
+                    checkDialog(this.getString(R.string.save_title), this.getString(R.string.save_message), saveAsNew);
+                } else {
+                    saveDialog(this.getString(R.string.save_title), this.getString(R.string.save_new_message), this.getString(R.string.save_new_button), this.getString(R.string.save_ok_button));
+                }
                 break;
             case R.id.action_pencil:
                 erase = false;
@@ -196,44 +182,52 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         @Override
         public void run() {
             drawView.clear();
-			drawView.setBackgroundColor(Color.WHITE);
+            drawView.setBackgroundColor(Color.WHITE);
         }
     };
-    Runnable save = new Runnable() {
+    Runnable saveAsNew = new Runnable() {
         @Override
         public void run() {
             drawView.setDrawingCacheEnabled(true);
             drawView.buildDrawingCache(true);
             Bitmap bitmap = drawView.getDrawingCache();
-            SaveLoadFile.saveToPaintGallery(getActivity(), bitmap, SaveLoadFile.setName(getActivity()));
+            SaveLoadFile.saveToPublicGallery(getActivity(), bitmap, Constants.PAINT_GALLERY, null, false);
             drawView.setDrawingCacheEnabled(false);
         }
     };
-
+    Runnable saveCurrent = new Runnable() {
+        @Override
+        public void run() {
+            drawView.setDrawingCacheEnabled(true);
+            drawView.buildDrawingCache(true);
+            Bitmap bitmap = drawView.getDrawingCache();
+            SaveLoadFile.saveToPublicGallery(getActivity(), bitmap, Constants.PAINT_GALLERY, imageFromGallery, false);
+            drawView.setDrawingCacheEnabled(false);
+        }
+    };
     Runnable load = new Runnable() {
         @Override
         public void run() {
-            loadFromGallery(SaveLoadFile.loadAllFiles(getActivity()));
+            loadFromGallery(SaveLoadFile.loadAllPublicFiles(getActivity(), Constants.PAINT_GALLERY));
         }
     };
+
     private void loadFromGallery(String[] image) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        PaintGalery paintGallery = PaintGalery.newInstance(image);
-        paintGallery.setOkFragmentListener(new PaintGalery.DoneFragmentListener() {
+        PaintGallery paintGallery = PaintGallery.newInstance(image);
+        paintGallery.setOkFragmentListener(new PaintGallery.DoneFragmentListener() {
             @Override
             public void onDone(String tag, String image) {
-                if(image != null) {
+                if (image != null) {
                     imageFromGallery = image;
                 }
                 getActivity().getSupportFragmentManager().popBackStack();
-//                if(image != null) {
-//                    drawView.setBackgroundDrawable(new BitmapDrawable(SaveLoadFile.loadImageFromStorage(getActivity(), image)));
-//                }
             }
         });
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, paintGallery).addToBackStack("Paint").commit();
     }
+
     public void showColorPicker(final MenuItem item) {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
@@ -250,10 +244,12 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
                 dialog.dismiss();
                 getActivity().supportInvalidateOptionsMenu();
             }
+
             @Override
             public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) {
                 dialog.dismiss();
             }
+
             @Override
             public void onBlurredAlertDialogCancel(DialogFragment dialog) {
                 dialog.dismiss();
@@ -262,7 +258,6 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
     }
-
     public void checkDialog(String title, String message, final Runnable type) {
         View v = getActivity().getWindow().getDecorView();
         v.setId(1);
@@ -273,11 +268,44 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
                 type.run();
                 dialog.dismiss();
-			}
+            }
+
             @Override
-            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) { dialog.dismiss();}
+            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) {
+                dialog.dismiss();
+            }
+
             @Override
-            public void onBlurredAlertDialogCancel(DialogFragment dialog) { dialog.dismiss();}
+            public void onBlurredAlertDialogCancel(DialogFragment dialog) {
+                dialog.dismiss();
+            }
+        });
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(1, newFragment).commit();
+    }
+	
+    public void saveDialog(String title, String message, String okButton, String cancelButton) {
+        View v = getActivity().getWindow().getDecorView();
+        v.setId(1);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        BlurredAlertDialog newFragment = BlurredAlertDialog.newInstance(title, message, okButton, cancelButton);
+        newFragment.setBlurredAlertDialogListener(new BlurredAlertDialog.BlurredAlertDialogListener() {
+            @Override
+            public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
+                saveAsNew.run();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onBlurredAlertDialogNegativeClick(DialogFragment dialog) {
+				saveCurrent.run();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onBlurredAlertDialogCancel(DialogFragment dialog) {
+                dialog.dismiss();
+            }
         });
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();

@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.dialog.ADialogs;
@@ -37,7 +36,8 @@ public class PicassoMain extends Fragment {
         return fragment;
     }
 
-    public PicassoMain() {}
+    public PicassoMain() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class PicassoMain extends Fragment {
         ArrayList<String> imgs = JFA.getFromJson();
         if (imgs == null) {
             ADialogs alertDialog = new ADialogs(getActivity());
-			alertDialog.alert(false, this.getString(R.string.error), this.getString(R.string.json_error), this.getString(R.string.ok), null);
+            alertDialog.alert(false, this.getString(R.string.error), this.getString(R.string.json_error), this.getString(R.string.ok), null);
             return rootView;
         }
         grid = PicassoGridImages.newInstance(imgs);

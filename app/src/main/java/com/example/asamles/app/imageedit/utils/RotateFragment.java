@@ -39,6 +39,7 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         RotateFragment fragment = new RotateFragment();
         return fragment;
     }
+
     public RotateFragment() {
     }
 
@@ -51,15 +52,16 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         setButtons(rootView);
         return rootView;
     }
-    private void setButtons(View view){
+
+    private void setButtons(View view) {
         rotateRightButton = (ImageButton) view.findViewById(R.id.rotate_right);
-		rotateRightButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_repeat)
-              .colorRes(R.color.grey_light).sizeDp(32));
+        rotateRightButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_repeat)
+                .colorRes(R.color.grey_light).sizeDp(32));
         rotateRightButton.setOnClickListener(this);
 
         rotateLeftButton = (ImageButton) view.findViewById(R.id.rotate_left);
-		rotateLeftButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
-              .colorRes(R.color.grey_light).sizeDp(32));
+        rotateLeftButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
+                .colorRes(R.color.grey_light).sizeDp(32));
         rotateLeftButton.setOnClickListener(this);
 
         flipVerticalButton = (ImageButton) view.findViewById(R.id.flip_vertical);
@@ -70,10 +72,11 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         flipHorizontalButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.flip_horizontal));
         flipHorizontalButton.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View v) {
-        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
-        switch (v.getId()){
+        mainBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
+        switch (v.getId()) {
             case R.id.rotate_right:
                 bitmap = ImageEditor.doRotate(mainBitmap, 1);
                 break;
@@ -89,6 +92,7 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         }
         updateImage(bitmap);
     }
+
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.done_menu, menu);
         menu.findItem(R.id.action_done).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_check)
@@ -97,12 +101,13 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         menu.setGroupVisible(R.id.menu_group_imageedit, false);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
                 finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-                if(doneListener != null){
+                if (doneListener != null) {
                     doneListener.onDone(getTag());
                 }
                 return true;
@@ -110,19 +115,24 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
                 return super.onOptionsItemSelected(item);
         }
     }
-    private void updateImage(Bitmap bitmap){
+
+    private void updateImage(Bitmap bitmap) {
         ImageEditMain.imageView.setImageBitmap(bitmap);
         ImageEditMain.mAttacher.update();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         updateImage(finalBitmap);
-        if(mainBitmap != null) {
-            mainBitmap = null;}
-        if(finalBitmap != null) {
-            finalBitmap = null;}
-        if(bitmap != null) {
-            bitmap = null;}
+        if (mainBitmap != null) {
+            mainBitmap = null;
+        }
+        if (finalBitmap != null) {
+            finalBitmap = null;
+        }
+        if (bitmap != null) {
+            bitmap = null;
+        }
     }
 }

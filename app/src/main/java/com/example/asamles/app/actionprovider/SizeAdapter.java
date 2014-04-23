@@ -3,7 +3,6 @@ package com.example.asamles.app.actionprovider;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 
 public class SizeAdapter {
@@ -36,7 +34,7 @@ public class SizeAdapter {
 
     public class SeekbarAdapter extends BaseAdapter implements SeekBar.OnSeekBarChangeListener {
         private LayoutInflater mInflater;
-//        private Context context;
+        //        private Context context;
         // private String item;
         private Bitmap pointIcon;
         private int size;

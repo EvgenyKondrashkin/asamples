@@ -5,15 +5,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.asamles.app.R;
@@ -24,31 +21,45 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ADialogs {
-	private Context context;
-	private ADialogsListener aListener = null;
-	private ADialogsTimeListener timeListener = null;
-	private ADialogsProgressListener progressListener = null;
+    private Context context;
+    private ADialogsListener aListener = null;
+    private ADialogsTimeListener timeListener = null;
+    private ADialogsProgressListener progressListener = null;
     private ADialogsSeekBarListener seekbarListener = null;
     private ADialogsCustomListListener listListener = null;
-	public ADialogs(Context context) {
-		this.context = context;
-	}
+
+    public ADialogs(Context context) {
+        this.context = context;
+    }
+
     private AlertDialog.Builder build(boolean cancelable, String title, String message) {
         AlertDialog.Builder ad = new AlertDialog.Builder(context);
-        if (title != null) { ad.setTitle(title); }
-        if (message != null) { ad.setMessage(message); }
-        if (cancelable) { ad.setCancelable(cancelable); }
+        if (title != null) {
+            ad.setTitle(title);
+        }
+        if (message != null) {
+            ad.setMessage(message);
+        }
+        if (cancelable) {
+            ad.setCancelable(cancelable);
+        }
         return ad;
     }
-	public interface ADialogsTimeListener {
+
+    // TimeDialog
+    public interface ADialogsTimeListener {
         public void onADialogsTimePositiveClick(DialogInterface dialog, TimePicker tp, CheckBox active);
+
         public void onADialogsTimeNegativeClick(DialogInterface dialog);
+
         public void onADialogsTimeCancel(DialogInterface dialog);
     }
-	public void setADialogsTimeListener(ADialogsTimeListener timeListener) {
+
+    public void setADialogsTimeListener(ADialogsTimeListener timeListener) {
         this.timeListener = timeListener;
     }
-    public  void openTime(boolean cancelable, String title, String positiveButton, String negativeButton) {
+
+    public void openTime(boolean cancelable, String title, String positiveButton, String negativeButton) {
         final TimePicker tp;
         final CheckBox active;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,9 +73,11 @@ public class ADialogs {
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-					if (timeListener != null) {
-						timeListener.onADialogsTimePositiveClick(dialog, tp, active);
-					} else { dialog.cancel(); }
+                    if (timeListener != null) {
+                        timeListener.onADialogsTimePositiveClick(dialog, tp, active);
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
@@ -72,8 +85,10 @@ public class ADialogs {
             ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int arg1) {
                     if (timeListener != null) {
-						timeListener.onADialogsTimeNegativeClick(dialog);
-					} else { dialog.cancel(); }
+                        timeListener.onADialogsTimeNegativeClick(dialog);
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
@@ -81,23 +96,30 @@ public class ADialogs {
             ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {
                     if (timeListener != null) {
-						timeListener.onADialogsTimeCancel(dialog);
-					} else { dialog.cancel(); }
+                        timeListener.onADialogsTimeCancel(dialog);
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
         ad.create().show();
     }
 
-    //@TODO: DialogsMain, BlurBackground, ImageEditMain, PicassoMain, BlurredCustomDialog
-	public interface ADialogsListener {
+    //AlertDialog
+    //DialogsMain, BlurBackground, ImageEditMain, PicassoMain, BlurredCustomDialog
+    public interface ADialogsListener {
         public void onADialogsPositiveClick(DialogInterface dialog);
+
         public void onADialogsNegativeClick(DialogInterface dialog);
+
         public void onADialogsCancel(DialogInterface dialog);
     }
-	public void setADialogsListener(ADialogsListener aListener) {
+
+    public void setADialogsListener(ADialogsListener aListener) {
         this.aListener = aListener;
     }
+
     public void alert(boolean cancelable, String title, String message, String positiveButton, String negativeButton) {
         final Activity activity = (Activity) context;
         AlertDialog.Builder ad = build(cancelable, title, message);
@@ -105,8 +127,10 @@ public class ADialogs {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     if (aListener != null) {
-						aListener.onADialogsPositiveClick(dialog);
-					} else { dialog.cancel(); }
+                        aListener.onADialogsPositiveClick(dialog);
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
@@ -114,28 +138,36 @@ public class ADialogs {
             ad.setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     if (aListener != null) {
-						aListener.onADialogsNegativeClick(dialog);
-					} else { dialog.cancel(); }
+                        aListener.onADialogsNegativeClick(dialog);
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
         if (cancelable) {
             ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {
-					if (aListener != null) {
-						aListener.onADialogsCancel(dialog);
-					} else { dialog.cancel(); }
+                    if (aListener != null) {
+                        aListener.onADialogsCancel(dialog);
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
         ad.create().show();
     }
-	public interface ADialogsProgressListener {
+
+    // ProgressDialog
+    public interface ADialogsProgressListener {
         public void onADialogsProgressCancel(DialogInterface dialog);
     }
-	public void setADialogsTimeListener(ADialogsProgressListener progressListener) {
+
+    public void setADialogsTimeListener(ADialogsProgressListener progressListener) {
         this.progressListener = progressListener;
     }
+
     public void progress(boolean cancelable, String message) {
         ProgressDialog pd = new ProgressDialog(context);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -146,21 +178,25 @@ public class ADialogs {
             pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 public void onCancel(DialogInterface dialog) {
                     if (progressListener != null) {
-						progressListener.onADialogsProgressCancel(dialog);
-					} else { dialog.cancel(); }
+                        progressListener.onADialogsProgressCancel(dialog);
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
         pd.show();
     }
 
-    //@TODO: DialogsMain, ImageEditMain
-	public interface ADialogsSeekBarListener {
+    //SeekbarDialog
+    public interface ADialogsSeekBarListener {
         public void onADialogsSeekBarPositiveClick(DialogInterface dialog, SeekBar seekbar);
     }
-	public void setADialogsSeekBarListener(ADialogsSeekBarListener seekbarListener) {
+
+    public void setADialogsSeekBarListener(ADialogsSeekBarListener seekbarListener) {
         this.seekbarListener = seekbarListener;
     }
+
     public void seekbar(boolean cancelable, String title, int progress, String positiveButton, String negativeButton) {
         final SeekBar seekBar;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -174,7 +210,9 @@ public class ADialogs {
                 public void onClick(DialogInterface dialog, int id) {
                     if (seekbarListener != null) {
                         seekbarListener.onADialogsSeekBarPositiveClick(dialog, seekBar);
-                    } else { dialog.cancel(); }
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }
@@ -194,9 +232,12 @@ public class ADialogs {
         }
         ad.create().show();
     }
+
+    // CustomListDialog
     public interface ADialogsCustomListListener {
         public void onADialogsCustomListPositiveClick(DialogInterface dialog, ArrayList<ImageTextCheckbox> list);
     }
+
     public void setADialogsCustomListListener(ADialogsCustomListListener listListener) {
         this.listListener = listListener;
     }
@@ -210,12 +251,10 @@ public class ADialogs {
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(list.get(position).getCheck()){
+                if (list.get(position).getCheck()) {
                     list.get(position).setCheck(false);
-//                    adapter.setChecked(false);
                 } else {
                     list.get(position).setCheck(true);
-//                    adapter.setChecked(true);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -228,7 +267,9 @@ public class ADialogs {
                 public void onClick(DialogInterface dialog, int id) {
                     if (listListener != null) {
                         listListener.onADialogsCustomListPositiveClick(dialog, list);
-                    } else { dialog.cancel(); }
+                    } else {
+                        dialog.cancel();
+                    }
                 }
             });
         }

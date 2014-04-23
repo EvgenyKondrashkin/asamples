@@ -40,7 +40,8 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         return fragment;
     }
 
-    public HorizontalBar() {}
+    public HorizontalBar() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,14 +54,14 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         return rootView;
     }
 
-    private void setButtons(View view){
+    private void setButtons(View view) {
         brightnessButton = (IconButton) view.findViewById(R.id.brightness);
         brightnessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 type = 0;
-                index = 255/50;
-                openSeekbar(name[type],value);
+                index = 255 / 50;
+                openSeekbar(name[type], value);
             }
         });
         contrastButton = (IconButton) view.findViewById(R.id.contrast);
@@ -68,8 +69,8 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
             @Override
             public void onClick(View v) {
                 type = 1;
-                index = (float)1/50;
-                openSeekbar(name[type],value);
+                index = (float) 1 / 50;
+                openSeekbar(name[type], value);
             }
         });
         saturationButton = (IconButton) view.findViewById(R.id.saturation);
@@ -77,7 +78,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
             @Override
             public void onClick(View v) {
                 type = 2;
-                index = (float)1/50;
+                index = (float) 1 / 50;
                 openSeekbar(name[type], value);
             }
         });
@@ -110,8 +111,9 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
             }
         });
     }
-    public void openSeekbar(String name, int value){
-        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
+
+    public void openSeekbar(String name, int value) {
+        mainBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
         imageEditor = new ImageEditor(mainBitmap);
 //        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -120,7 +122,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         fragment.setOkFragmentListener(new OkFragmentListener() {
             @Override
             public void onDone(String tag) {
-                   getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         fragment.setSeekbarFragmentListener(this);
@@ -128,7 +130,8 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         ft.addToBackStack("seekbar");
         ft.commit();
     }
-    public void openFilter(){
+
+    public void openFilter() {
 //        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
 //        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -144,7 +147,8 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         ft.addToBackStack("filter");
         ft.commit();
     }
-    public void openRotate(){
+
+    public void openRotate() {
 //        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
 //        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -160,7 +164,8 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
         ft.addToBackStack("rotate");
         ft.commit();
     }
-    public void openCrop(){
+
+    public void openCrop() {
 //        mainBitmap = ((BitmapDrawable)ImageEditMain.imageView.getDrawable()).getBitmap();
 //        mainBitmap = mainBitmap.copy(mainBitmap.getConfig(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -178,9 +183,13 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     }
 
     @Override
-    public void onSeekbarFragmentStopTrackingTouch(SeekBar seekBar) {    }
+    public void onSeekbarFragmentStopTrackingTouch(SeekBar seekBar) {
+    }
+
     @Override
-    public void onSeekbarFragmentStartTrackingTouch(SeekBar seekBar) {    }
+    public void onSeekbarFragmentStartTrackingTouch(SeekBar seekBar) {
+    }
+
     @Override
     public void onSeekbarFragmentProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         bitmap = changeBitmap(seekBar.getProgress());
@@ -189,24 +198,24 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
 
     private Bitmap changeBitmap(int progress) {
         Bitmap bitmap = mainBitmap;
-        switch (type){
+        switch (type) {
             case 0:
-                changedValue = (float)(progress-50)*index;
+                changedValue = (float) (progress - 50) * index;
                 bitmap = imageEditor.onBrightness(mainBitmap, changedValue);
                 break;
             case 1:
-                changedValue = (float)(progress-50)*index+1;
+                changedValue = (float) (progress - 50) * index + 1;
                 bitmap = ImageEditor.onContrast(mainBitmap, changedValue);
                 break;
             case 2:
-                changedValue = (float)(progress-50)*index+1;
+                changedValue = (float) (progress - 50) * index + 1;
                 bitmap = ImageEditor.onSaturation(mainBitmap, changedValue);
                 break;
         }
         return bitmap;
     }
 
-    private void updateImage(Bitmap bitmap){
+    private void updateImage(Bitmap bitmap) {
         ImageEditMain.imageView.setImageBitmap(bitmap);
         ImageEditMain.mAttacher.update();
     }

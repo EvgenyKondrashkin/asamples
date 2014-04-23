@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -18,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.constants.Constants;
 import com.example.asamles.app.dialog.ADialogs;
 import com.example.asamles.app.imageedit.utils.ImageEditor;
 import com.example.asamles.app.saveload.SaveLoadFile;
@@ -102,7 +102,7 @@ public class ImageEditMain extends Fragment {
         @Override
         public void run() {
             Bitmap saveBitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-            SaveLoadFile.saveToGallery(getActivity(), saveBitmap, null);
+            SaveLoadFile.saveToPublicGallery(getActivity(), saveBitmap, Constants.IMAGEEDIT, null, true);
         }
     };
 
@@ -165,17 +165,8 @@ public class ImageEditMain extends Fragment {
             bitmap = null;
         }
         if (requestCode == SELECT_PICTURE) {
-            Uri selectedImageUri = data.getData();
-            String picturePath = SaveLoadFile.loadFromGallery(getActivity(), data);
-//            try {
-//                BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(String.valueOf(selectedImageUri),true);
-//                Bitmap region = decoder.decodeRegion(new Rect(10, 10, 50, 50), null);
-//                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-//            } catch (IOException e) {
-//                ADialogs alert = new ADialogs(getActivity());
-//                alert.alert(true, getActivity().getString(R.string.error), getActivity().getString(R.string.image_edit_error), getActivity().getString(R.string.ok), getActivity().getString(R.string.cancel));
-//            }
-
+//            Uri selectedImageUri = data.getData();
+            String picturePath = SaveLoadFile.loadPathFromGallery(getActivity(), data);
             bitmap = ImageEditor.decodeSampledBitmapFromUri(picturePath, 800, 600);//imageLoader.loadImageSync(String.valueOf(selectedImageUri));
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
@@ -187,7 +178,8 @@ public class ImageEditMain extends Fragment {
 
 
     }
-	@Override
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
 //		mAttacher.cleanup();

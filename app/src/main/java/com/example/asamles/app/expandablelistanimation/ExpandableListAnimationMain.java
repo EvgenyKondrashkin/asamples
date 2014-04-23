@@ -53,6 +53,7 @@ public class ExpandableListAnimationMain extends Fragment implements DBToClass.D
         lenght = adapter.getGroupCount();
         listView.setOnGroupClickListener(this);
     }
+
     int lenght = 0;
 
     @Override

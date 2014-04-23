@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.asamles.app.R;
@@ -17,19 +16,19 @@ import com.qozix.tileview.TileView;
 
 public class TiledMain extends Fragment {
 
-    private int[][] mInfoXY = {{2292, 3528},{538, 957}};
-    private int[][] mParkXY = {{1044, 1230, 1188, 2526, 3810, 4080},{616, 395, 850, 760, 850, 927}};
-	private int sizeX = 4800;
-	private int sizeY = 1700;
-	private int mMuseumX = 2583;
-	private int mMuseumY = 400;
-	private float center = -0.5f;
+    private int[][] mInfoXY = {{2292, 3528}, {538, 957}};
+    private int[][] mParkXY = {{1044, 1230, 1188, 2526, 3810, 4080}, {616, 395, 850, 760, 850, 927}};
+    private int sizeX = 4800;
+    private int sizeY = 1700;
+    private int mMuseumX = 2583;
+    private int mMuseumY = 400;
+    private float center = -0.5f;
     private TileView tileView;
     private ImageView mMuseum;
     private ImageView[] mInfo = new ImageView[mInfoXY.length];
     private ImageView[] mPark = new ImageView[mParkXY.length];
     private boolean marker = false;
-	private int activityOrientation;
+    private int activityOrientation;
 
     public static TiledMain newInstance() {
         TiledMain fragment = new TiledMain();

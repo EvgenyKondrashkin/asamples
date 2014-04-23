@@ -9,11 +9,8 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.net.Uri;
 
 import com.example.asamles.app.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class ImageEditor {
 
@@ -27,10 +24,11 @@ public class ImageEditor {
     private static Bitmap oldFrame;
     private static Bitmap bokehFrame;
 
-    public ImageEditor(Bitmap bmp){
+    public ImageEditor(Bitmap bmp) {
         result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
         canvas = new Canvas(result);
     }
+
     private static Bitmap changeBitmapSeekbar(Bitmap bmp, ColorMatrix cm) {
 
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
@@ -38,6 +36,7 @@ public class ImageEditor {
 
         return result;
     }
+
     private static Bitmap changeBitmap(Bitmap bmp, ColorMatrix cm) {
         result = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
         canvas = new Canvas(result);
@@ -46,6 +45,7 @@ public class ImageEditor {
 
         return result;
     }
+
     public static Bitmap onBrightness(Bitmap bmp, float brightness) {
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
@@ -78,6 +78,7 @@ public class ImageEditor {
 
         return changeBitmapSeekbar(bmp, cm);
     }
+
     public static Bitmap doAlpha(Bitmap bmp, float alpha) {
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
@@ -90,12 +91,22 @@ public class ImageEditor {
         return changeBitmap(bmp, cm);
     }
 
-    public static Bitmap doRotate(Bitmap bmp, int direction) {
+    public static Bitmap doRotate(Bitmap bmp, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.setRotate (angle, result.getWidth()/2, result.getWidth()/2);
+//        matrix.postScale(scaleX, scaleY);
+        canvas.setMatrix (matrix);
+
+        canvas.drawBitmap(bmp, 0, 0, new Paint(Paint.DITHER_FLAG));
+        return result;
+    }
+	public static Bitmap doRotate(Bitmap bmp, int direction) {
         int angle = direction * 90;
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
     }
+
     public static Bitmap doFlip(Bitmap bmp, int type) {
         Matrix matrix = new Matrix();
         if (type == FLIP_VERTICAL) {
@@ -179,10 +190,12 @@ public class ImageEditor {
 
         return changeBitmap(bmp, cm);
     }
-    public static void loadFrames(Context context){
+
+    public static void loadFrames(Context context) {
         oldFrame = BitmapFactory.decodeResource(context.getResources(), R.drawable.old_frame);
         bokehFrame = BitmapFactory.decodeResource(context.getResources(), R.drawable.bokeh);
     }
+
     public static Bitmap doOldPhoto(Bitmap bmp, Context context) {
         bitmap = doSepia(bmp);
 
@@ -222,8 +235,9 @@ public class ImageEditor {
         }
         return inSampleSize;
     }
+
     public static Bitmap decodeSampledBitmapFromUri(String uri,
-                                                         int reqWidth, int reqHeight) {
+                                                    int reqWidth, int reqHeight) {
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -234,6 +248,7 @@ public class ImageEditor {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(uri, options);
     }
+
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 
@@ -245,6 +260,7 @@ public class ImageEditor {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(res, resId, options);
     }
+
     public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
         int width = bm.getWidth();
         int height = bm.getHeight();

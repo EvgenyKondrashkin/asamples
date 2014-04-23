@@ -22,20 +22,22 @@ import com.joanzapata.android.iconify.Iconify;
 public class CropperFragment extends Fragment {
     private int value;
     private String name;
-	private SeekBar seekbar;
+    private SeekBar seekbar;
     private TextView nameView;
     private Bitmap finalBitmap;
+    private Bitmap bitmap;
     public static final String TYPE = "TYPE";
     public static final String VALUE = "VALUE";
-	private CropImageView cropImageView;
-	private OkFragmentListener doneListener = null;
+    private CropImageView cropImageView;
+    private OkFragmentListener doneListener = null;
+
     public void setOkFragmentListener(OkFragmentListener doneListener) {
         this.doneListener = doneListener;
     }
 
     public static CropperFragment newInstance(String name, int value) {
         CropperFragment fragment = new CropperFragment();
-		Bundle args = new Bundle();
+        Bundle args = new Bundle();
         args.putString(TYPE, name);
         args.putInt(VALUE, value);
         fragment.setArguments(args);
@@ -48,35 +50,43 @@ public class CropperFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		name = getArguments() != null ? getArguments().getString(TYPE) : null;
+        name = getArguments() != null ? getArguments().getString(TYPE) : null;
         value = getArguments() != null ? getArguments().getInt(VALUE) : 0;
-		
+
         View rootView = inflater.inflate(R.layout.imageedit_cropper, container, false);
         setHasOptionsMenu(true);
-		cropImageView = (CropImageView) rootView.findViewById(R.id.cropper);
+        cropImageView = (CropImageView) rootView.findViewById(R.id.cropper);
         cropImageView.setGuidelines(1);
         finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
+        bitmap = finalBitmap;
         cropImageView.setImageBitmap(finalBitmap);
-		
-		nameView = (TextView) rootView.findViewById(R.id.textView);
+
+        nameView = (TextView) rootView.findViewById(R.id.textView);
         nameView.setText(name);
-		
-		seekbar = (SeekBar) rootView.findViewById(R.id.seekBar);
+
+        final ImageEditor imageEditor = new ImageEditor(bitmap);
+        seekbar = (SeekBar) rootView.findViewById(R.id.seekBar);
         seekbar.setProgress(value);
-		final int index = 90/50;
+        final float index = 90 / 50;
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-			}
+            }
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				cropImageView.rotateImage((progress-50)*index);
+//                bitmap = imageEditor.doInvert(bitmap);
+                bitmap = imageEditor.doRotate(bitmap, (float)((progress - 50) * index));
+                updateCropImage(bitmap);
+                // cropImageView.setRotation((progress - 50) * index);
+//				cropImageView.rotateImage((progress-50)*index);
             }
         });
-		
+
         return rootView;
     }
 
@@ -88,12 +98,13 @@ public class CropperFragment extends Fragment {
         menu.setGroupVisible(R.id.menu_group_imageedit, false);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
                 finalBitmap = cropImageView.getCroppedImage();
-                if(doneListener != null){
+                if (doneListener != null) {
                     doneListener.onDone(getTag());
                 }
                 return true;
@@ -101,16 +112,21 @@ public class CropperFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
-	private void updateImage(Bitmap bitmap){
+    private void updateCropImage(Bitmap bitmap) {
+        cropImageView.setImageBitmap(bitmap);
+    }
+    private void updateImage(Bitmap bitmap) {
         ImageEditMain.imageView.setImageBitmap(bitmap);
         ImageEditMain.mAttacher.update();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         updateImage(finalBitmap);
-        if(finalBitmap != null) {
-            finalBitmap = null;}
+        if (finalBitmap != null) {
+            finalBitmap = null;
+        }
 
     }
 }

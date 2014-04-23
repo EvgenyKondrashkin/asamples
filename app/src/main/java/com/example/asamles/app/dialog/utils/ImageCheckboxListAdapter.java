@@ -20,7 +20,7 @@ public class ImageCheckboxListAdapter extends BaseAdapter {
     private ViewHolder holder;
 
     public ImageCheckboxListAdapter(Context context, ArrayList<ImageTextCheckbox> list) {
-        this.context = (Activity)context;
+        this.context = (Activity) context;
         this.list = list;
     }
 
@@ -44,6 +44,7 @@ public class ImageCheckboxListAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return i;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

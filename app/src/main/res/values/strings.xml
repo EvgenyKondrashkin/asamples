@@ -34,6 +34,9 @@
 	<string name="photo_message">Are you sure you want to make photo?</string>
 	<string name="save_title">Save</string>
 	<string name="save_message">Save your image to device Gallery?</string>
+    <string name="save_new_message">Do you want to save this image as new or just rewrite it?</string>
+    <string name="save_new_button">New</string>
+    <string name="save_ok_button">Save</string>
 	<string name="save_positive_result">Drawing saved to Gallery!</string>
 	<string name="save_negative_result">Oops! Image could not be saved.</string>
 	<string name="save_tag">drawing</string>
@@ -43,6 +46,9 @@
 	<string name="load_paint_title">Load from gallery</string>
 	<string name="load_paint_message">Are you sure you want to load your drawing from Galary?</string>
 	<string name="clear_paint_message">Are you sure you want to clear your drawing?</string>
+    <string name="nothing_to_remove">Sorry, nothing to remove, longpressed to item to mark it</string>
+	<string name="paint_gallery_remove_title">Remove images</string>
+	<string name="paint_gallery_remove_message">Are you sure you want to remove %s images?</string>
 	<!--ImageEditMain-->
     <string-array name="seek_list">
         <item>Brightness</item>

@@ -2,7 +2,6 @@ package com.example.asamles.app.dialog;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
@@ -63,7 +62,7 @@ public class BlurBackground implements BlurTask.BlurTaskListener {
             background.setImageDrawable(new BitmapDrawable(activity.getResources(), Bitmap.createScaledBitmap(result, map.getWidth(), map.getHeight(), true)));
         } else {
             ADialogs alertDialog = new ADialogs(activity);
-			alertDialog.alert(true, activity.getString(R.string.error), activity.getString(R.string.blur_background_error), activity.getString(R.string.ok), null);
+            alertDialog.alert(true, activity.getString(R.string.error), activity.getString(R.string.blur_background_error), activity.getString(R.string.ok), null);
         }
     }
 

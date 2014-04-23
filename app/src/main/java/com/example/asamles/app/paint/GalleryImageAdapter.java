@@ -1,24 +1,23 @@
 package com.example.asamles.app.paint;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.asamles.app.R;
+import com.example.asamles.app.paint.utils.PaintGalleryItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class GalleryImageAdapter extends BaseAdapter {
     Activity context;
-    ArrayList<String> imgs = new ArrayList<String>();
+    ArrayList<PaintGalleryItem> imgs = new ArrayList<PaintGalleryItem>();
 
-    public GalleryImageAdapter(Activity context, ArrayList<String> imgs) {
+    public GalleryImageAdapter(Activity context, ArrayList<PaintGalleryItem> imgs) {
         this.context = context;
         this.imgs = imgs;
     }
@@ -41,6 +40,7 @@ public class GalleryImageAdapter extends BaseAdapter {
     static class ViewHolder {
         public ImageView imageView;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 //        LayoutInflater inflater = context.getLayoutInflater();
@@ -64,7 +64,7 @@ public class GalleryImageAdapter extends BaseAdapter {
 //            imageView = (ImageView) convertView;
 //        }
         Picasso.with(context)
-                .load(imgs.get(position))
+                .load(imgs.get(position).getImageFullName())
                 .into(holder.imageView);
         return gridItemView;
     }

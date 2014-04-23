@@ -41,9 +41,10 @@ public class DialogsMain extends Fragment {
     private boolean cancelable = true;
     private VerticalSeekBar verticalSeekBar = null;
     private int oldColor = Color.BLACK;
-	private int progress = 50;
+    private int progress = 50;
     ArrayList<ImageTextCheckbox> list = new ArrayList<ImageTextCheckbox>();
     ImageCheckboxListAdapter adapter;
+
     public static DialogsMain newInstance() {
         DialogsMain fragment = new DialogsMain();
         return fragment;
@@ -84,8 +85,8 @@ public class DialogsMain extends Fragment {
         TypedArray images = getActivity().getResources().obtainTypedArray(R.array.shape_list);
         String[] itemText = getActivity().getResources().getStringArray(R.array.item_list);
         ImageTextCheckbox item = null;
-        for(int i=0;i<images.length();i++) {
-            item = new ImageTextCheckbox(images.getResourceId(i,-1),itemText[i], false);
+        for (int i = 0; i < images.length(); i++) {
+            item = new ImageTextCheckbox(images.getResourceId(i, -1), itemText[i], false);
             list.add(item);
         }
 //---------------------------------------------------------------------------------------
@@ -104,7 +105,7 @@ public class DialogsMain extends Fragment {
         timeDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-				ADialogs timeDialog = new ADialogs(getActivity());
+                ADialogs timeDialog = new ADialogs(getActivity());
                 timeDialog.openTime(cancelable, getActivity().getString(R.string.title), getActivity().getString(R.string.set), getActivity().getString(R.string.cancel));
                 timeDialog.setADialogsTimeListener(new ADialogs.ADialogsTimeListener() {
                     @Override
@@ -131,19 +132,19 @@ public class DialogsMain extends Fragment {
         alertDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-				ADialogs alertDialog = new ADialogs(getActivity());
+                ADialogs alertDialog = new ADialogs(getActivity());
                 alertDialog.alert(cancelable, getActivity().getString(R.string.title), getActivity().getString(R.string.message), getActivity().getString(R.string.ok), null);
             }
         });
         seekbarDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-				ADialogs seekbarDialog = new ADialogs(getActivity());
+                ADialogs seekbarDialog = new ADialogs(getActivity());
                 seekbarDialog.seekbar(cancelable, getActivity().getString(R.string.title), progress, getActivity().getString(R.string.set), getActivity().getString(R.string.cancel));
-				seekbarDialog.setADialogsSeekBarListener(new ADialogs.ADialogsSeekBarListener() {
+                seekbarDialog.setADialogsSeekBarListener(new ADialogs.ADialogsSeekBarListener() {
                     @Override
                     public void onADialogsSeekBarPositiveClick(DialogInterface dialog, SeekBar seekbar) {
-						progress = seekbar.getProgress();
+                        progress = seekbar.getProgress();
                         seekbarDialogButton.setText("" + progress);
                         dialog.dismiss();
                     }
@@ -153,7 +154,7 @@ public class DialogsMain extends Fragment {
         progressDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-				ADialogs progressDialog = new ADialogs(getActivity());
+                ADialogs progressDialog = new ADialogs(getActivity());
                 progressDialog.progress(cancelable, getActivity().getString(R.string.progress));
             }
         });
@@ -167,11 +168,11 @@ public class DialogsMain extends Fragment {
                     @Override
                     public void onADialogsCustomListPositiveClick(DialogInterface dialog, ArrayList<ImageTextCheckbox> list) {
                         int count = 0;
-                        for(int i = 0; i<list.size(); i++){
+                        for (int i = 0; i < list.size(); i++) {
                             if (list.get(i).getCheck())
                                 count++;
                         }
-                        customDialogButton.setText("Checked = "+count);
+                        customDialogButton.setText("Checked = " + count);
                     }
                 });
             }
