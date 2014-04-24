@@ -19,35 +19,26 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.asamles.app.R;
-import com.example.asamles.app.dialog.utils.ImageCheckboxListAdapter;
 import com.example.asamles.app.dialog.utils.ImageTextCheckbox;
 import com.example.asamles.app.seekbar.VerticalSeekBar;
 
 import java.util.ArrayList;
 
 public class DialogsMain extends Fragment {
-    private Button timeDialogButton;
-    private Button alertDialogButton;
-    private Button blurredAlertDialogButton;
-    private Button blurredProgressDialogButton;
     private Button blurredColorpickerDialogButton;
     private Button blurredCustomDialogButton;
     private Button seekbarDialogButton;
-    private Button progressDialogButton;
     private Button customDialogButton;
     private TextView timeLabel;
     private TextView vsProgress;
     private TextView colorLabel;
     private boolean cancelable = true;
-    private VerticalSeekBar verticalSeekBar = null;
     private int oldColor = Color.BLACK;
     private int progress = 50;
     ArrayList<ImageTextCheckbox> list = new ArrayList<ImageTextCheckbox>();
-    ImageCheckboxListAdapter adapter;
 
     public static DialogsMain newInstance() {
-        DialogsMain fragment = new DialogsMain();
-        return fragment;
+        return new DialogsMain();
     }
 
     public DialogsMain() {
@@ -59,18 +50,17 @@ public class DialogsMain extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_dialog, container, false);
 //---------------------------------------------------------------------------------------
-        verticalSeekBar = (VerticalSeekBar) rootView.findViewById(R.id.vertical_Seekbar);
+        assert rootView != null;
+        VerticalSeekBar verticalSeekBar = (VerticalSeekBar) rootView.findViewById(R.id.vertical_Seekbar);
         vsProgress = (TextView) rootView.findViewById(R.id.vertical_sb_progresstext);
         verticalSeekBar.setProgress(100);
         verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
             }
 
             @Override
@@ -84,20 +74,22 @@ public class DialogsMain extends Fragment {
 
         TypedArray images = getActivity().getResources().obtainTypedArray(R.array.shape_list);
         String[] itemText = getActivity().getResources().getStringArray(R.array.item_list);
-        ImageTextCheckbox item = null;
-        for (int i = 0; i < images.length(); i++) {
-            item = new ImageTextCheckbox(images.getResourceId(i, -1), itemText[i], false);
-            list.add(item);
+        ImageTextCheckbox item;
+        if (images != null) {
+            for (int i = 0; i < images.length(); i++) {
+                item = new ImageTextCheckbox(images.getResourceId(i, -1), itemText[i], false);
+                list.add(item);
+            }
         }
 //---------------------------------------------------------------------------------------
-        timeDialogButton = (Button) rootView.findViewById(R.id.time_dialog_button);
-        alertDialogButton = (Button) rootView.findViewById(R.id.alert_dialog_button);
-        blurredAlertDialogButton = (Button) rootView.findViewById(R.id.blurred_alert_dialog_button);
-        blurredProgressDialogButton = (Button) rootView.findViewById(R.id.blurred_progress_dialog_button);
+        Button timeDialogButton = (Button) rootView.findViewById(R.id.time_dialog_button);
+        Button alertDialogButton = (Button) rootView.findViewById(R.id.alert_dialog_button);
+        Button blurredAlertDialogButton = (Button) rootView.findViewById(R.id.blurred_alert_dialog_button);
+        Button blurredProgressDialogButton = (Button) rootView.findViewById(R.id.blurred_progress_dialog_button);
         blurredColorpickerDialogButton = (Button) rootView.findViewById(R.id.blurred_colorpicker_dialog_button);
         blurredCustomDialogButton = (Button) rootView.findViewById(R.id.blurred_custom_dialog_button);
         seekbarDialogButton = (Button) rootView.findViewById(R.id.seekbar_dialog_button);
-        progressDialogButton = (Button) rootView.findViewById(R.id.progress_dialog_button);
+        Button progressDialogButton = (Button) rootView.findViewById(R.id.progress_dialog_button);
         customDialogButton = (Button) rootView.findViewById(R.id.custom_dialog_button);
         timeLabel = (TextView) rootView.findViewById(R.id.textView);
         colorLabel = (TextView) rootView.findViewById(R.id.textView4);
@@ -168,8 +160,8 @@ public class DialogsMain extends Fragment {
                     @Override
                     public void onADialogsCustomListPositiveClick(DialogInterface dialog, ArrayList<ImageTextCheckbox> list) {
                         int count = 0;
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i).getCheck())
+                        for (ImageTextCheckbox item : list) {
+                            if (item.getCheck())
                                 count++;
                         }
                         customDialogButton.setText("Checked = " + count);

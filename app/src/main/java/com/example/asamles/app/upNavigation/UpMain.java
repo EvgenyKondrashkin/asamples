@@ -12,16 +12,13 @@ import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
 
 public class UpMain extends MainActivity {
-    private Button btn;
-    private TextView label;
     private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.up_navigation_text);
-        btn = (Button) findViewById(R.id.button);
-        label = (TextView) findViewById(R.id.textView);
+        TextView label = (TextView) findViewById(R.id.textView);
         label.setText("UpMain Activity");
         name = getIntent().getStringExtra(Constants.NAME);
         getSupportActionBar().setTitle(name);

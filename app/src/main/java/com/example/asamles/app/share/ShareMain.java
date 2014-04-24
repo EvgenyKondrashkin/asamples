@@ -25,8 +25,7 @@ public class ShareMain extends Fragment implements SeekbarAdapter.SeekBarListene
     private ShareActionProvider mShareActionProvider;
 
     public static ShareMain newInstance() {
-        ShareMain fragment = new ShareMain();
-        return fragment;
+        return new ShareMain();
     }
 
     public ShareMain() {

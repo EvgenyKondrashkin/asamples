@@ -26,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void createDataBase() throws IOException {
         boolean dbExist = checkDataBase();
-        SQLiteDatabase myDataBase = null;
+        SQLiteDatabase myDataBase;
         if (dbExist) {
         } else {
             myDataBase = this.getReadableDatabase();

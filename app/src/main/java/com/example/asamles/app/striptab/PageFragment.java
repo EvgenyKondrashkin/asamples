@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asamles.app.R;
 
@@ -33,7 +34,11 @@ public class PageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.strip_page, container, false);
         TextView textView = (TextView) view;
-        textView.setText("Fragment #" + mPage);
+        if (textView != null) {
+            textView.setText("Fragment #" + mPage);
+        } else {
+            Toast.makeText(getActivity(), "Problem with TexView", Toast.LENGTH_LONG).show();
+        }
         return view;
     }
 }

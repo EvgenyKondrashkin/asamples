@@ -19,17 +19,9 @@ import com.joanzapata.android.iconify.Iconify;
 
 
 public class FilterFragment extends Fragment implements View.OnClickListener {
-    private ImageButton grayscaleButton;
-    private ImageButton sepiaButton;
-    private ImageButton invertButton;
-    private ImageButton swapButton;
-    private ImageButton polaroidButton;
-    private ImageButton blackwhiteButton;
     private Bitmap finalBitmap;
     private Bitmap mainBitmap;
     private Bitmap smallBitmap;
-    private ImageButton oldframeButton;
-    private ImageButton bokehButton;
     private ImageButton tintButton;
     private ImageEditor imageEditor;
     private OkFragmentListener doneListener = null;
@@ -39,8 +31,7 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
     }
 
     public static FilterFragment newInstance() {
-        FilterFragment fragment = new FilterFragment();
-        return fragment;
+        return new FilterFragment();
     }
 
     public FilterFragment() {
@@ -62,29 +53,29 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
 
     private void setButtons(View view) {
         ImageEditor.loadFrames(getActivity());
-        grayscaleButton = (ImageButton) view.findViewById(R.id.grayscale);
+        ImageButton grayscaleButton = (ImageButton) view.findViewById(R.id.grayscale);
         grayscaleButton.setImageBitmap(ImageEditor.doGrayscale(smallBitmap));
         grayscaleButton.setOnClickListener(this);
-        sepiaButton = (ImageButton) view.findViewById(R.id.sepia);
+        ImageButton sepiaButton = (ImageButton) view.findViewById(R.id.sepia);
         sepiaButton.setImageBitmap(ImageEditor.doSepia(smallBitmap));
         sepiaButton.setOnClickListener(this);
-        invertButton = (ImageButton) view.findViewById(R.id.invert);
+        ImageButton invertButton = (ImageButton) view.findViewById(R.id.invert);
         invertButton.setImageBitmap(ImageEditor.doInvert(smallBitmap));
         invertButton.setOnClickListener(this);
-        swapButton = (ImageButton) view.findViewById(R.id.swap);
+        ImageButton swapButton = (ImageButton) view.findViewById(R.id.swap);
         swapButton.setImageBitmap(ImageEditor.doSwap(smallBitmap));
         swapButton.setOnClickListener(this);
-        polaroidButton = (ImageButton) view.findViewById(R.id.polaroid);
+        ImageButton polaroidButton = (ImageButton) view.findViewById(R.id.polaroid);
         polaroidButton.setImageBitmap(ImageEditor.doPolaroid(smallBitmap));
         polaroidButton.setOnClickListener(this);
-        blackwhiteButton = (ImageButton) view.findViewById(R.id.blackwhite);
+        ImageButton blackwhiteButton = (ImageButton) view.findViewById(R.id.blackwhite);
         blackwhiteButton.setImageBitmap(ImageEditor.doBlackWhite(smallBitmap));
         blackwhiteButton.setOnClickListener(this);
-        oldframeButton = (ImageButton) view.findViewById(R.id.oldframe);
-        oldframeButton.setImageBitmap(ImageEditor.doOldPhoto(smallBitmap, getActivity()));
+        ImageButton oldframeButton = (ImageButton) view.findViewById(R.id.oldframe);
+        oldframeButton.setImageBitmap(ImageEditor.doOldPhoto(smallBitmap));
         oldframeButton.setOnClickListener(this);
-        bokehButton = (ImageButton) view.findViewById(R.id.bokeh);
-        bokehButton.setImageBitmap(ImageEditor.doBokehPhoto(smallBitmap, getActivity()));
+        ImageButton bokehButton = (ImageButton) view.findViewById(R.id.bokeh);
+        bokehButton.setImageBitmap(ImageEditor.doBokehPhoto(smallBitmap));
         bokehButton.setOnClickListener(this);
     }
 
@@ -118,7 +109,7 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-//        mainBitmap = finalBitmap;
+        mainBitmap = finalBitmap;
         switch (v.getId()) {
             case R.id.grayscale:
                 mainBitmap = imageEditor.doGrayscale(mainBitmap);
@@ -145,11 +136,11 @@ public class FilterFragment extends Fragment implements View.OnClickListener {
 //                mainBitmap = ImageEditor.doBlackWhite(mainBitmap);
                 break;
             case R.id.oldframe:
-                mainBitmap = imageEditor.doOldPhoto(mainBitmap, getActivity());
+                mainBitmap = imageEditor.doOldPhoto(mainBitmap);
 //                mainBitmap = ImageEditor.doOldPhoto(mainBitmap, getActivity());
                 break;
             case R.id.bokeh:
-                mainBitmap = imageEditor.doBokehPhoto(mainBitmap, getActivity());
+                mainBitmap = imageEditor.doBokehPhoto(mainBitmap);
 //                mainBitmap = ImageEditor.doBokehPhoto(mainBitmap, getActivity());
                 break;
         }

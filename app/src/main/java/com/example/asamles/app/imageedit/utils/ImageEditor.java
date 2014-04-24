@@ -59,13 +59,12 @@ public class ImageEditor {
     }
 
     public static Bitmap onContrast(Bitmap bmp, float contrast) {
-        float scale = contrast;
-        float translate = (-.5f * scale + .5f) * 255.f;
+        float translate = (-.5f * contrast + .5f) * 255.f;
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
-                        scale, 0, 0, 0, translate,
-                        0, scale, 0, 0, translate,
-                        0, 0, scale, 0, translate,
+                        contrast, 0, 0, 0, translate,
+                        0, contrast, 0, 0, translate,
+                        0, 0, contrast, 0, translate,
                         0, 0, 0, 1, 0
                 });
 
@@ -196,7 +195,7 @@ public class ImageEditor {
         bokehFrame = BitmapFactory.decodeResource(context.getResources(), R.drawable.bokeh);
     }
 
-    public static Bitmap doOldPhoto(Bitmap bmp, Context context) {
+    public static Bitmap doOldPhoto(Bitmap bmp) {
         bitmap = doSepia(bmp);
 
         frame = Bitmap.createScaledBitmap(oldFrame, bmp.getWidth(), bmp.getHeight(), true);
@@ -208,7 +207,7 @@ public class ImageEditor {
         return bitmap;
     }
 
-    public static Bitmap doBokehPhoto(Bitmap bmp, Context context) {
+    public static Bitmap doBokehPhoto(Bitmap bmp) {
         bitmap = bmp.copy(bmp.getConfig(), true);
         frame = Bitmap.createScaledBitmap(bokehFrame, bmp.getWidth(), bmp.getHeight(), true);
 //        frame =  decodeSampledBitmapFromResource(context.getResources(), R.drawable.bokeh, bmp.getWidth(), bmp.getHeight());
@@ -270,8 +269,7 @@ public class ImageEditor {
 
         Matrix matrix = new Matrix();
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
 
-        return resizedBitmap;
+        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
     }
 }

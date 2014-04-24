@@ -15,16 +15,16 @@ import java.util.ArrayList;
 
 public class GalleryImageAdapter extends BaseAdapter {
     Activity context;
-    ArrayList<PaintGalleryItem> imgs = new ArrayList<PaintGalleryItem>();
+    ArrayList<PaintGalleryItem> images = new ArrayList<PaintGalleryItem>();
 
-    public GalleryImageAdapter(Activity context, ArrayList<PaintGalleryItem> imgs) {
+    public GalleryImageAdapter(Activity context, ArrayList<PaintGalleryItem> images) {
         this.context = context;
-        this.imgs = imgs;
+        this.images = images;
     }
 
     @Override
     public int getCount() {
-        return imgs.size();
+        return images.size();
     }
 
     @Override
@@ -43,28 +43,21 @@ public class GalleryImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        LayoutInflater inflater = context.getLayoutInflater();
         ViewHolder holder;
         View gridItemView = convertView;
         if (gridItemView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
             gridItemView = inflater.inflate(R.layout.paint_gallery_item, null, true);
             holder = new ViewHolder();
-            holder.imageView = (ImageView) gridItemView.findViewById(R.id.image);
-            gridItemView.setTag(holder);
+            if (gridItemView != null) {
+                holder.imageView = (ImageView) gridItemView.findViewById(R.id.image);
+                gridItemView.setTag(holder);
+            }
         } else {
             holder = (ViewHolder) gridItemView.getTag();
         }
-//        View gridItemView = LayoutInflater.from(context).inflate(R.layout.list_row, null, true);
-//        ImageView imageView;
-//        if (convertView == null) {
-//
-//            imageView = (ImageView) gridItemView.findViewById(R.id.image);
-//        } else {
-//            imageView = (ImageView) convertView;
-//        }
         Picasso.with(context)
-                .load(imgs.get(position).getImageFullName())
+                .load(images.get(position).getImageFullName())
                 .into(holder.imageView);
         return gridItemView;
     }

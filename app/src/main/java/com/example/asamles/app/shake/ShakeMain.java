@@ -17,13 +17,10 @@ import com.squareup.seismic.ShakeDetector;
 import java.util.Random;
 
 public class ShakeMain extends Fragment implements ShakeDetector.Listener {
-    private TextView label;
-    private String name;
     private String[] shakeMessage;
 
     public static ShakeMain newInstance() {
-        ShakeMain fragment = new ShakeMain();
-        return fragment;
+        return new ShakeMain();
     }
 
     public ShakeMain() {
@@ -36,7 +33,7 @@ public class ShakeMain extends Fragment implements ShakeDetector.Listener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_shake, container, false);
         context = getActivity();
-        label = (TextView) rootView.findViewById(R.id.textView);
+        TextView label = (TextView) rootView.findViewById(R.id.textView);
         shakeMessage = getResources().getStringArray(R.array.shake_list);
         SensorManager sensorManager = (SensorManager) this.getActivity().getSystemService(Activity.SENSOR_SERVICE);
         ShakeDetector sd = new ShakeDetector(this);

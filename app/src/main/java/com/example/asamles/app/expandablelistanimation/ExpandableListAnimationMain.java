@@ -17,12 +17,10 @@ import java.util.ArrayList;
 
 public class ExpandableListAnimationMain extends Fragment implements DBToClass.DBToClassListener, OnGroupClickListener {
     private AnimatedExpandableListView listView;
-    private ExpandableListAdapter adapter;
     private ArrayList<Animals> items = new ArrayList<Animals>();
 
     public static ExpandableListAnimationMain newInstance() {
-        ExpandableListAnimationMain fragment = new ExpandableListAnimationMain();
-        return fragment;
+        return new ExpandableListAnimationMain();
     }
 
     public ExpandableListAnimationMain() {
@@ -44,7 +42,7 @@ public class ExpandableListAnimationMain extends Fragment implements DBToClass.D
     @Override
     public void onDBToClassListener(ArrayList<Animals> items) {
         this.items = items;
-        adapter = new ExpandableListAdapter(getActivity());
+        ExpandableListAdapter adapter = new ExpandableListAdapter(getActivity());
         adapter.setData(this.items);
         listView.setAdapter(adapter);
         listView.setChildDivider(getResources().getDrawable(android.R.color.transparent));

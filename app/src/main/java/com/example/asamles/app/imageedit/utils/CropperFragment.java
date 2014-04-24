@@ -20,10 +20,6 @@ import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
 public class CropperFragment extends Fragment {
-    private int value;
-    private String name;
-    private SeekBar seekbar;
-    private TextView nameView;
     private Bitmap finalBitmap;
     private Bitmap bitmap;
     public static final String TYPE = "TYPE";
@@ -50,8 +46,8 @@ public class CropperFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        name = getArguments() != null ? getArguments().getString(TYPE) : null;
-        value = getArguments() != null ? getArguments().getInt(VALUE) : 0;
+        String name = getArguments() != null ? getArguments().getString(TYPE) : null;
+        int value = getArguments() != null ? getArguments().getInt(VALUE) : 0;
 
         View rootView = inflater.inflate(R.layout.imageedit_cropper, container, false);
         setHasOptionsMenu(true);
@@ -61,11 +57,11 @@ public class CropperFragment extends Fragment {
         bitmap = finalBitmap;
         cropImageView.setImageBitmap(finalBitmap);
 
-        nameView = (TextView) rootView.findViewById(R.id.textView);
+        TextView nameView = (TextView) rootView.findViewById(R.id.textView);
         nameView.setText(name);
 
         final ImageEditor imageEditor = new ImageEditor(bitmap);
-        seekbar = (SeekBar) rootView.findViewById(R.id.seekBar);
+        SeekBar seekbar = (SeekBar) rootView.findViewById(R.id.seekBar);
         seekbar.setProgress(value);
         final float index = 90 / 50;
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -80,7 +76,7 @@ public class CropperFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 //                bitmap = imageEditor.doInvert(bitmap);
-                bitmap = imageEditor.doRotate(bitmap, (float)((progress - 50) * index));
+                bitmap = imageEditor.doRotate(bitmap, (float) ((progress - 50) * index));
                 updateCropImage(bitmap);
                 // cropImageView.setRotation((progress - 50) * index);
 //				cropImageView.rotateImage((progress-50)*index);

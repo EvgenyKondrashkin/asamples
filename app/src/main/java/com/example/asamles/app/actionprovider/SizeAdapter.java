@@ -23,9 +23,9 @@ public class SizeAdapter {
         public void onStopTrackingTouch(SeekBar seekBar, int positionInList);
     }
 
-    public SeekbarAdapter getAdapter(Context context, Bitmap pointIcon, SizeListener listener, int size) {
+    public SeekbarAdapter getAdapter(Context context, SizeListener listener, int size) {
         this.listener = listener;
-        return new SeekbarAdapter(context, pointIcon, size);
+        return new SeekbarAdapter(context, size);
     }
 
     public void setSizeListener(SizeListener listener) {
@@ -41,7 +41,7 @@ public class SizeAdapter {
         private ViewHolder2 holder2;
         private ViewHolder holder;
 
-        public SeekbarAdapter(Context context, Bitmap pointIcon, int size) {
+        public SeekbarAdapter(Context context, int size) {
             mInflater = LayoutInflater.from(context);
 //            this.context = context;
             // this.item = item;
@@ -80,7 +80,9 @@ public class SizeAdapter {
             } else {
                 holder2 = (ViewHolder2) convertView.getTag(R.layout.action_size_layout);
             }
-            holder2.icon.setImageBitmap(Bitmap.createScaledBitmap(pointIcon, size + 2, size + 2, false));
+            if (holder2 != null) {
+                holder2.icon.setImageBitmap(Bitmap.createScaledBitmap(pointIcon, size + 2, size + 2, false));
+            }
             return convertView;
         }
 

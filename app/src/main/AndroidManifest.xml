@@ -12,6 +12,12 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -29,18 +35,23 @@
         </activity>
         <activity
             android:name="com.example.asamles.app.upNavigation.UpMain"
-            android:theme="@style/noAnimTheme"></activity>
+            android:theme="@style/noAnimTheme"/>
         <activity
             android:name="com.example.asamles.app.upNavigation.UpFirst"
             android:parentActivityName="com.example.asamles.app.upNavigation.UpMain"
-            android:theme="@style/noAnimTheme"></activity>
+            android:theme="@style/noAnimTheme"/>
         <activity
             android:name="com.example.asamles.app.upNavigation.UpSecond"
-            android:parentActivityName="com.example.asamles.app.upNavigation.UpMain"></activity>
+            android:parentActivityName="com.example.asamles.app.upNavigation.UpMain"/>
 
         <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBvsYiraeRx4zO5rJHAP7yA7Yu71rqH3ZE">
+        </meta-data>
+        <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version">
+        </meta-data>
     </application>
 
 </manifest>

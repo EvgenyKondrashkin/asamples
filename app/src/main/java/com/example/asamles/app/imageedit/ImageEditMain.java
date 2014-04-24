@@ -33,11 +33,10 @@ public class ImageEditMain extends Fragment {
     public static ImageView imageView;
     public static PhotoViewAttacher mAttacher;
     public Bitmap bitmap;
-    public static ImageLoader imageLoader;
+//    public static ImageLoader imageLoader;
 
     public static ImageEditMain newInstance() {
-        ImageEditMain fragment = new ImageEditMain();
-        return fragment;
+        return new ImageEditMain();
     }
 
     public ImageEditMain() {
@@ -101,7 +100,10 @@ public class ImageEditMain extends Fragment {
     Runnable save = new Runnable() {
         @Override
         public void run() {
-            Bitmap saveBitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            Bitmap saveBitmap = null;
+            if (imageView.getDrawable() != null) {
+                saveBitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            }
             SaveLoadFile.saveToPublicGallery(getActivity(), saveBitmap, Constants.IMAGEEDIT, null, true);
         }
     };
@@ -171,7 +173,9 @@ public class ImageEditMain extends Fragment {
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             Bundle extras = data.getExtras();
-            bitmap = (Bitmap) extras.get("data");
+            if (extras != null) {
+                bitmap = (Bitmap) extras.get("data");
+            }
         }
         imageView.setImageBitmap(bitmap);
         mAttacher = new PhotoViewAttacher(imageView);

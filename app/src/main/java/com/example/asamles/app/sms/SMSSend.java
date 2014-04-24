@@ -12,8 +12,6 @@ public class SMSSend {
             SmsManager sms = SmsManager.getDefault();
             if (message != null && message.length() > 0) {
                 sms.sendTextMessage(phoneNumber, null, message, null, null);
-            } else {
-                return;
             }
         }
     }
@@ -24,8 +22,6 @@ public class SMSSend {
             if (message != null && message.length() > 0) {
                 intent.putExtra("sms_body", message);
                 context.startActivity(intent);
-            } else {
-                return;
             }
         }
     }

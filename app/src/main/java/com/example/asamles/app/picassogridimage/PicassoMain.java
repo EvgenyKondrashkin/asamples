@@ -27,13 +27,11 @@ public class PicassoMain extends Fragment {
     private SharedPreferences.Editor ed;
     public final String IS_GRID = "isGrid";
     public static final String ASSETS_FILE = "images.json";
-    private MenuItem gridList;
     private IconDrawable gridIcon;
     private IconDrawable listIcon;
 
     public static PicassoMain newInstance() {
-        PicassoMain fragment = new PicassoMain();
-        return fragment;
+        return new PicassoMain();
     }
 
     public PicassoMain() {
@@ -76,11 +74,13 @@ public class PicassoMain extends Fragment {
         listIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_th_list)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        gridList = menu.findItem(R.id.action_list);
-        if (isGrid) {
-            gridList.setIcon(gridIcon);
-        } else {
-            gridList.setIcon(listIcon);
+        MenuItem gridList = menu.findItem(R.id.action_list);
+        if (gridList != null) {
+            if (isGrid) {
+                    gridList.setIcon(gridIcon);
+            } else {
+                gridList.setIcon(listIcon);
+            }
         }
         super.onCreateOptionsMenu(menu, inflater);
     }

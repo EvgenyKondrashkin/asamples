@@ -1,6 +1,5 @@
 package com.example.asamles.app.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -41,7 +40,7 @@ public class ADialogs {
             ad.setMessage(message);
         }
         if (cancelable) {
-            ad.setCancelable(cancelable);
+            ad.setCancelable(true);
         }
         return ad;
     }
@@ -121,7 +120,6 @@ public class ADialogs {
     }
 
     public void alert(boolean cancelable, String title, String message, String positiveButton, String negativeButton) {
-        final Activity activity = (Activity) context;
         AlertDialog.Builder ad = build(cancelable, title, message);
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {

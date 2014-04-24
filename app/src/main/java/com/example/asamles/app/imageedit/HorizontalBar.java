@@ -24,20 +24,12 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     private int value = 50;
     private float index;
     private Bitmap bitmap, mainBitmap;
-    private IconButton brightnessButton;
-    private IconButton contrastButton;
-    private IconButton rotateButton;
-    private IconButton saturationButton;
-    private IconButton cropButton;
-    private IconButton filterButton;
-    private IconButton stickerButton;
     private int type;
     private float changedValue;
     private ImageEditor imageEditor;
 
     public static HorizontalBar newInstance() {
-        HorizontalBar fragment = new HorizontalBar();
-        return fragment;
+        return new HorizontalBar();
     }
 
     public HorizontalBar() {
@@ -55,7 +47,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
     }
 
     private void setButtons(View view) {
-        brightnessButton = (IconButton) view.findViewById(R.id.brightness);
+        IconButton brightnessButton = (IconButton) view.findViewById(R.id.brightness);
         brightnessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +56,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
                 openSeekbar(name[type], value);
             }
         });
-        contrastButton = (IconButton) view.findViewById(R.id.contrast);
+        IconButton contrastButton = (IconButton) view.findViewById(R.id.contrast);
         contrastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +65,7 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
                 openSeekbar(name[type], value);
             }
         });
-        saturationButton = (IconButton) view.findViewById(R.id.saturation);
+        IconButton saturationButton = (IconButton) view.findViewById(R.id.saturation);
         saturationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,28 +74,28 @@ public class HorizontalBar extends Fragment implements SeekbarFragment.SeekbarFr
                 openSeekbar(name[type], value);
             }
         });
-        rotateButton = (IconButton) view.findViewById(R.id.rotate);
+        IconButton rotateButton = (IconButton) view.findViewById(R.id.rotate);
         rotateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openRotate();
             }
         });
-        cropButton = (IconButton) view.findViewById(R.id.crop);
+        IconButton cropButton = (IconButton) view.findViewById(R.id.crop);
         cropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openCrop();
             }
         });
-        filterButton = (IconButton) view.findViewById(R.id.filter);
+        IconButton filterButton = (IconButton) view.findViewById(R.id.filter);
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openFilter();
             }
         });
-        stickerButton = (IconButton) view.findViewById(R.id.sticker);
+        IconButton stickerButton = (IconButton) view.findViewById(R.id.sticker);
         stickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

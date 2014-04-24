@@ -1,10 +1,7 @@
 package com.example.asamles.app.paint;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,14 +26,13 @@ import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class PaintGallery extends Fragment {
 
     public static final String IMAGES = "images";
-    private String[] imgs;
     private DoneFragmentListener doneListener = null;
+	private ArrayList<Integer> selectedList = new ArrayList<Integer>();
 	private int selected;
 	private ArrayList<PaintGalleryItem> imageList= new ArrayList<PaintGalleryItem>();
 	private Vibrator vibrator;
@@ -63,13 +59,15 @@ public class PaintGallery extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        imgs = getArguments().getStringArray(IMAGES);
+        String[] imgs = getArguments().getStringArray(IMAGES);
 		imageList = toPaintGalleryItem(imgs);
 		vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.paint_gallery, container, false);
-		gridView = (GridView) rootView.findViewById(R.id.gridView);
-		adapter = new GalleryImageAdapter(getActivity(), imageList);
+        if (rootView != null) {
+            gridView = (GridView) rootView.findViewById(R.id.gridView);
+        }
+        adapter = new GalleryImageAdapter(getActivity(), imageList);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -87,10 +85,12 @@ public class PaintGallery extends Fragment {
                     imageList.get(position).setSelected(false);
 					selected--;
                     image.setVisibility(View.INVISIBLE);
+                    selectedList.remove(Integer.valueOf(position));
 				} else {
                     imageList.get(position).setSelected(true);
 					selected++;
                     image.setVisibility(View.VISIBLE);
+					selectedList.add(position);
                 }
                 return true;
             }
@@ -99,21 +99,23 @@ public class PaintGallery extends Fragment {
     }
 	public ArrayList<PaintGalleryItem> toPaintGalleryItem(String[] imgs){
 		ArrayList<PaintGalleryItem> imageList = new ArrayList<PaintGalleryItem>();
-		PaintGalleryItem item = null;
-		for (int i = 0; i < imgs.length; i++) {
-			item = new PaintGalleryItem(imgs[i]);
-			imageList.add(item);
-			item = null;
-		}
+		PaintGalleryItem item;
+        for (String img : imgs) {
+            item = new PaintGalleryItem(img);
+            imageList.add(item);
+//            item = null;
+        }
 		return imageList;
 	}
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.paint_gallery_menu, menu);
-        menu.findItem(R.id.action_delete).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_trash_o)
-                .colorRes(R.color.grey_light)
-                .actionBarSize());
-        // menu.setGroupVisible(R.id.menu_group_paint, false);
+        MenuItem delete = menu.findItem(R.id.action_delete);
+        if (delete != null) {
+            delete.setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_trash_o)
+                    .colorRes(R.color.grey_light)
+                    .actionBarSize());
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -139,8 +141,9 @@ public class PaintGallery extends Fragment {
         newFragment.setBlurredAlertDialogListener(new BlurredAlertDialog.BlurredAlertDialogListener() {
             @Override
             public void onBlurredAlertDialogPositiveClick(DialogFragment dialog) {
-                Toast.makeText(getActivity(), "Selected = " + selected, Toast.LENGTH_LONG).show();
-                removeLoadFiles(imageList.get(0).getImageName());
+                Toast.makeText(getActivity(), "Removed " + selected + " images", Toast.LENGTH_LONG).show();
+                removeLoadFiles(selectedList);
+                selectedList.clear();
                 dialog.dismiss();
             }
 
@@ -157,10 +160,12 @@ public class PaintGallery extends Fragment {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(1, newFragment).commit();
     }
-	public void removeLoadFiles(String name){
+	public void removeLoadFiles(ArrayList<Integer> list){
         selected = 0;
-        SaveLoadFile.removeFileFromPublicGallery(Constants.PAINT_GALLERY, name);
-		String[] images = SaveLoadFile.loadAllPublicFiles(getActivity(), Constants.PAINT_GALLERY);
+        for (Integer i : list) {
+            SaveLoadFile.removeFileFromPublicGallery(Constants.PAINT_GALLERY, imageList.get(i).getImageName());
+        }
+		String[] images = SaveLoadFile.loadAllPublicFiles(Constants.PAINT_GALLERY);
         imageList = toPaintGalleryItem(images);
         adapter = new GalleryImageAdapter(getActivity(), imageList);
         adapter.notifyDataSetChanged();

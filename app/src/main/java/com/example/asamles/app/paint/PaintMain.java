@@ -2,7 +2,6 @@ package com.example.asamles.app.paint;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -26,7 +25,6 @@ import com.example.asamles.app.actionprovider.SizeAdapter;
 import com.example.asamles.app.constants.Constants;
 import com.example.asamles.app.dialog.BlurredAlertDialog;
 import com.example.asamles.app.dialog.BlurredColorPickerDialog;
-import com.example.asamles.app.dialog.BlurredProgressDialog;
 import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
@@ -40,18 +38,12 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     private IconDrawable eraserIcon;
     private IconDrawable pencilIconSelected;
     private IconDrawable eraserIconSelected;
-    private IconDrawable saveIcon;
-    private IconDrawable loadIcon;
-    private IconDrawable clearIcon;
-    private Bitmap brushIcon;
-    private MenuItem seekbarItem;
     private SeekbarActionProvider seekbarActionProvider;
     private boolean erase = false;
     private String imageFromGallery = null;
 
     public static PaintMain newInstance() {
-        PaintMain fragment = new PaintMain();
-        return fragment;
+        return new PaintMain();
     }
 
     public PaintMain() {
@@ -64,14 +56,22 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         View rootView = inflater.inflate(R.layout.fragment_paint, container, false);
 
-        drawView = (DrawingView) rootView.findViewById(R.id.drawing);
+        if (rootView != null) {
+            drawView = (DrawingView) rootView.findViewById(R.id.drawing);
+        }
         drawView.setColor(oldColor);
         drawView.setBrushSize(smallBrush);
+        BitmapDrawable bitmapDrawable;
         if (imageFromGallery != null) {
-            if (android.os.Build.VERSION.SDK_INT >= 16) {
-                drawView.setBackground(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromPublicStorage(Constants.PAINT_GALLERY, imageFromGallery)));
+            bitmapDrawable = new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromPublicStorage(Constants.PAINT_GALLERY, imageFromGallery));
+            if(bitmapDrawable.getBitmap() != null){
+                if (android.os.Build.VERSION.SDK_INT >= 16) {
+                    drawView.setBackground(bitmapDrawable);
+                } else {
+                    drawView.setBackgroundDrawable(bitmapDrawable);
+                }
             } else {
-                drawView.setBackgroundDrawable(new BitmapDrawable(getActivity().getResources(), SaveLoadFile.loadImageFromPublicStorage(Constants.PAINT_GALLERY, imageFromGallery)));
+                imageFromGallery = null;
             }
         }
         return rootView;
@@ -92,22 +92,24 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         eraserIconSelected = new IconDrawable(getActivity(), Iconify.IconValue.fa_eraser)
                 .colorRes(R.color.green)
                 .actionBarSize();
-        saveIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_floppy_o)
+        IconDrawable saveIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_floppy_o)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        loadIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_arrow_circle_o_down)
+        IconDrawable loadIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_arrow_circle_o_down)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        clearIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_trash_o)
+        IconDrawable clearIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_trash_o)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        brushIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_brush);
         menu.findItem(R.id.action_save).setIcon(saveIcon);
+        menu.findItem(R.id.action_load).setIcon(loadIcon);
         menu.findItem(R.id.action_clear).setIcon(clearIcon);
         GradientDrawable drawable = (GradientDrawable) getActivity().getResources().getDrawable(R.drawable.action_colorpicker);
-        drawable.setColor(oldColor);
+        if (drawable != null) {
+            drawable.setColor(oldColor);
+        }
         menu.findItem(R.id.action_color).setIcon(drawable);
-        seekbarItem = menu.findItem(R.id.action_size);
+        MenuItem seekbarItem = menu.findItem(R.id.action_size);
         seekbarActionProvider = (SeekbarActionProvider) MenuItemCompat.getActionProvider(seekbarItem);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -115,9 +117,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_brush);
-        seekbarActionProvider.setSeekbarActionProvider(this, icon, (int) smallBrush);
-
+        seekbarActionProvider.setSeekbarActionProvider(this, (int) smallBrush);
         if (erase) {
             menu.findItem(R.id.action_erase).setIcon(eraserIconSelected);
             menu.findItem(R.id.action_pencil).setIcon(pencilIcon);
@@ -148,7 +148,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         switch (item.getItemId()) {
             case R.id.action_erase:
                 erase = true;
-                drawView.setErase(erase);
+                drawView.setErase(true);
                 getActivity().supportInvalidateOptionsMenu();
                 break;
             case R.id.action_save:
@@ -160,7 +160,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
                 break;
             case R.id.action_pencil:
                 erase = false;
-                drawView.setErase(erase);
+                drawView.setErase(false);
                 getActivity().supportInvalidateOptionsMenu();
                 break;
             case R.id.action_clear:
@@ -208,7 +208,7 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     Runnable load = new Runnable() {
         @Override
         public void run() {
-            loadFromGallery(SaveLoadFile.loadAllPublicFiles(getActivity(), Constants.PAINT_GALLERY));
+            loadFromGallery(SaveLoadFile.loadAllPublicFiles(Constants.PAINT_GALLERY));
         }
     };
 
@@ -239,7 +239,9 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
                 oldColor = color;
                 drawView.setColor(oldColor);
                 GradientDrawable drawable = (GradientDrawable) getActivity().getResources().getDrawable(R.drawable.action_colorpicker);
-                drawable.setColor(oldColor);
+                if (drawable != null) {
+                    drawable.setColor(oldColor);
+                }
                 item.setIcon(drawable);
                 dialog.dismiss();
                 getActivity().supportInvalidateOptionsMenu();
@@ -311,12 +313,12 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
         transaction.add(1, newFragment).commit();
     }
 
-    public void showProgressDialogFragment() {
-        View v = getActivity().getWindow().getDecorView();
-        v.setId(1);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance(this.getString(R.string.progress_save_message), false);
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(1, newFragment).commit();
-    }
+//    public void showProgressDialogFragment() {
+//        View v = getActivity().getWindow().getDecorView();
+//        v.setId(1);
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        BlurredProgressDialog newFragment = BlurredProgressDialog.newInstance(this.getString(R.string.progress_save_message), false);
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.add(1, newFragment).commit();
+//    }
 }

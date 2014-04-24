@@ -14,11 +14,9 @@ import java.util.ArrayList;
 
 public class DBToClass {
 
-    private ArrayList<Animals> animals;
     private DataBaseHelper myDbHelper;
     private Context context;
     private DBToClassListener callback;
-    private SQLiteDatabase db;
 
     public interface DBToClassListener {
         public void onDBToClassListener(ArrayList<Animals> animals);
@@ -49,11 +47,11 @@ public class DBToClass {
     }
 
     public void getDataFromDB() {
-        db = myDbHelper.getWritableDatabase();
+        SQLiteDatabase db = myDbHelper.getWritableDatabase();
 
         Cursor c = db.query("animals", null, null, null, null, null, null);
 
-        animals = new ArrayList<Animals>();
+        ArrayList<Animals> animals = new ArrayList<Animals>();
 
         int idColIndex = c.getColumnIndex("_id");
         int nameColIndex = c.getColumnIndex("name");

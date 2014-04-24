@@ -17,8 +17,7 @@ public class SMSMain extends Fragment {
     private String myPhoneNo = "+79231240849";
 
     public static SMSMain newInstance() {
-        SMSMain fragment = new SMSMain();
-        return fragment;
+        return new SMSMain();
     }
 
     public SMSMain() {

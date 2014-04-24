@@ -13,8 +13,7 @@ public class StripTabMain extends Fragment {
 
 
     public static StripTabMain newInstance() {
-        StripTabMain fragment = new StripTabMain();
-        return fragment;
+        return new StripTabMain();
     }
 
     public StripTabMain() {

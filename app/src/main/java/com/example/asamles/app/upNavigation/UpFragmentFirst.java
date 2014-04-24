@@ -16,13 +16,8 @@ import com.example.asamles.app.R;
 
 public class UpFragmentFirst extends Fragment {
 
-    private Button btn;
-    private TextView label;
-
     public static UpFragmentFirst newInstance() {
-        UpFragmentFirst fragment = new UpFragmentFirst();
-
-        return fragment;
+        return new UpFragmentFirst();
     }
 
     public UpFragmentFirst() {
@@ -33,8 +28,8 @@ public class UpFragmentFirst extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.up_navigation_text, container, false);
 
-        btn = (Button) rootView.findViewById(R.id.button);
-        label = (TextView) rootView.findViewById(R.id.textView);
+        Button btn = (Button) rootView.findViewById(R.id.button);
+        TextView label = (TextView) rootView.findViewById(R.id.textView);
         label.setText("First Fragment");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

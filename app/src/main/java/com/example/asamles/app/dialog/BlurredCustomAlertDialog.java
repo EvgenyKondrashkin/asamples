@@ -49,13 +49,13 @@ public class BlurredCustomAlertDialog extends DialogFragment {
             ad.setMessage(message);
         }
         if (cancelable) {
-            ad.setCancelable(cancelable);
+            ad.setCancelable(true);
         }
         if (positiveButton != null) {
             ad.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     set = true;
-                    listener.onBlurredCustomAlertDialogPositiveClick(BlurredCustomAlertDialog.this, set);
+                    listener.onBlurredCustomAlertDialogPositiveClick(BlurredCustomAlertDialog.this, true);
                 }
             });
         }

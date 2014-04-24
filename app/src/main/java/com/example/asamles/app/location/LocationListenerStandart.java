@@ -26,19 +26,16 @@ public final class LocationListenerStandart implements LocationListener {
     public static LocationListenerStandart getInstance(final Context context) {
         if (instance == null) {
             synchronized (LocationListenerStandart.class) {
-                if (instance == null)
+                if (instance == null) {
                     instance = new LocationListenerStandart(context);
+                }
             }
         }
         return instance;
     }
 
-    public boolean providersEnabled(Context context) {
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean providersEnabled() {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
     public void setLocationFound(LocationFound callback) {

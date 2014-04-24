@@ -14,11 +14,8 @@ import com.example.asamles.app.constants.Constants;
 
 public class UpNavigationMain extends Fragment {
 
-    private Button btn, btn2;
-
     public static UpNavigationMain newInstance() {
-        UpNavigationMain fragment = new UpNavigationMain();
-        return fragment;
+        return new UpNavigationMain();
     }
 
     public UpNavigationMain() {
@@ -28,8 +25,8 @@ public class UpNavigationMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_up_navigation_main, container, false);
-        btn = (Button) rootView.findViewById(R.id.button);
-        btn2 = (Button) rootView.findViewById(R.id.button2);
+        Button btn = (Button) rootView.findViewById(R.id.button);
+        Button btn2 = (Button) rootView.findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {

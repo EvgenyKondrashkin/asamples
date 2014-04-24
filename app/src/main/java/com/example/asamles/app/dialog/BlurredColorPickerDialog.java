@@ -18,10 +18,7 @@ import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
 public class BlurredColorPickerDialog extends DialogFragment implements ColorPicker.OnColorChangedListener {
-    private String title;
     private BlurredColorPickerDialogListener listener;
-    private ImageView background;
-    private int color;
     private int newColor;
 
     @Override
@@ -49,10 +46,10 @@ public class BlurredColorPickerDialog extends DialogFragment implements ColorPic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        title = getArguments() != null ? getArguments().getString(Constants.TITLE) : null;
-        color = getArguments() != null ? getArguments().getInt(Constants.COLOR) : 0;
+        String title = getArguments() != null ? getArguments().getString(Constants.TITLE) : null;
+        int color = getArguments() != null ? getArguments().getInt(Constants.COLOR) : 0;
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
-        background = (ImageView) rootView.findViewById(R.id.image);
+        ImageView background = (ImageView) rootView.findViewById(R.id.image);
         newColor = color;
         BlurBackground blurred = new BlurBackground(getActivity(), background);
         blurred.setBlurredBackground();

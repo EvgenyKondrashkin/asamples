@@ -14,9 +14,6 @@ public class PaintGalleryItem implements Parcelable {
     private String imageFullName;
     private boolean selected = false;
 
-    public PaintGalleryItem() {
-    }
-
     public PaintGalleryItem(String imageName) {
         this.imageName = imageName;
 		File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), Constants.PAINT_GALLERY);
@@ -41,7 +38,6 @@ public class PaintGalleryItem implements Parcelable {
         parcel.writeString(imageName);
         parcel.writeString(imageFullName);
         parcel.writeByte((byte) (selected ? 1 : 0));
-        ;
     }
 
     public static final Parcelable.Creator<PaintGalleryItem> CREATOR = new Parcelable.Creator<PaintGalleryItem>() {

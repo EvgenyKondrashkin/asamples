@@ -2,7 +2,6 @@ package com.example.asamles.app.dialog;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -16,10 +15,6 @@ import com.example.asamles.app.constants.Constants;
 
 public class BlurredProgressDialog extends DialogFragment {
     private BlurredProgressDialogListener listener;
-    private String message;
-    private ImageView background;
-    private Bitmap map;
-    private boolean cancelable;
 
     public interface BlurredProgressDialogListener {
         public void onBlurredProgressDialogCancel(DialogFragment dialog);
@@ -37,10 +32,10 @@ public class BlurredProgressDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        message = getArguments() != null ? getArguments().getString(Constants.MESSAGE) : null;
-        cancelable = getArguments() != null ? getArguments().getBoolean(Constants.CANCELABLE) : true;
+        String message = getArguments() != null ? getArguments().getString(Constants.MESSAGE) : null;
+        boolean cancelable = getArguments() != null ? getArguments().getBoolean(Constants.CANCELABLE) : true;
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
-        background = (ImageView) rootView.findViewById(R.id.image);
+        ImageView background = (ImageView) rootView.findViewById(R.id.image);
 
         BlurBackground blurred = new BlurBackground(getActivity(), background);
         blurred.setBlurredBackground();

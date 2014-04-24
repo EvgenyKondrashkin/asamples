@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.asamles.app.R;
@@ -14,14 +13,10 @@ import java.util.ArrayList;
 
 public class DBMain extends Fragment implements DBToClass.DBToClassListener {
 
-    private Button btn;
     private ListView list;
-    private ArrayList<Animals> animals;
-
 
     public static DBMain newInstance() {
-        DBMain fragment = new DBMain();
-        return fragment;
+        return new DBMain();
     }
 
     public DBMain() {
@@ -46,7 +41,6 @@ public class DBMain extends Fragment implements DBToClass.DBToClassListener {
 
     @Override
     public void onDBToClassListener(ArrayList<Animals> animals) {
-        this.animals = animals;
         ListDBAdapter adapter = new ListDBAdapter(getActivity(), animals);
         list.setAdapter(adapter);
     }

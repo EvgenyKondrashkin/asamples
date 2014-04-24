@@ -1,91 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFCCCCCC">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFCCCCCC">
+        <RelativeLayout
+            android:id="@+id/text_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/shadow"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="2dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Location"
+                android:id="@+id/textView2"
+                android:padding="8dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/green" />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:id="@+id/divider"
+                android:background="@color/green"
+                android:layout_below="@+id/textView2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:id="@+id/textView"
+                android:textColor="#000000"
+                android:paddingTop="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="16dp"
+                android:layout_below="@+id/divider"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:background="@color/grey_light"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="2dp"
+                android:paddingTop="1dp">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Play Service"
+                    android:id="@+id/button"
+                    android:textColor="#010101"
+                    android:padding="8dp"
+                    android:background="@android:color/white"
+                    android:layout_weight="1"/>
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:id="@+id/imageView"
-        android:background="#FFFFFFFF"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="All"
+                    android:id="@+id/button3"
+                    android:textColor="#010101"
+                    android:padding="8dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/white"
+                    android:layout_weight="1"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="1dp"/>
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/imageView2"
-        android:background="#ffffff"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="3dp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play Service"
-        android:id="@+id/button"
-        android:textColor="#010101"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="All"
-        android:id="@+id/button3"
-        android:textColor="#010101"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location:"
-        android:id="@+id/textView"
-        android:background="#ffffff"
-        android:textColor="#000000"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GPS/Network"
-        android:id="@+id/button2"
-        android:textColor="#010101"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check on map"
-        android:id="@+id/button4"
-        android:layout_alignTop="@+id/imageView2"
-        android:layout_alignLeft="@+id/imageView2"
-        android:layout_alignStart="@+id/imageView2"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_alignRight="@+id/imageView2"
-        android:layout_alignEnd="@+id/imageView2"
-        android:background="#c9c9c9"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"/>
-
-</RelativeLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GPS/Network"
+                    android:id="@+id/button2"
+                    android:textColor="#010101"
+                    android:padding="8dp"
+                    android:background="@android:color/white"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/map_card"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/text_card"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/shadow"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp">
+            <RelativeLayout
+                android:id="@+id/map_fragment"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/grey_light"
+                android:layout_margin="5dp"
+                android:padding="1dp">
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="invisible"/>
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Check on map"
+                    android:id="@+id/button4"
+                    android:background="#c9c9c9"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="fill_parent">-->
+<!--</ScrollView>-->

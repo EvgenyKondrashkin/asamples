@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -18,13 +17,7 @@ import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;
 
 public class BlurredAlertDialog extends DialogFragment {
-    private String title;
-    private String message;
-	private String okButton;
-    private String cancelButton;
     private BlurredAlertDialogListener listener;
-    private ImageView background;
-    private Bitmap map;
 
     public interface BlurredAlertDialogListener {
         public void onBlurredAlertDialogPositiveClick(DialogFragment dialog);
@@ -58,10 +51,10 @@ public class BlurredAlertDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Context context = getActivity();
-        title = getArguments() != null ? getArguments().getString(Constants.TITLE) : null;
-        message = getArguments() != null ? getArguments().getString(Constants.MESSAGE) : null;
-		okButton = getArguments() != null ? getArguments().getString(Constants.OK) : null;
-        cancelButton = getArguments() != null ? getArguments().getString(Constants.CANCEL) : null;
+        String title = getArguments() != null ? getArguments().getString(Constants.TITLE) : null;
+        String message = getArguments() != null ? getArguments().getString(Constants.MESSAGE) : null;
+        String okButton = getArguments() != null ? getArguments().getString(Constants.OK) : null;
+        String cancelButton = getArguments() != null ? getArguments().getString(Constants.CANCEL) : null;
 		if(okButton == null) {
 			okButton = context.getString(R.string.ok);
 		}
@@ -69,8 +62,8 @@ public class BlurredAlertDialog extends DialogFragment {
 		cancelButton = context.getString(R.string.cancel);
 		}
         View rootView = inflater.inflate(R.layout.blurred_dialog_fragment, container, false);
-        background = (ImageView) rootView.findViewById(R.id.image);
-		
+        ImageView background = (ImageView) rootView.findViewById(R.id.image);
+
         BlurBackground blurred = new BlurBackground((Activity) context, background);
         blurred.setBlurredBackground();
 

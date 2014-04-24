@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class JsonFromAssets {
-    private ArrayList<String> list = new ArrayList<String>();
     public static final String JSON_ARRAY = "img";
     private String jsonString;
     private Context context;
@@ -22,6 +21,7 @@ public class JsonFromAssets {
     }
 
     public ArrayList<String> getFromJson() {
+        ArrayList<String> list;
         try {
             String res = resFromAsset(jsonString);
             list = jsonParse(res);
@@ -36,7 +36,7 @@ public class JsonFromAssets {
     }
 
     public String resFromAsset(String ASSETS_FILE) throws IOException {
-        String json = null;
+        String json;
         try {
             InputStream is = context.getAssets().open(ASSETS_FILE);
             int size = is.available();

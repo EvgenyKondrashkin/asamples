@@ -9,9 +9,6 @@ public class ImageTextCheckbox implements Parcelable {
     private String text;
     private boolean check = false;
 
-    public ImageTextCheckbox() {
-    }
-
     public ImageTextCheckbox(int image, String text, boolean check) {
         this.image = image;
         this.text = text;
@@ -35,7 +32,6 @@ public class ImageTextCheckbox implements Parcelable {
         parcel.writeInt(image);
         parcel.writeString(text);
         parcel.writeByte((byte) (check ? 1 : 0));
-        ;
     }
 
     public static final Parcelable.Creator<ImageTextCheckbox> CREATOR = new Parcelable.Creator<ImageTextCheckbox>() {

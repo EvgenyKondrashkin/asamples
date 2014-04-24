@@ -12,20 +12,16 @@ import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 
 public class UpFirst extends MainActivity {
-    private Button btn;
-    private TextView label;
     private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.up_navigation_text);
-        btn = (Button) findViewById(R.id.button);
-        label = (TextView) findViewById(R.id.textView);
+        TextView label = (TextView) findViewById(R.id.textView);
         label.setText("First Activity");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         name = getIntent().getStringExtra("NAME");
-
     }
 
     @Override

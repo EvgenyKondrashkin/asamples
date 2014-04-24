@@ -19,10 +19,6 @@ import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
 public class SeekbarFragment extends Fragment {
-    private SeekBar seekbar;
-    private TextView nameView;
-    private int value;
-    private String name;
     private Bitmap finalBitmap;
     public static final String TYPE = "TYPE";
     public static final String VALUE = "VALUE";
@@ -62,14 +58,14 @@ public class SeekbarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        name = getArguments() != null ? getArguments().getString(TYPE) : null;
-        value = getArguments() != null ? getArguments().getInt(VALUE) : 0;
+        String name = getArguments() != null ? getArguments().getString(TYPE) : null;
+        int value = getArguments() != null ? getArguments().getInt(VALUE) : 0;
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.imageedit_seekbar, container, false);
         finalBitmap = ((BitmapDrawable) ImageEditMain.imageView.getDrawable()).getBitmap();
-        seekbar = (SeekBar) rootView.findViewById(R.id.seekBar);
+        SeekBar seekbar = (SeekBar) rootView.findViewById(R.id.seekBar);
         seekbar.setProgress(value);
-        nameView = (TextView) rootView.findViewById(R.id.textView);
+        TextView nameView = (TextView) rootView.findViewById(R.id.textView);
         nameView.setText(name);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

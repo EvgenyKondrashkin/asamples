@@ -15,10 +15,6 @@ import com.example.asamles.app.constants.Constants;
 
 public class UpFragmentMain extends Fragment {
 
-    private Button btn;
-    private TextView label;
-    private String name;
-
     public static UpFragmentMain newInstance(String name) {
         UpFragmentMain fragment = new UpFragmentMain();
         Bundle args = new Bundle();
@@ -34,10 +30,10 @@ public class UpFragmentMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.up_navigation_text, container, false);
-        name = getArguments().getString(Constants.NAME);
+        String name = getArguments().getString(Constants.NAME);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
-        btn = (Button) rootView.findViewById(R.id.button);
-        label = (TextView) rootView.findViewById(R.id.textView);
+        Button btn = (Button) rootView.findViewById(R.id.button);
+        TextView label = (TextView) rootView.findViewById(R.id.textView);
         label.setText("Main");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

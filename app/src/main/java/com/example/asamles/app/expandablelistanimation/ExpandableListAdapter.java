@@ -17,7 +17,6 @@ import java.util.Random;
 public class ExpandableListAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
     private LayoutInflater inflater;
     private ArrayList<Animals> items;
-    private int color;
 
     public ExpandableListAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -29,8 +28,7 @@ public class ExpandableListAdapter extends AnimatedExpandableListView.AnimatedEx
 
     private int groupColor() {
         Random random = new Random();
-        int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
-        return color;
+        return Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
     }
 
     @Override

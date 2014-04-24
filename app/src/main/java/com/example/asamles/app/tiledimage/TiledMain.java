@@ -28,11 +28,9 @@ public class TiledMain extends Fragment {
     private ImageView[] mInfo = new ImageView[mInfoXY.length];
     private ImageView[] mPark = new ImageView[mParkXY.length];
     private boolean marker = false;
-    private int activityOrientation;
 
     public static TiledMain newInstance() {
-        TiledMain fragment = new TiledMain();
-        return fragment;
+        return new TiledMain();
     }
 
     public TiledMain() {

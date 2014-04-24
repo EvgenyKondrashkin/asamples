@@ -17,17 +17,9 @@ import com.example.asamles.app.imageedit.ImageEditMain;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
-
 public class RotateFragment extends Fragment implements View.OnClickListener {
-    private String name;
-    public static final String TYPE = "TYPE";
-    public static final String VALUE = "VALUE";
     private Bitmap finalBitmap;
     private Bitmap bitmap;
-    private ImageButton rotateRightButton;
-    private ImageButton rotateLeftButton;
-    private ImageButton flipVerticalButton;
-    private ImageButton flipHorizontalButton;
     private Bitmap mainBitmap;
     private OkFragmentListener doneListener = null;
 
@@ -36,8 +28,7 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
     }
 
     public static RotateFragment newInstance() {
-        RotateFragment fragment = new RotateFragment();
-        return fragment;
+        return new RotateFragment();
     }
 
     public RotateFragment() {
@@ -54,21 +45,21 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setButtons(View view) {
-        rotateRightButton = (ImageButton) view.findViewById(R.id.rotate_right);
+        ImageButton rotateRightButton = (ImageButton) view.findViewById(R.id.rotate_right);
         rotateRightButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_repeat)
                 .colorRes(R.color.grey_light).sizeDp(32));
         rotateRightButton.setOnClickListener(this);
 
-        rotateLeftButton = (ImageButton) view.findViewById(R.id.rotate_left);
+        ImageButton rotateLeftButton = (ImageButton) view.findViewById(R.id.rotate_left);
         rotateLeftButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
                 .colorRes(R.color.grey_light).sizeDp(32));
         rotateLeftButton.setOnClickListener(this);
 
-        flipVerticalButton = (ImageButton) view.findViewById(R.id.flip_vertical);
+        ImageButton flipVerticalButton = (ImageButton) view.findViewById(R.id.flip_vertical);
         flipVerticalButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.flip_vertical));
         flipVerticalButton.setOnClickListener(this);
 
-        flipHorizontalButton = (ImageButton) view.findViewById(R.id.flip_horizontal);
+        ImageButton flipHorizontalButton = (ImageButton) view.findViewById(R.id.flip_horizontal);
         flipHorizontalButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.flip_horizontal));
         flipHorizontalButton.setOnClickListener(this);
     }

@@ -62,7 +62,6 @@ public class SaveLoadFile {
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(mypath);
-            ;
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
             fos.close();
             Toast.makeText(context.getApplicationContext(), context.getString(R.string.save_positive_result), Toast.LENGTH_SHORT).show();
@@ -82,7 +81,6 @@ public class SaveLoadFile {
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(mypath);
-            ;
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
             Toast.makeText(context.getApplicationContext(), context.getString(R.string.save_positive_result), Toast.LENGTH_SHORT).show();
@@ -97,12 +95,9 @@ public class SaveLoadFile {
         return savedFiles;
     }
 
-    public static String[] loadAllPublicFiles(Context context, String dirName) {
-        ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
+    public static String[] loadAllPublicFiles(String dirName) {
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), dirName);
-        String[] savedFiles = directory.list();
-
-        return savedFiles;
+        return directory.list();
     }
 
     public static Bitmap loadImageFromPrivateStorage(Context context, String dirName, String name) {
@@ -133,11 +128,13 @@ public class SaveLoadFile {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(selectedImageUri, projection, null, null, null);
         String picturePath = null;
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            picturePath = cursor.getString(column_index);
-        } else {
-            Toast.makeText(context.getApplicationContext(), context.getString(R.string.load_negative_result), Toast.LENGTH_SHORT).show();
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                picturePath = cursor.getString(column_index);
+            } else {
+                Toast.makeText(context.getApplicationContext(), context.getString(R.string.load_negative_result), Toast.LENGTH_SHORT).show();
+            }
         }
         return picturePath;
     }
