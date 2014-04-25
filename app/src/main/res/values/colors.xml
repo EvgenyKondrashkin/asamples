@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="gallery_white">#FFf4f4f4</color>
+    <color name="grey_light_light">#FFCCCCCC</color>
     <color name="grey_light">#FF959595</color>
 	<color name="green">#FF16ad19</color>
     <color name="dark">#222222</color>

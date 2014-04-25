@@ -2,20 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 >
     <group android:id="@+id/menu_group_main" >
-	<item
-        android:id="@+id/action_seekbar"
-        app:actionProviderClass="com.example.asamles.app.share.CheckBoxActionProvider"
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/menu_share_widget"
         app:showAsAction="always"
-        android:title="Settings"/>
-    <!--<item-->
-        <!--android:id="@+id/action_share"-->
-        <!--android:title="Share"-->
-        <!--app:showAsAction="always"-->
-        <!--app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />-->
-    <!--<item-->
-        <!--android:id="@+id/action_share2"-->
-        <!--android:title="Share"-->
-        <!--app:showAsAction="always"-->
-        <!--android:icon="@drawable/ic_menu_share" />-->
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+    <item
+        android:id="@+id/action_share2"
+        android:title="@string/menu_share"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_menu_share" />
     </group>
 </menu>

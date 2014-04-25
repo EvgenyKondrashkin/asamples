@@ -13,16 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.example.asamles.app.R;
 
-public class ShareMain extends Fragment implements SeekbarAdapter.SeekBarListener {
+public class ShareMain extends Fragment {
 
     private Button btn, btn2, btn3;
-    private TextView label;
-    private ShareActionProvider mShareActionProvider;
 
     public static ShareMain newInstance() {
         return new ShareMain();
@@ -44,9 +40,6 @@ public class ShareMain extends Fragment implements SeekbarAdapter.SeekBarListene
         btn = (Button) rootView.findViewById(R.id.button);
         btn2 = (Button) rootView.findViewById(R.id.button2);
         btn3 = (Button) rootView.findViewById(R.id.button3);
-        label = (TextView) rootView.findViewById(R.id.textView);
-
-//		ShareActionProvider mShareActionProvider = (ShareActionProvider) btn3.getActionProvider();
 
         btn.setOnClickListener(new View.OnClickListener() {
 
@@ -82,60 +75,35 @@ public class ShareMain extends Fragment implements SeekbarAdapter.SeekBarListene
         return rootView;
     }
 
-    // @Override
-    // public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-    // inflater.inflate(R.menu.main, menu);
-    // MenuItem shareItem = menu.findItem(R.id.action_share);
-    // mShareActionProvider = (ShareActionProvider)
-    // MenuItemCompat.getActionProvider(shareItem);
-    // mShareActionProvider.setShareIntent(getDefaultIntent());
-
-    // super.onCreateOptionsMenu(menu, inflater);
-    // }
-
-    // @Override
-    // public boolean onOptionsItemSelected(MenuItem item) {
-    // switch (item.getItemId()) {
-    // case R.id.action_share2:
-    // this.startActivity(getDefaultIntent());
-    // return true;
-
-    // default:
-    // return super.onOptionsItemSelected(item);
-    // }
-    // }
-
-    // private Intent getDefaultIntent() {
-    // Intent intent = new Intent(Intent.ACTION_SEND);
-    // intent.setType("text/plain");
-    // intent.putExtra(Intent.EXTRA_SUBJECT, "Theme");
-    // intent.putExtra(Intent.EXTRA_TEXT, "Message");
-    // return intent;
-    // }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        inflater.inflate(R.menu.main, menu);
-        MenuItem seekbarItem = menu.findItem(R.id.action_seekbar);
-        CheckBoxActionProvider seekbarActionProvider = (CheckBoxActionProvider) MenuItemCompat.getActionProvider(seekbarItem);
-        seekbarActionProvider.setCheckBoxActionProvider(getActivity(), this);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+    inflater.inflate(R.menu.main, menu);
+    MenuItem shareItem = menu.findItem(R.id.action_share);
+        ShareActionProvider mShareActionProvider = (ShareActionProvider)
+                MenuItemCompat.getActionProvider(shareItem);
+    mShareActionProvider.setShareIntent(getDefaultIntent());
 
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser, int positionInList) {
-        label.setText("" + progress);
+    super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar, int positionInList) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case R.id.action_share2:
+    this.startActivity(getDefaultIntent());
+    return true;
 
+    default:
+    return super.onOptionsItemSelected(item);
+    }
     }
 
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar, int positionInList) {
-
+    private Intent getDefaultIntent() {
+    Intent intent = new Intent(Intent.ACTION_SEND);
+    intent.setType("text/plain");
+    intent.putExtra(Intent.EXTRA_SUBJECT, "Theme");
+    intent.putExtra(Intent.EXTRA_TEXT, "Message");
+    return intent;
     }
 }

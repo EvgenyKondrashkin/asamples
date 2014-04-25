@@ -4,12 +4,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android">
-<TextView android:id="@+id/message"
-                style="?android:attr/textAppearanceMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dip"
-                android:paddingEnd="16dip"
-                android:paddingTop="8dip"
-                android:paddingBottom="8dip"/>
+
+    <TextView
+        android:id="@+id/message"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/size_16"
+        android:paddingEnd="@dimen/size_16"
+        android:paddingTop="@dimen/size_8"
+        android:paddingBottom="@dimen/size_8" />
 </RelativeLayout>

@@ -7,15 +7,15 @@
     <group android:id="@+id/menu_group_imageedit" >
     <item
         android:id="@+id/action_photo"
-        android:title="Photo"
+        android:title="@string/menu_photo"
 		app:showAsAction="always" />
     <item
         android:id="@+id/action_load"
-        android:title="Load"
+        android:title="@string/menu_load"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_save"
-        android:title="Save"
+        android:title="@string/menu_save"
         app:showAsAction="always" />
     </group>
 </menu>

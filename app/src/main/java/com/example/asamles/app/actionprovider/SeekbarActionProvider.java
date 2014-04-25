@@ -20,7 +20,6 @@ public class SeekbarActionProvider extends ActionProvider {
 
     public void setSeekbarActionProvider(SizeAdapter.SizeListener listener, int size) {
         this.listener = listener;
-//        this.context = this.getContext();
         this.size = size;
     }
 

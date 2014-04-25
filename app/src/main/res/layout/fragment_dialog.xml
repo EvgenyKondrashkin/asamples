@@ -2,112 +2,115 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<!---->
-    <TextView  android:id="@+id/vertical_sb_progresstext"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:gravity="center"
-    	    android:layout_below="@+id/vertical_Seekbar"
-			android:layout_alignParentRight="true"/>
-	<com.example.asamles.app.seekbar.VerticalSeekBar 
-		android:id="@+id/vertical_Seekbar"
-        android:layout_width="wrap_content"
-        android:layout_height="150dip"
-        android:layout_alignParentRight="true"/>
-<!---->
-  <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time:"
-        android:id="@+id/textView"
-        android:background="#ffffff"
-        android:textColor="#000000"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TimeDialog"
-        android:id="@+id/time_dialog_button"
-        android:textColor="#000000"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!---->
+        <TextView
+            android:id="@+id/vertical_sb_progresstext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/vertical_Seekbar"
+            android:layout_alignParentRight="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AlertDialog"
-        android:id="@+id/alert_dialog_button"
-        android:layout_below="@+id/time_dialog_button"
-        android:layout_alignParentLeft="true" />
-	
-	<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SeekbarDialog"
-        android:id="@+id/seekbar_dialog_button"
-        android:layout_below="@+id/alert_dialog_button"
-        android:layout_alignParentLeft="true" />
-		
-	<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ProgressDialog"
-        android:id="@+id/progress_dialog_button"
-        android:layout_below="@+id/seekbar_dialog_button"
-        android:layout_alignParentLeft="true" />
-	<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ListCheckboxDialog"
-        android:id="@+id/custom_dialog_button"
-        android:layout_below="@+id/progress_dialog_button"
-        android:layout_alignParentLeft="true" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BlurredAlertDialog"
-        android:id="@+id/blurred_alert_dialog_button"
-        android:layout_below="@+id/custom_dialog_button"
-        android:layout_alignParentLeft="true" />
-	<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BlurredProgressDialog"
-        android:id="@+id/blurred_progress_dialog_button"
-        android:layout_below="@+id/blurred_alert_dialog_button"
-        android:layout_alignParentLeft="true" />
+        <com.example.asamles.app.seekbar.VerticalSeekBar
+            android:id="@+id/vertical_Seekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="150dip"
+            android:layout_alignParentRight="true" />
+        <!---->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time_label"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Color"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/blurred_progress_dialog_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time_dialog_button"
+            android:id="@+id/time_dialog_button"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true" />
 
-	<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BlurredColorPicker"
-        android:id="@+id/blurred_colorpicker_dialog_button"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alert_dialog_button"
+            android:id="@+id/alert_dialog_button"
+            android:layout_below="@+id/time_dialog_button"
+            android:layout_alignParentLeft="true" />
 
-	<Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BlurredCustomDialog"
-        android:id="@+id/blurred_custom_dialog_button"
-        android:layout_below="@+id/blurred_colorpicker_dialog_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seekbar_dialog_button"
+            android:id="@+id/seekbar_dialog_button"
+            android:layout_below="@+id/alert_dialog_button"
+            android:layout_alignParentLeft="true" />
 
-</RelativeLayout>
-    </ScrollView>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/progress_dialog_button"
+            android:id="@+id/progress_dialog_button"
+            android:layout_below="@+id/seekbar_dialog_button"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_checkbox_button"
+            android:id="@+id/custom_dialog_button"
+            android:layout_below="@+id/progress_dialog_button"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blurred_alert_dialog_button"
+            android:id="@+id/blurred_alert_dialog_button"
+            android:layout_below="@+id/custom_dialog_button"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blurred_progress_dialog_button"
+            android:id="@+id/blurred_progress_dialog_button"
+            android:layout_below="@+id/blurred_alert_dialog_button"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/color_label"
+            android:id="@+id/textView4"
+            android:layout_below="@+id/blurred_progress_dialog_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blurred_color_dialog_button"
+            android:id="@+id/blurred_colorpicker_dialog_button"
+            android:layout_below="@+id/textView4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blurred_custom_dialog_button"
+            android:id="@+id/blurred_custom_dialog_button"
+            android:layout_below="@+id/blurred_colorpicker_dialog_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+</ScrollView>

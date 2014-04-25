@@ -6,7 +6,7 @@
     tools:context="com.example.asamles.app.MainActivity">
     <item
         android:id="@+id/action_markers"
-        android:title="markers"
+        android:title="@string/menu_marker"
         android:icon="@drawable/ic_marker"
         app:showAsAction="always" />
 </menu>

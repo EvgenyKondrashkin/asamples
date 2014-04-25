@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
+    android:paddingBottom="@dimen/size_5"
 
->
+    >
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/picker"
@@ -19,24 +19,24 @@
         app:color_pointer_radius="16dp"
         app:color_pointer_halo_radius="22dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_centerHorizontal="true" />
 
     <com.larswerkman.holocolorpicker.SaturationBar
         android:id="@+id/saturationbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="2dip"
+        android:layout_margin="@dimen/size_2"
         android:layout_below="@+id/picker"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
+
     <com.larswerkman.holocolorpicker.ValueBar
         android:id="@+id/valuebar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="2dip"
+        android:layout_margin="@dimen/size_2"
         android:layout_below="@+id/saturationbar"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

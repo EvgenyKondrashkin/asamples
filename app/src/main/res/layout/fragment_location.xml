@@ -1,137 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_light_light">
+
+    <RelativeLayout
+        android:id="@+id/text_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFCCCCCC">
-        <RelativeLayout
-            android:id="@+id/text_card"
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/shadow"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/location_title"
+            android:id="@+id/textView2"
+            android:padding="@dimen/size_8"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@drawable/shadow"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:paddingBottom="2dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Location"
-                android:id="@+id/textView2"
-                android:padding="8dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/green" />
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:id="@+id/divider"
-                android:background="@color/green"
-                android:layout_below="@+id/textView2"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location:"
-                android:id="@+id/textView"
-                android:textColor="#000000"
-                android:paddingTop="16dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="16dp"
-                android:layout_below="@+id/divider"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:background="@color/grey_light"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginBottom="2dp"
-                android:paddingTop="1dp">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Play Service"
-                    android:id="@+id/button"
-                    android:textColor="#010101"
-                    android:padding="8dp"
-                    android:background="@android:color/white"
-                    android:layout_weight="1"/>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/green" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:text="All"
-                    android:id="@+id/button3"
-                    android:textColor="#010101"
-                    android:padding="8dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@android:color/white"
-                    android:layout_weight="1"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginLeft="1dp"/>
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/size_2"
+            android:id="@+id/divider"
+            android:background="@color/green"
+            android:layout_below="@+id/textView2"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:contentDescription="@string/divider" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="GPS/Network"
-                    android:id="@+id/button2"
-                    android:textColor="#010101"
-                    android:padding="8dp"
-                    android:background="@android:color/white"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/map_card"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/text_card"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location_message"
+            android:id="@+id/textView"
+            android:textColor="@android:color/black"
+            android:paddingTop="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="16dp"
+            android:layout_below="@+id/divider"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/shadow"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="2dp">
-            <RelativeLayout
-                android:id="@+id/map_fragment"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:background="@color/grey_light"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="2dp"
+            android:paddingTop="1dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location_play_service_button"
+                android:id="@+id/button"
+                android:padding="@dimen/size_8"
+                android:background="@android:color/white"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="@string/location_all_button"
+                android:id="@+id/button3"
+                android:padding="@dimen/size_8"
+                android:background="@android:color/white"
+                android:layout_weight="1"
+                android:layout_marginRight="1dp"
+                android:layout_marginLeft="1dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location_gps_network_button"
+                android:id="@+id/button2"
+                android:padding="@dimen/size_8"
+                android:background="@android:color/white"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/map_card"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/text_card"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/shadow"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp">
+
+        <RelativeLayout
+            android:id="@+id/map_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/grey_light"
+            android:layout_margin="@dimen/size_5"
+            android:padding="1dp">
+
+            <fragment
+                android:id="@+id/mapview"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@color/grey_light"
-                android:layout_margin="5dp"
-                android:padding="1dp">
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/mapview"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:visibility="invisible"/>
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:text="Check on map"
-                    android:id="@+id/button4"
-                    android:background="#c9c9c9"/>
-            </RelativeLayout>
+                class="com.google.android.gms.maps.SupportMapFragment" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/location_map_button"
+                android:id="@+id/button4"
+                android:background="@color/grey_light" />
         </RelativeLayout>
     </RelativeLayout>
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--android:layout_width="wrap_content"-->
-<!--android:layout_height="fill_parent">-->
-<!--</ScrollView>-->
+</RelativeLayout><!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="wrap_content"--><!--android:layout_height="fill_parent">--><!--</ScrollView>-->

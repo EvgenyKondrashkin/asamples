@@ -6,34 +6,34 @@
     tools:context="com.example.asamles.app.MainActivity">
     <item
         android:id="@+id/action_clear"
-        android:title="Clear"
+        android:title="@string/menu_clear"
         app:showAsAction="always"
         />
 	<item
         android:id="@+id/action_save"
-        android:title="Save"
+        android:title="@string/menu_save"
         app:showAsAction="ifRoom" />
 	<item
         android:id="@+id/action_load"
-        android:title="Load"
+        android:title="@string/menu_load"
         app:showAsAction="ifRoom" />
 	<item
         android:id="@+id/action_erase"
-        android:title="Erase"
+        android:title="@string/menu_erase"
         app:showAsAction="always"
         />
     <item
         android:id="@+id/action_pencil"
-        android:title="Pencil"
+        android:title="@string/menu_pencil"
         app:showAsAction="always" />
 	<item
         android:id="@+id/action_color"
         android:icon="@drawable/action_colorpicker"
-        android:title="Color"
+        android:title="@string/menu_color"
         app:showAsAction="always" />
 	<item
         android:id="@+id/action_size"
-        android:title="Size"
+        android:title="@string/menu_size"
 		app:actionProviderClass="com.example.asamles.app.actionprovider.SeekbarActionProvider"
         app:showAsAction="always" />
 </menu>

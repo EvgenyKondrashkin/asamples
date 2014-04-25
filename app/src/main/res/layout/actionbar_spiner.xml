@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="65dp"
-    android:layout_height="50dp" >
+    android:layout_width="@dimen/size_65"
+    android:layout_height="@dimen/size_50">
 
     <Spinner
         android:id="@+id/spinner"

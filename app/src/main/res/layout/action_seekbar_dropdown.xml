@@ -1,13 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
+
     <SeekBar
         android:id="@+id/seekBar1"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/seekbar_dropdown_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-		android:max="30"/>
+        android:layout_margin="@dimen/size_10"
+        android:max="30" />
 </RelativeLayout>

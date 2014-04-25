@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_light_light">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <IconButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/social_button_shadow"
+            android:text="@string/social_facebook_button"
+            android:textSize="32sp"
+            android:textColor="#3b5998"
+            android:layout_margin="5dp"
+            android:padding="12dp"
+            android:id="@+id/facebook_button"
+            android:layout_alignParentLeft="true" />
+
+        <IconButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/social_button_shadow"
+            android:text="@string/social_twitter_button"
+            android:textSize="32sp"
+            android:textColor="#55ACEE"
+            android:layout_margin="5dp"
+            android:padding="12dp"
+            android:id="@+id/twitter_button"
+            android:layout_below="@+id/facebook_button"
+            android:layout_alignParentLeft="true" />
+
+        <IconButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/social_button_shadow"
+            android:text="@string/social_google_button"
+            android:textSize="32sp"
+            android:textColor="#D34836"
+            android:layout_margin="5dp"
+            android:padding="12dp"
+            android:id="@+id/google_button"
+            android:layout_below="@+id/twitter_button"
+            android:layout_alignParentLeft="true" />
+
+        <IconButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/social_button_shadow"
+            android:text="@string/social_vk_button"
+            android:textSize="32sp"
+            android:textColor="#36638e"
+            android:layout_margin="5dp"
+            android:padding="12dp"
+            android:id="@+id/vk_button"
+            android:layout_below="@+id/google_button"
+            android:layout_alignParentLeft="true" />
+    </RelativeLayout>
+</ScrollView>

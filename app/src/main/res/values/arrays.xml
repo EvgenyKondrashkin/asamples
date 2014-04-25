@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--MainMenu-->
+    <string-array name="main_list">
+        <item>Location</item>
+        <item>Alert Builders</item>
+        <item>Picasso Image grid/list</item>
+        <item>Image Edit</item>
+        <item>Paint</item>
+        <item>Tiled image - Park map</item>
+		<item>Social Networks</item>
+		<item>Expandable List Animation</item>
+        <item>SMS</item>
+        <item>Share</item>
+        <item>DB</item>
+        <item>Strip</item>
+        <item>Up Navigation</item>
+		<item>Shake </item>
+    </string-array>
+<!--FragmentNames-->
+	<string-array name="fragment_names">
+        <item>com.example.asamles.app.location.LocationMain</item>
+        <item>com.example.asamles.app.dialog.DialogsMain</item>
+        <item>com.example.asamles.app.picassogridimage.PicassoMain</item>
+        <item>com.example.asamles.app.imageedit.ImageEditMain</item>
+        <item>com.example.asamles.app.paint.PaintMain</item>
+        <item>com.example.asamles.app.tiledimage.TiledMain</item>
+		<item>com.example.asamles.app.socialnetwork.SocialNetworkMain</item>
+		<item>com.example.asamles.app.expandablelistanimation.ExpandableListAnimationMain</item>
+        <item>com.example.asamles.app.sms.SMSMain</item>
+        <item>com.example.asamles.app.share.ShareMain</item>
+        <item>com.example.asamles.app.db.DBMain</item>
+        <item>com.example.asamles.app.striptab.StripTabMain</item>
+        <item>com.example.asamles.app.upNavigation.UpNavigationMain</item>
+		<item>com.example.asamles.app.shake.ShakeMain</item>
+    </string-array>
+<!--DialogsMain-->
+	<array name="shape_list">
+        <item>@drawable/m_info</item>
+        <item>@drawable/m_museum</item>
+        <item>@drawable/m_park</item>
+    </array>
+    <string-array name="item_list">
+        <item>Information</item>
+        <item>Museum</item>
+        <item>Park</item>
+    </string-array>
+<!--ImageEditMain-->
+    <string-array name="seek_list">
+        <item>Brightness</item>
+        <item>Contrast</item>
+        <item>Saturation</item>
+    </string-array>
+<!--StripTabs-->
+    <string-array name="strip_list">
+        <item>Strip #1</item>
+        <item>Strip #2</item>
+        <item>Strip #3</item>
+        <item>Strip #4</item>
+    </string-array>
+<!--Shake it baby-->
+	<string-array name="shake_list">
+        <item>Shake me more!</item>
+        <item>Stop it!</item>
+        <item>Dot do it!</item>
+        <item>Yeaahh!</item>
+		<item>You are my shaker!</item>
+    </string-array>
+</resources>

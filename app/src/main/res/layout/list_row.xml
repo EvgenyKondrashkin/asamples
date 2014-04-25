@@ -2,26 +2,23 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
-
+    android:layout_height="@dimen/size_50">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="0dp"
+        android:layout_width="@dimen/size_50"
+        android:layout_height="@dimen/size_50"
+        android:layout_margin="@dimen/zero"
         android:layout_centerVertical="true"
         android:id="@+id/icon"
         android:src="@drawable/ic_launcher"
-        android:contentDescription="@string/app_name">
-    </ImageView>
+        android:contentDescription="@string/app_name"></ImageView>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="@dimen/size_64"
         android:id="@+id/label"
-        android:text="Test"
         android:textIsSelectable="false">
 
     </TextView>
