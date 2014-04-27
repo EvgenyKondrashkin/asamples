@@ -37,3 +37,4 @@ proguard/
 .hg/
 .hg
 cropper/build
+facebook/build

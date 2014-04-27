@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">asamles</string>
 	<string name="item">Item #</string>
+    <string name="facebook_app_id">560343677415755</string>
 <!--Error-->
     <string name="error">Error!</string>
 	<string name="json_error">JSON Error!</string>
