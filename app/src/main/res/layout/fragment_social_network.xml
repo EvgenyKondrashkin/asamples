@@ -7,14 +7,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-		<com.example.asamles.app.card.SocialCard
+
+        <com.example.asamles.app.card.SocialCard
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/tw_card"
+            />
+        <com.example.asamles.app.card.SocialCard
 			android:layout_width="match_parent"
             android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true" 
+			android:layout_alignParentLeft="true"
+            android:layout_below="@id/tw_card"
 			android:id="@+id/fb_card"
 		/>
+
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -29,7 +38,7 @@
             android:textColor="#3b5998"
             android:layout_margin="5dp"
             android:padding="12dp"
-            android:layout_below="@+id/name"
+            android:layout_below="@+id/login"
             android:id="@+id/facebook_button"
             android:layout_alignParentLeft="true" />
 
