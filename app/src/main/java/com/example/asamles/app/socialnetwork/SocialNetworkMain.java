@@ -86,7 +86,7 @@ public class SocialNetworkMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_social_network, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_social_network, container, false);
         name = (TextView) rootView.findViewById(R.id.name);
         fbButton = (Button) rootView.findViewById(R.id.facebook_button);
         Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
@@ -119,7 +119,7 @@ public class SocialNetworkMain extends Fragment {
             @Override
             public void onClick(View view) {
                 tButton.setTextColor(getActivity().getResources().getColor(R.color.green));
-//                printHashKey();
+                printHashKey();
             }
         });
         gButton.setOnClickListener(new View.OnClickListener() {
@@ -162,24 +162,24 @@ public class SocialNetworkMain extends Fragment {
         Session session = Session.getActiveSession();
         Session.saveSession(session, outState);
     }
-//    public void printHashKey() {
-//
-//        try {
-//            PackageInfo info = getActivity().getPackageManager().getPackageInfo("com.example.asamles.app",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("TEMPTAGHASH KEY:",
-//                        Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//
-//        }
-//
-//    }
+    public void printHashKey() {
+
+        try {
+            PackageInfo info = getActivity().getPackageManager().getPackageInfo("com.example.asamles.app",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("TEMPTAGHASH KEY:",
+                        Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+
+    }
     private void defaultData(){
         name.setText("NoName");
     }
