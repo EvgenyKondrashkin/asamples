@@ -7,4 +7,11 @@
     <color name="dark">#222222</color>
 
     <color name="facebook">#3b5998</color>
+	<color name="facebook_light">#8b9dc3</color>
+	<color name="twitter">#55ACEE</color>
+	<color name="twitter_light">#0084b4</color>
+	<color name="google_plus">#D34836</color>
+	<color name="google_plus_light">#D2D2D2</color>
+	<color name="vk">#36638e</color>
+	<color name="vk_light">#666699</color>
 </resources>

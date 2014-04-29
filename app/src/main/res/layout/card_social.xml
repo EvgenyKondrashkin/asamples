@@ -95,15 +95,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+			android:id="@+id/buttonLayout"
             android:layout_below="@+id/contact"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:background="@color/grey_light"
             android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="2dp"
-            android:paddingTop="1dp">
+            android:layout_marginRight="1dp">
 
             <IconButton
                 android:layout_width="wrap_content"
@@ -112,9 +111,18 @@
                 android:id="@+id/connect"
                 android:padding="@dimen/size_8"
                 android:background="@android:color/white"
+				android:layout_marginRight="1dp"
                 android:layout_weight="1" />
-
-
+				
+			<IconButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FB Login"
+                android:id="@+id/share"
+                android:padding="@dimen/size_8"
+                android:background="@android:color/white"
+				android:layout_marginLeft="1dp"
+                android:layout_weight="1" />
         </LinearLayout>
     </RelativeLayout>
 

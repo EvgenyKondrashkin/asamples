@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/grey_light_light">
@@ -12,73 +14,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:id="@+id/tw_card"
-            />
+			custom:color="@color/facebook"
+			custom:text_color="@color/facebook"
+			custom:dark_color="@color/facebook_light"
+            android:id="@+id/fb_card"/>
         <com.example.asamles.app.card.SocialCard
 			android:layout_width="match_parent"
             android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
+			custom:color="@color/twitter"
+			custom:text_color="@color/twitter"
+			custom:dark_color="@color/twitter_light"
+            android:layout_below="@id/fb_card"
+			android:id="@+id/tw_card"/>
+		<com.example.asamles.app.card.SocialCard
+			android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			custom:color="@color/google_plus"
+			custom:text_color="@color/google_plus"
+			custom:dark_color="@color/google_plus_light"
             android:layout_below="@id/tw_card"
-			android:id="@+id/fb_card"
-		/>
+			android:id="@+id/gp_card"/>
+		<com.example.asamles.app.card.SocialCard
+			android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			custom:color="@color/vk"
+			custom:text_color="@color/vk"
+			custom:dark_color="@color/vk_light"
+            android:layout_below="@id/gp_card"
+			android:id="@+id/vk_card"/>
 
-        <TextView
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_alignParentLeft="true" 
-			android:layout_below="@+id/fb_card"/>
-        <IconButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/social_button_shadow"
-            android:text="@string/social_facebook_button"
-            android:textSize="32sp"
-            android:textColor="#3b5998"
-            android:layout_margin="5dp"
-            android:padding="12dp"
-            android:layout_below="@+id/login"
-            android:id="@+id/facebook_button"
-            android:layout_alignParentLeft="true" />
-
-        <IconButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/social_button_shadow"
-            android:text="@string/social_twitter_button"
-            android:textSize="32sp"
-            android:textColor="#55ACEE"
-            android:layout_margin="5dp"
-            android:padding="12dp"
-            android:id="@+id/twitter_button"
-            android:layout_below="@+id/facebook_button"
-            android:layout_alignParentLeft="true" />
-
-        <IconButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/social_button_shadow"
-            android:text="@string/social_google_button"
-            android:textSize="32sp"
-            android:textColor="#D34836"
-            android:layout_margin="5dp"
-            android:padding="12dp"
-            android:id="@+id/google_button"
-            android:layout_below="@+id/twitter_button"
-            android:layout_alignParentLeft="true" />
-
-        <IconButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/social_button_shadow"
-            android:text="@string/social_vk_button"
-            android:textSize="32sp"
-            android:textColor="#36638e"
-            android:layout_margin="5dp"
-            android:padding="12dp"
-            android:id="@+id/vk_button"
-            android:layout_below="@+id/google_button"
-            android:layout_alignParentLeft="true" />
     </RelativeLayout>
 </ScrollView>

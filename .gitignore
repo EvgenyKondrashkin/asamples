@@ -38,3 +38,4 @@ proguard/
 .hg
 cropper/build
 facebook/build
+Thumbs.db
