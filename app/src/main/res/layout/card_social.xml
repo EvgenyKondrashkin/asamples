@@ -138,5 +138,6 @@
         android:padding="@dimen/size_2"
         android:src="@drawable/user"
         android:adjustViewBounds="true"
+		android:cropToPadding="true"
         android:scaleType="centerCrop"/>
 </RelativeLayout>

@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SocialNetworkMain extends Fragment {
+public class SocialNetworkMain extends SocialIntegrationFragment {
 
     private SocialCard fbCard;
 	private SocialCard twCard;
@@ -46,18 +46,17 @@ public class SocialNetworkMain extends Fragment {
     public static SocialNetworkMain newInstance() {
         return new SocialNetworkMain();
     }
-
-    private Session.StatusCallback statusCallback = new SessionStatusCallback();
-    private class SessionStatusCallback implements Session.StatusCallback {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-//            updateView();
-            updateSocialCard(fbCard);
-        }
+    
+	public SocialNetworkMain() {
     }
-
-    public SocialNetworkMain() {
-    }
+    
+	// private Session.StatusCallback statusCallback = new SessionStatusCallback();
+    // private class SessionStatusCallback implements Session.StatusCallback {
+        // @Override
+        // public void call(Session session, SessionState state, Exception exception) {
+            // updateFacebookCard(fbCard);
+        // }
+    // }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,58 +68,57 @@ public class SocialNetworkMain extends Fragment {
 		gpCard = (SocialCard) rootView.findViewById(R.id.gp_card);
 		vkCard = (SocialCard) rootView.findViewById(R.id.vk_card);
 
-        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-        // List<String> permissions = new ArrayList<String>();
-        // permissions.add("email");
-        // permissions.add("user_birthday");
-        Session session = Session.getActiveSession();
-        if (session == null) {
-            if (savedInstanceState != null) {
-                session = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
-            }
-            if (session == null) {
-                session = new Session(getActivity());
-            }
-            Session.setActiveSession(session);
-            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
-            }
-        }
-        updateSocialCard(fbCard);
-//        updateView();
-        
-        printHashKey();
-       
+        // Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+        // //List<String> permissions = new ArrayList<String>();
+        // //permissions.add("email");
+        // //permissions.add("user_birthday");
+        // Session session = Session.getActiveSession();
+        // if (session == null) {
+            // if (savedInstanceState != null) {
+                // session = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
+            // }
+            // if (session == null) {
+                // session = new Session(getActivity());
+            // }
+            // Session.setActiveSession(session);
+            // if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                // session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+            // }
+        // }
+        updateFacebookCard(fbCard);     
+        // printHashKey();
+		
         return rootView;
     }
 	
-	@Override
-    public void onStart() {
-        super.onStart();
-        Session.getActiveSession().addCallback(statusCallback);
-    }
+	// @Override
+    // public void onStart() {
+        // super.onStart();
+        // Session.getActiveSession().addCallback(statusCallback);
+    // }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Session.getActiveSession().removeCallback(statusCallback);
-    }
+    // @Override
+    // public void onStop() {
+        // super.onStop();
+        // Session.getActiveSession().removeCallback(statusCallback);
+    // }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
-    }
+    // @Override
+    // public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // super.onActivityResult(requestCode, resultCode, data);
+        // Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
+    // }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    // @Override
+    // public void onSaveInstanceState(Bundle outState) {
+        // super.onSaveInstanceState(outState);
+        // Session session = Session.getActiveSession();
+        // Session.saveSession(session, outState);
+    // }
+
+    private void updateFacebookCard(SocialCard socialCard) {
         Session session = Session.getActiveSession();
-        Session.saveSession(session, outState);
-    }
-
-    private void updateSocialCard(SocialCard socialCard) {
-        Session session = Session.getActiveSession();
+		socialCard.setShareButtonText("{fa-share}  Share");
         if (session.isOpened()) {
             socialCard.setConnectButtonText("{fa-facebook}   Disconnect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -128,10 +126,9 @@ public class SocialNetworkMain extends Fragment {
                     onClickLogout();
                 }
             });
-            setDataFromMe(session, socialCard);
-//            makeMeRequest(session);
+			setCardFromUser(socialCard);
+            // setDataFromMe(session, socialCard);
         } else {
-//            open = false;
             socialCard.setConnectButtonText("{fa-facebook} Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
@@ -139,27 +136,26 @@ public class SocialNetworkMain extends Fragment {
                 }
             });
             defaultSocialCardData(socialCard);
-//            defaultData();
         }
     }
-    private void onClickLogin() {
-        Session session = Session.getActiveSession();
-        List<String> permissions = new ArrayList<String>();
-        permissions.add("email");
-        permissions.add("user_birthday");
-        if (!session.isOpened() && !session.isClosed()) {
-            session.openForRead(new Session.OpenRequest(this).setPermissions(permissions).setCallback(statusCallback));
-        } else {
-            Session.openActiveSession(getActivity(), this, true, statusCallback);
-        }
-    }
+    // private void onClickLogin() {
+        // Session session = Session.getActiveSession();
+        // List<String> permissions = new ArrayList<String>();
+        // permissions.add("email");
+        // permissions.add("user_birthday");
+        // if (!session.isOpened() && !session.isClosed()) {
+            // session.openForRead(new Session.OpenRequest(this).setPermissions(permissions).setCallback(statusCallback));
+        // } else {
+            // Session.openActiveSession(getActivity(), this, true, statusCallback);
+        // }
+    // }
 
-    private void onClickLogout() {
-        Session session = Session.getActiveSession();
-        if (!session.isClosed()) {
-            session.closeAndClearTokenInformation();
-        }
-    }
+    // private void onClickLogout() {
+        // Session session = Session.getActiveSession();
+        // if (!session.isClosed()) {
+            // session.closeAndClearTokenInformation();
+        // }
+    // }
     private void defaultSocialCardData(SocialCard socialCard) {
         socialCard.setName("NoName");
         socialCard.setBirthday("Birthday: unknown");
@@ -167,69 +163,69 @@ public class SocialNetworkMain extends Fragment {
         socialCard.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
     }
 
-    private void setDataFromMe(final Session session, final SocialCard socialCard) {
-        Request request = Request.newMeRequest(session,
-                new Request.GraphUserCallback() {
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-                        if (session == Session.getActiveSession()) {
-                            if (user != null) {
-                                socialCard.setName(user.getName());
-                                socialCard.setBirthday("Birthday: "+ user.getBirthday());
-                                socialCard.setContact("id: " + user.getId());
-//                                Picasso.with(getActivity())
-//                                        .load("https://graph.facebook.com/" + user.getId() + "/picture?type=large")
-//                                        .placeholder(R.drawable.com_facebook_profile_picture_blank_square)
-//                                        .error(R.drawable.error)
-//                                        .into(socialCard.image);
-                                socialCard.setImage("https://graph.facebook.com/" + user.getId() + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
-//                                socialCard.image.setImageBitmap(user.getId());
-                            }
-                        }
-                        if (response.getError() != null) {
-                            // Handle errors, will do so later.
-                        }
-                    }
-                });
-        request.executeAsync();
-    }
-	
-    public void printHashKey() {
-        try {
-            PackageInfo info = getActivity().getPackageManager().getPackageInfo("com.example.asamles.app",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("TEMPTAGHASH KEY:",
-                        Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
+    // private void setDataFromMe(final Session session, final SocialCard socialCard) {
+        // Request request = Request.newMeRequest(session,
+                // new Request.GraphUserCallback() {
+                    // @Override
+                    // public void onCompleted(GraphUser user, Response response) {
+                        // if (session == Session.getActiveSession()) {
+                            // if (user != null) {
+                                // socialCard.setName(user.getName());
+                                // socialCard.setBirthday("Birthday: "+ user.getBirthday());
+                                // socialCard.setContact("id: " + user.getId());
+                                // socialCard.setImage("https://graph.facebook.com/" + user.getId() + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
+                            // }
+                        // }
+                        // if (response.getError() != null) {
+                            // Error
+                        // }
+                    // }
+                // });
+        // request.executeAsync();
+    // }
+	public void setCardFromUser(SocialCard socialCard){
+		GraphUser user = setDataFromMe(session);
+		socialCard.setName(user.getName());
+        socialCard.setBirthday("Birthday: "+ user.getBirthday());
+        socialCard.setContact("id: " + user.getId());
+        socialCard.setImage("https://graph.facebook.com/" + user.getId() + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
+	}
+    // public void printHashKey() {
+        // try {
+            // PackageInfo info = getActivity().getPackageManager().getPackageInfo("com.example.asamles.app",
+                    // PackageManager.GET_SIGNATURES);
+            // for (Signature signature : info.signatures) {
+                // MessageDigest md = MessageDigest.getInstance("SHA");
+                // md.update(signature.toByteArray());
+                // Log.d("TEMPTAGHASH KEY:",
+                        // Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            // }
+        // } catch (PackageManager.NameNotFoundException e) {
 
-        } catch (NoSuchAlgorithmException e) {
+        // } catch (NoSuchAlgorithmException e) {
 
-        }
+        // }
 
-    }
-
-    public void PublishToFeedInBackground()
-    {
-        Session session = Session.getActiveSession();
-        Request.Callback checkincallback = new Request.Callback() {
-            public void onCompleted(Response response) {
-                FacebookRequestError error = response.getError();
-                if (error != null) {
-                    // error
-                } else {
-                    //succeeded
-                }
-            }
-        };
-        Bundle parameterss = new Bundle();
-        parameterss.putString("message","Hello World");
-        Request request = new Request(session, "me/feed", parameterss,
-                HttpMethod.POST, checkincallback);
-        RequestAsyncTask task = new RequestAsyncTask(request);
-        task.execute();
-    }
+    // }
+//========================================================================================>
+    // public void PublishToFeedInBackground()
+    // {
+        // Session session = Session.getActiveSession();
+        // Request.Callback checkincallback = new Request.Callback() {
+            // public void onCompleted(Response response) {
+                // FacebookRequestError error = response.getError();
+                // if (error != null) {
+                    // //error
+                // } else {
+                    // //succeeded
+                // }
+            // }
+        // };
+        // Bundle parameterss = new Bundle();
+        // parameterss.putString("message","Hello World");
+        // Request request = new Request(session, "me/feed", parameterss,
+                // HttpMethod.POST, checkincallback);
+        // RequestAsyncTask task = new RequestAsyncTask(request);
+        // task.execute();
+    // }
 }

@@ -30,6 +30,7 @@ public class SocialCard extends RelativeLayout {
 	private int textColor;
 	private int color;
     private int buttonTextColor;
+	private int profileImage;
     private Context context;
 
 	public SocialCard(Context context, AttributeSet st) {
@@ -46,6 +47,8 @@ public class SocialCard extends RelativeLayout {
         getResources().getColor(R.color.grey_light));
 		buttonTextColor = typedAttrs.getColor(R.styleable.social_card_button_text_color,
         getResources().getColor(R.color.gallery_white));
+		profileImage = typedAttrs.getInt(R.styleable.social_card_profile_image,
+        R.drawable.user);
 //		typedAttrs.recycle();
         init(context);
     }
@@ -70,6 +73,7 @@ public class SocialCard extends RelativeLayout {
 		connect.setTextColor(buttonTextColor);
 		share.setTextColor(buttonTextColor);
 		image.setBackgroundColor(color);
+		image.setImageResource(profileImage);
 	}
 	
 	public void setName(String nameText){
