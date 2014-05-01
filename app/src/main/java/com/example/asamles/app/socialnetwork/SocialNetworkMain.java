@@ -1,48 +1,22 @@
 package com.example.asamles.app.socialnetwork;
 
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.card.SocialCard;
-import com.facebook.FacebookRequestError;
-import com.facebook.HttpMethod;
-import com.facebook.LoggingBehavior;
-import com.facebook.Request;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.facebook.Settings;
-import com.facebook.android.Facebook;
 import com.facebook.model.GraphUser;
-import com.squareup.picasso.Picasso;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class SocialNetworkMain extends SocialIntegrationFragment {
+public class SocialNetworkMain extends SocialIntegrationFragment implements SocialIntegrationFragment.SocialIntegration{
 
     private SocialCard fbCard;
 	private SocialCard twCard;
 	private SocialCard gpCard;
 	private SocialCard vkCard;
-
     public static SocialNetworkMain newInstance() {
         return new SocialNetworkMain();
     }
@@ -57,11 +31,10 @@ public class SocialNetworkMain extends SocialIntegrationFragment {
             // updateFacebookCard(fbCard);
         // }
     // }
-
-    @Override
+@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
-
+        super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_social_network, container, false);
         fbCard = (SocialCard) rootView.findViewById(R.id.fb_card);
 		twCard = (SocialCard) rootView.findViewById(R.id.tw_card);
@@ -85,7 +58,7 @@ public class SocialNetworkMain extends SocialIntegrationFragment {
                 // session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
             // }
         // }
-        updateFacebookCard(fbCard);     
+        updateFacebookCard(fbCard, session);
         // printHashKey();
 		
         return rootView;
@@ -116,23 +89,23 @@ public class SocialNetworkMain extends SocialIntegrationFragment {
         // Session.saveSession(session, outState);
     // }
 
-    private void updateFacebookCard(SocialCard socialCard) {
-        Session session = Session.getActiveSession();
+    private void updateFacebookCard(SocialCard socialCard, Session session) {
+//        Session session = Session.getActiveSession();
 		socialCard.setShareButtonText("{fa-share}  Share");
         if (session.isOpened()) {
             socialCard.setConnectButtonText("{fa-facebook}   Disconnect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    onClickLogout();
+                    onFacebookClickLogout();
                 }
             });
-			setCardFromUser(socialCard);
+			setCardFromUser(session, socialCard);
             // setDataFromMe(session, socialCard);
         } else {
             socialCard.setConnectButtonText("{fa-facebook} Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    onClickLogin();
+                    onFacebookClickLogin();
                 }
             });
             defaultSocialCardData(socialCard);
@@ -183,13 +156,19 @@ public class SocialNetworkMain extends SocialIntegrationFragment {
                 // });
         // request.executeAsync();
     // }
-	public void setCardFromUser(SocialCard socialCard){
-		GraphUser user = setDataFromMe(session);
-		socialCard.setName(user.getName());
-        socialCard.setBirthday("Birthday: "+ user.getBirthday());
-        socialCard.setContact("id: " + user.getId());
-        socialCard.setImage("https://graph.facebook.com/" + user.getId() + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
+	public void setCardFromUser(Session session, SocialCard socialCard){
+//		GraphUser user = setDataFromMe(session);
+		socialCard.setName(me.getName());
+        socialCard.setBirthday("Birthday: "+ me.getBirthday());
+        socialCard.setContact("id: " + me.getId());
+        socialCard.setImage("https://graph.facebook.com/" + me.getId() + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
 	}
+
+    @Override
+    public void onFacebookCall(Session session, SessionState state) {
+        this.session = session;
+        updateFacebookCard(fbCard, session);
+    }
     // public void printHashKey() {
         // try {
             // PackageInfo info = getActivity().getPackageManager().getPackageInfo("com.example.asamles.app",

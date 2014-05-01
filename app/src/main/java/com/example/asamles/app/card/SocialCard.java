@@ -47,7 +47,7 @@ public class SocialCard extends RelativeLayout {
         getResources().getColor(R.color.grey_light));
 		buttonTextColor = typedAttrs.getColor(R.styleable.social_card_button_text_color,
         getResources().getColor(R.color.gallery_white));
-		profileImage = typedAttrs.getInt(R.styleable.social_card_profile_image,
+		profileImage = typedAttrs.getResourceId(R.styleable.social_card_profile_image,
         R.drawable.user);
 //		typedAttrs.recycle();
         init(context);
