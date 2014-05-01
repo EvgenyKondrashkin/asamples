@@ -148,6 +148,7 @@ public class DialogsMain extends Fragment {
             public void onClick(View arg0) {
                 ADialogs progressDialog = new ADialogs(getActivity());
                 progressDialog.progress(cancelable, getActivity().getString(R.string.progress));
+                progressDialog.showProgress();
             }
         });
         customDialogButton.setOnClickListener(new View.OnClickListener() {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.asamles.app.dialog.ADialogs;
 import com.facebook.LoggingBehavior;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -20,52 +21,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SocialIntegrationFragment extends Fragment{
-    private SocialIntegration callback;
-    Session session;
-    GraphUser me;
+    private FacebookIntegration facebookCallback;
+    private ADialogs alertDialog;
+    private Session facebookSession;
+    private GraphUser facebookMe;
 
-    public interface SocialIntegration{
-        public void onFacebookCall(Session session, SessionState state);
+    public interface FacebookIntegration {
+        public void onFacebookCall();
+        public void onFacebookLogout();
     }
-    public void setOnFacebookCall(SocialIntegration callback){
-        this.callback = callback;
+    public interface TwitterIntegration {
+        public void onTwitterCall();
+        public void onTwitterLogout();
+    }
+    public void setOnFacebookCall(FacebookIntegration facebookCallback){
+        this.facebookCallback = facebookCallback;
     }
 	public SocialIntegrationFragment() {
-
     }
+
 	private Session.StatusCallback statusCallback = new SessionStatusCallback();
     private class SessionStatusCallback implements Session.StatusCallback {
         @Override
         public void call(Session callSession, SessionState state, Exception exception) {
-            session = callSession;
-//            updateFacebookCard(fbCard);
-            onSessionStateChange(session, state);
-
+            facebookSession = callSession;
+            onFacebookSessionStateChange(facebookSession);
         }
     }
 	    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
             Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-            // List<String> permissions = new ArrayList<String>();
-            // permissions.add("email");
-            // permissions.add("user_birthday");
-            session = Session.getActiveSession();
-            if (session == null) {
+            alertDialog = new ADialogs(getActivity());
+            facebookSession = Session.getActiveSession();
+            if (facebookSession == null) {
                 if (savedInstanceState != null) {
-                    session = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
+                    facebookSession = Session.restoreSession(getActivity(), null, statusCallback, savedInstanceState);
                 }
-                if (session == null) {
-                    session = new Session(getActivity());
+                if (facebookSession == null) {
+                    facebookSession = new Session(getActivity());
                 }
-                Session.setActiveSession(session);
-                if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-                    session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+                Session.setActiveSession(facebookSession);
+                if (facebookSession.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                    facebookSession.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
                 }
             }
-//		return container;
+            onFacebookSessionStateChange(facebookSession);
             return null;
-        }
+    }
+    public Session setFacebookSession(){
+        return facebookSession;
+    }
+    public GraphUser setFacebookMe(){
+        return facebookMe;
+    }
 	public void onFacebookClickLogin() {
         Session session = Session.getActiveSession();
         List<String> permissions = new ArrayList<String>();
@@ -83,25 +92,7 @@ public class SocialIntegrationFragment extends Fragment{
         if (!session.isClosed()) {
             session.closeAndClearTokenInformation();
         }
-    }
-	public GraphUser setDataFromMe(final Session session) {
-        final GraphUser[] me = new GraphUser[1];
-        Request request = Request.newMeRequest(session,
-                new Request.GraphUserCallback() {
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-                        if (session == Session.getActiveSession()) {
-                            if (user != null) {
-								me[0] =  user;
-                            }
-                        }
-                        if (response.getError() != null) {
-                            // Error
-                        }
-                    }
-                });
-        request.executeAsync();
-        return me[0];
+        facebookCallback.onFacebookLogout();
     }
 	
 		@Override
@@ -128,22 +119,25 @@ public class SocialIntegrationFragment extends Fragment{
         Session session = Session.getActiveSession();
         Session.saveSession(session, outState);
     }
-    private void onSessionStateChange(final Session session, SessionState state) {
+    private void onFacebookSessionStateChange(final Session session) {
+        if(session.isOpened()){
             Request request = Request.newMeRequest(session,
                     new Request.GraphUserCallback() {
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
                             if (session == Session.getActiveSession()) {
                                 if (user != null) {
-                                    me =  user;
+                                    facebookMe =  user;
+                                    facebookCallback.onFacebookCall();
                                 }
                             }
                             if (response.getError() != null) {
-                                // Error
+                                alertDialog.alert(true, "Error", "There are problem to connect to your facebook accaunt", "Cancel", null);
                             }
                         }
                     });
             request.executeAsync();
+        }
 //        } else {
 
 //        }

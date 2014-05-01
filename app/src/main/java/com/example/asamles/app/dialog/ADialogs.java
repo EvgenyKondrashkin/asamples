@@ -158,6 +158,7 @@ public class ADialogs {
     }
 
     // ProgressDialog
+    private ProgressDialog pd;
     public interface ADialogsProgressListener {
         public void onADialogsProgressCancel(DialogInterface dialog);
     }
@@ -167,7 +168,7 @@ public class ADialogs {
     }
 
     public void progress(boolean cancelable, String message) {
-        ProgressDialog pd = new ProgressDialog(context);
+        pd = new ProgressDialog(context);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.setMessage(message);
         pd.setCancelable(cancelable);
@@ -183,9 +184,13 @@ public class ADialogs {
                 }
             });
         }
+    }
+    public void showProgress(){
         pd.show();
     }
-
+    public void cancelProgress(){
+        pd.dismiss();
+    }
     //SeekbarDialog
     public interface ADialogsSeekBarListener {
         public void onADialogsSeekBarPositiveClick(DialogInterface dialog, SeekBar seekbar);

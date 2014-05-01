@@ -93,7 +93,7 @@ public class SocialCard extends RelativeLayout {
 	}
 	
 	public void setShareButtonText(String shareText){
-		contact.setText(shareText);
+		share.setText(shareText);
 	}
 	
 	public void setImage(String uri, int placeholder, int error){
