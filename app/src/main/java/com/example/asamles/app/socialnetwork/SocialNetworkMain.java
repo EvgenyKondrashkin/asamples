@@ -116,24 +116,5 @@ public class SocialNetworkMain extends SocialIntegrationFragment implements Soci
 
     // }
 //========================================================================================>
-    // public void PublishToFeedInBackground()
-    // {
-        // Session facebookSession = Session.getActiveSession();
-        // Request.Callback checkincallback = new Request.Callback() {
-            // public void onCompleted(Response response) {
-                // FacebookRequestError error = response.getError();
-                // if (error != null) {
-                    // //error
-                // } else {
-                    // //succeeded
-                // }
-            // }
-        // };
-        // Bundle parameterss = new Bundle();
-        // parameterss.putString("message","Hello World");
-        // Request request = new Request(facebookSession, "facebookMe/feed", parameterss,
-                // HttpMethod.POST, checkincallback);
-        // RequestAsyncTask task = new RequestAsyncTask(request);
-        // task.execute();
-    // }
+
 }
