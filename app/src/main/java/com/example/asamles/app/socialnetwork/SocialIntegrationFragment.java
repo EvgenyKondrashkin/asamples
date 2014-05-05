@@ -1,6 +1,5 @@
 package com.example.asamles.app.socialnetwork;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,6 +36,8 @@ public class SocialIntegrationFragment extends Fragment{
     private ADialogs alertDialog;
     private Session facebookSession;
     private GraphUser facebookMe;
+	
+	
 
     public interface FacebookIntegration {
         public void onFacebookCall();
@@ -159,7 +160,7 @@ public class SocialIntegrationFragment extends Fragment{
     private boolean pendingPublishReauthorization = false;
     public void PublishToFeedInBackground()
     {
-        Session facebookSession = Session.getActiveSession();
+        facebookSession = Session.getActiveSession();
         Request.Callback checkincallback = new Request.Callback() {
             public void onCompleted(Response response) {
                 FacebookRequestError error = response.getError();
@@ -179,11 +180,11 @@ public class SocialIntegrationFragment extends Fragment{
             return;
         }
         Bundle postParams = new Bundle();
-        postParams.putString("name", "Facebook SDK for Android");
-        postParams.putString("caption", "Build great social apps and get more installs.");
-        postParams.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
+        postParams.putString("name", "ASample");
+        postParams.putString("caption", "Publish facebook story");
+        postParams.putString("description", "Just simple test for publishing story");
         postParams.putString("link", "https://developers.facebook.com/android");
-        postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
+        postParams.putString("picture", "https://raw.githubusercontent.com/gorbin/asamples/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png");
 
 //        Request request = new Request(facebookSession, "facebookMe/feed", postParams,
 //                HttpMethod.POST, checkincallback);
