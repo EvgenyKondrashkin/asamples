@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.asamles.app" android:installLocation="preferExternal">
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
 		
     <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -49,7 +46,7 @@
         <activity
             android:name="com.example.asamles.app.upNavigation.UpSecond"
             android:parentActivityName="com.example.asamles.app.upNavigation.UpMain"/>
-        <activity android:name="com.facebook.LoginActivity"/>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

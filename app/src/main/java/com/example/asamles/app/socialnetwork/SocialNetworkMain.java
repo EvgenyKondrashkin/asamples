@@ -225,10 +225,10 @@ public class SocialNetworkMain extends SocialIntegrationFragment implements Soci
             return TwitterUtil.getInstance().getRequestToken();
         }
     }
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.i(TAG, "New Intent Arrived");
-        dealWithTwitterResponse(intent);
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        Log.i(TAG, "New Intent Arrived");
+//        dealWithTwitterResponse(intent);
+//    }
 }

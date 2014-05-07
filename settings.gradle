@@ -1,1 +1,1 @@
-include ':app', ':cropper', ':facebook'
+include ':app', ':cropper', ':facebook', ':social'
