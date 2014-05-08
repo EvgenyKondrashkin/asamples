@@ -81,6 +81,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             mSocialNetworkManager = SocialNetworkManager.Builder.from(getActivity())
                     .twitter("BBQAUAVKYzmYtvEcNhUEvGiKd", "byZzHPxE1tkGmnPEj5zUyc7MG464Q1LgNRcwbBJV1Ap86575os")
                     .facebook()
+                    .googlePlus()
                     .build();
             getFragmentManager().beginTransaction().add((Fragment)mSocialNetworkManager, SOCIAL_NETWORK_TAG).commit();
         }
@@ -100,6 +101,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             case LINKEDIN:
                 break;
             case GOOGLEPLUS:
+                socialCard.setImageResource(R.drawable.g_plus_user);
                 break;
             case FACEBOOK:
                 socialCard.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
@@ -187,6 +189,45 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         socialCard.setContact("ID: " + socialPerson.id);
         socialCard.setImage(socialPerson.avatarURL, R.drawable.twitter_user, R.drawable.error);
     }
+// ================GooglePlus==========================================================================
+    private void updateGooglePusCard(final SocialCard socialCard) {
+        socialCard.setShareButtonText("{fa-share}  Share");
+        final SocialNetwork gp = mSocialNetworkManager.getGooglePlusSocialNetwork();
+        if(gp.isConnected()){
+            socialCard.setConnectButtonText("{fa-google-plus}   Logout");
+            socialCard.connect.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    gp.logout();
+                    updateGooglePusCard(socialCard);
+                }
+            });
+            socialCard.share.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    gp.requestPostMessage("Hello from ASample");
+                }
+            });
+            gp.requestPerson();
+        } else {
+            socialCard.setConnectButtonText("{fa-google-plus} login");
+            socialCard.connect.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    gp.requestLogin();
+                }
+            });
+            socialCard.share.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Toast.makeText(getActivity(), "You should login first!",Toast.LENGTH_LONG).show();
+                }
+            });
+            defaultSocialCardData(socialCard, SocialNetworkID.GOOGLEPLUS);
+        }
+    }
+    public void setGooglePlusCardFromUser(SocialPerson socialPerson, SocialCard socialCard){
+        socialCard.setName(socialPerson.name);
+        socialCard.setBirthday("Birthday: I can't!");
+        socialCard.setContact("ID: " + socialPerson.id);
+        socialCard.setImage(socialPerson.avatarURL, R.drawable.g_plus_user, R.drawable.error);
+    }
 
 
 //==================================================================================================
@@ -198,6 +239,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         }
         updateFacebookCard(fbCard);
         updateTwitterCard(twCard);
+        updateGooglePusCard(gpCard);
     }
 
     @Override
@@ -215,6 +257,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         switch (id){
             case 1:
                 updateTwitterCard(twCard);
+                break;
+            case 3:
+                updateGooglePusCard(gpCard);
                 break;
             case 4:
                 updateFacebookCard(fbCard);
@@ -236,6 +281,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         switch (id){
             case 1:
                 setTwitterCardFromUser(socialPerson, twCard);
+                break;
+            case 3:
+                setGooglePlusCardFromUser(socialPerson, gpCard);
                 break;
             case 4:
                 setFacebookCardFromUser(socialPerson, fbCard);
