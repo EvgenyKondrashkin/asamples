@@ -37,12 +37,14 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain";
     private SocialNetworkManager mSocialNetworkManager;
     private ADialogs progressDialog;
-//    private SocialNetworkID socialNetworkID;
+    private SocialCard inCard;
+
+    //    private SocialNetworkID socialNetworkID;
     private enum SocialNetworkID {
         TWITTER,
         LINKEDIN,
         GOOGLEPLUS,
-        FACEBOOK;
+        FACEBOOK
 
     }
 
@@ -63,15 +65,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         View rootView = inflater.inflate(R.layout.fragment_social_network, container, false);
 
         fbCard = (SocialCard) rootView.findViewById(R.id.fb_card);
-//        updateFacebookCard(fbCard);
-
-
 		twCard = (SocialCard) rootView.findViewById(R.id.tw_card);
-//		updateTwitterCard(twCard);
-
-
-		
 		gpCard = (SocialCard) rootView.findViewById(R.id.gp_card);
+        inCard = (SocialCard) rootView.findViewById(R.id.in_card);
 		vkCard = (SocialCard) rootView.findViewById(R.id.vk_card);
 
         //===============================================================
@@ -82,8 +78,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     .twitter("BBQAUAVKYzmYtvEcNhUEvGiKd", "byZzHPxE1tkGmnPEj5zUyc7MG464Q1LgNRcwbBJV1Ap86575os")
                     .facebook()
                     .googlePlus()
+                    .linkedIn("75l0oioxdhf2h5", "HqXZg2A14PWBwWEB", "r_basicprofile+rw_nus+w_messages")
                     .build();
-            getFragmentManager().beginTransaction().add((Fragment)mSocialNetworkManager, SOCIAL_NETWORK_TAG).commit();
+            getFragmentManager().beginTransaction().add(mSocialNetworkManager, SOCIAL_NETWORK_TAG).commit();
         }
         mSocialNetworkManager.setOnInitializationCompleteListener(this);
         //===============================================================
@@ -99,6 +96,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                 socialCard.setImageResource(R.drawable.twitter_user);
                 break;
             case LINKEDIN:
+                socialCard.setImageResource(R.drawable.linkedin_user);
                 break;
             case GOOGLEPLUS:
                 socialCard.setImageResource(R.drawable.g_plus_user);
@@ -228,7 +226,45 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         socialCard.setContact("ID: " + socialPerson.id);
         socialCard.setImage(socialPerson.avatarURL, R.drawable.g_plus_user, R.drawable.error);
     }
-
+    // ================LinkedIn==========================================================================
+    private void updateLinkedInCard(final SocialCard socialCard) {
+        socialCard.setShareButtonText("{fa-share}  Share");
+        final SocialNetwork in = mSocialNetworkManager.getLinkedInSocialNetwork();
+        if(in.isConnected()){
+            socialCard.setConnectButtonText("{fa-linkedin}   Logout");
+            socialCard.connect.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    in.logout();
+                    updateLinkedInCard(socialCard);
+                }
+            });
+            socialCard.share.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    in.requestPostMessage("Hello from ASample");
+                }
+            });
+            in.requestPerson();
+        } else {
+            socialCard.setConnectButtonText("{fa-linkedin} login");
+            socialCard.connect.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    in.requestLogin();
+                }
+            });
+            socialCard.share.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Toast.makeText(getActivity(), "You should login first!",Toast.LENGTH_LONG).show();
+                }
+            });
+            defaultSocialCardData(socialCard, SocialNetworkID.GOOGLEPLUS);
+        }
+    }
+    public void setLinkedInCardFromUser(SocialPerson socialPerson, SocialCard socialCard){
+        socialCard.setName(socialPerson.name);
+        socialCard.setBirthday("Birthday: I can't!");
+        socialCard.setContact("ID: " + socialPerson.id);
+        socialCard.setImage(socialPerson.avatarURL, R.drawable.linkedin_user, R.drawable.error);
+    }
 
 //==================================================================================================
 	@Override
@@ -240,6 +276,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         updateFacebookCard(fbCard);
         updateTwitterCard(twCard);
         updateGooglePusCard(gpCard);
+        updateLinkedInCard(inCard);
     }
 
     @Override
@@ -257,6 +294,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         switch (id){
             case 1:
                 updateTwitterCard(twCard);
+                break;
+            case 2:
+                updateLinkedInCard(inCard);
                 break;
             case 3:
                 updateGooglePusCard(gpCard);
@@ -281,6 +321,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         switch (id){
             case 1:
                 setTwitterCardFromUser(socialPerson, twCard);
+                break;
+            case 2:
+                setLinkedInCardFromUser(socialPerson, inCard);
                 break;
             case 3:
                 setGooglePlusCardFromUser(socialPerson, gpCard);
