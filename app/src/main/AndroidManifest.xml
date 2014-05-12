@@ -46,8 +46,10 @@
         <activity
             android:name="com.example.asamles.app.upNavigation.UpSecond"
             android:parentActivityName="com.example.asamles.app.upNavigation.UpMain"/>
-
-        <meta-data
+		<activity 
+			android:name="com.vk.sdk.VKOpenAuthActivity" />
+        
+		<meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
         <meta-data
@@ -56,6 +58,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+			
     </application>
 
 </manifest>

@@ -16,4 +16,7 @@
     <color name="linkedin_light">#0077b5</color>
 	<color name="vk">#36638e</color>
 	<color name="vk_light">#666699</color>
+	<color name="ok">#cf6700</color>
+	<color name="ok_light">#1daa09</color>
+	
 </resources>

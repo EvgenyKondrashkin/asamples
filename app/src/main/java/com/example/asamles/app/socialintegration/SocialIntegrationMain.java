@@ -33,20 +33,29 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     private SocialCard fbCard;
 	private SocialCard twCard;
 	private SocialCard gpCard;
+	private SocialCard inCard;
 	private SocialCard vkCard;
+	private SocialCard okCard;
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain";
     private SocialNetworkManager mSocialNetworkManager;
     private ADialogs progressDialog;
-    private SocialCard inCard;
 
     //    private SocialNetworkID socialNetworkID;
     private enum SocialNetworkID {
         TWITTER,
         LINKEDIN,
         GOOGLEPLUS,
-        FACEBOOK
+        FACEBOOK,
+		VK,
+		OK
 
     }
+	// vk rules
+	private static final String[] sMyScope = new String[] {
+            VKScope.WALL,
+            VKScope.PHOTOS
+            // VKScope.NOHTTPS
+    };
 
     public static SocialIntegrationMain newInstance() {
         return new SocialIntegrationMain();
@@ -63,13 +72,17 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 		progressDialog = new ADialogs(getActivity());
         progressDialog.progress(false, "Fetching data...");
         View rootView = inflater.inflate(R.layout.fragment_social_network, container, false);
-
-        fbCard = (SocialCard) rootView.findViewById(R.id.fb_card);
+		
+		String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName()); 
+		Log.d("TAG via vk ", "Fingerprint: " + fingerprints[0]);
+        
+		fbCard = (SocialCard) rootView.findViewById(R.id.fb_card);
 		twCard = (SocialCard) rootView.findViewById(R.id.tw_card);
 		gpCard = (SocialCard) rootView.findViewById(R.id.gp_card);
         inCard = (SocialCard) rootView.findViewById(R.id.in_card);
 		vkCard = (SocialCard) rootView.findViewById(R.id.vk_card);
-
+		okCard = (SocialCard) rootView.findViewById(R.id.ok_card);
+		
         //===============================================================
         mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(SOCIAL_NETWORK_TAG);
 
@@ -84,13 +97,16 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         }
         mSocialNetworkManager.setOnInitializationCompleteListener(this);
         //===============================================================
+		VKUIHelper.onCreate(this);
+		VKSdk.initialize(vkSdkListener, 4357233); 
+		
+		//===============================================================
         return rootView;
     }
     private void defaultSocialCardData(SocialCard socialCard, SocialNetworkID enumId) {
         socialCard.setName("NoName");
         socialCard.setBirthday("Birthday: unknown");
         socialCard.setContact("id: unknown");
-//        SocialNetworkID enumId = SocialNetworkID.values()[id];
         switch (enumId){
             case TWITTER:
                 socialCard.setImageResource(R.drawable.twitter_user);
@@ -103,6 +119,12 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                 break;
             case FACEBOOK:
                 socialCard.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
+                break;
+			case VK:
+                socialCard.setImageResource(R.drawable.vk_user);
+                break;
+			case OK:
+                socialCard.setImageResource(R.drawable.ok_user);
                 break;
         }
     }
@@ -339,5 +361,135 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         Toast.makeText(getActivity(), "Request user ERROR: " + s, Toast.LENGTH_LONG).show();
     }
 //==================================================================================================
+//==+VK+============================================================================================	
+	@Override 
+	protected void onResume() { 
+		super.onResume(); 
+		VKUIHelper.onResume(this); 
+	} 
 
+	@Override 
+	protected void onDestroy() { 
+		super.onDestroy(); 
+		VKUIHelper.onDestroy(this); 
+	} 
+
+	@Override 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
+		super.onActivityResult(requestCode, resultCode, data); 
+		VKUIHelper.onActivityResult(requestCode, resultCode, data); 
+	} 
+	
+	private final VKSdkListener vkSdkListener = new VKSdkListener() {
+        @Override
+        public void onCaptchaError(VKError captchaError) {
+            new VKCaptchaDialog(captchaError).show();
+        }
+
+        @Override
+        public void onTokenExpired(VKAccessToken expiredToken) {
+            VKSdk.authorize(sMyScope);
+        }
+
+        @Override
+        public void onAccessDenied(VKError authorizationError) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setMessage(authorizationError.errorMessage)
+                    .show();
+        }
+
+        @Override
+        public void onReceiveNewToken(VKAccessToken newToken) {
+			updateVKCard(vkCard);
+           ///
+        }
+
+        @Override
+        public void onAcceptUserToken(VKAccessToken token) {
+          ///
+        }
+    };
+	private void updateVKCard(final SocialCard socialCard) {
+		socialCard.setShareButtonText("{fa-share}  Share");
+		
+        if(VKSdk.isLoggedIn()) {
+            socialCard.setConnectButtonText("{fa-vk}   Disconnect");
+            socialCard.connect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VKSdk.logout();
+                    updateFacebookCard(socialCard);
+                }
+            });
+            socialCard.share.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    // fb.requestPostMessage("Hello from ASample!");
+					makePost(null, "hello from asample");
+                }
+            });
+//                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
+//                            "id,first_name,last_name,sex,bdate,city,country,photo_50,photo_100," +
+//                            "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
+//                            "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
+//                            "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
+//                            "status,last_seen,common_count,relation,relatives,counters"));
+			VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, "id,first_name,last_name,bdate,photo_200"));
+            request.executeWithListener(new VKRequestListener() { 
+			@Override 
+			public void onComplete(VKResponse response) { 
+			//Do complete stuff 
+			 Toast.makeText(getActivity(), response.json.toString(),Toast.LENGTH_LONG).show();
+             Log.d("TAG via vk ", "Response: " + response.json.toString());
+				
+			} 
+			@Override 
+			public void onError(VKError error) { 
+			//Do error stuff 
+			} 
+			@Override 
+			public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) { 
+			//I don't really believe in progress 
+			} 
+			}); 
+			
+        } else {
+            socialCard.setConnectButtonText("{fa-vk}   Connect");
+            socialCard.connect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+					VKSdk.authorize(sMyScope);
+                }
+            });
+            socialCard.share.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Toast.makeText(getActivity(), "You should connect first!",Toast.LENGTH_LONG).show();
+                }
+            });
+            defaultSocialCardData(socialCard, SocialNetworkID.FACEBOOK);
+        }
+    }
+
+	// public void setVKCardFromUser(){
+        // socialCard.setName(socialPerson.name);
+        // socialCard.setBirthday("Birthday: I can't!");
+        // socialCard.setContact("ID: " + socialPerson.id);
+        // socialCard.setImage("https://graph.facebook.com/" + socialPerson.id + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
+    // }
+	
+	private void makePost(VKAttachments attachments, String message) {
+        VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
+        post.setModelClass(VKWallPostResult.class);
+        post.executeWithListener(new VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                super.onComplete(response);
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult)response.parsedModel).post_id) ) );
+                startActivity(i);
+            }
+            @Override
+            public void onError(VKError error) {
+                showError(error.apiError != null ? error.apiError : error);
+            }
+        });
+    }
 }
