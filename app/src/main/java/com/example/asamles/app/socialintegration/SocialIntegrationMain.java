@@ -1,5 +1,7 @@
 package com.example.asamles.app.socialintegration;
 
+import android.app.AlertDialog;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -24,11 +26,29 @@ import android.widget.Toast;
 import com.androidsocialnetworks.lib.SocialNetwork;
 import com.androidsocialnetworks.lib.SocialNetworkManager;
 import com.androidsocialnetworks.lib.SocialPerson;
+import com.androidsocialnetworks.lib.listener.OnLoginCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
+import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 import com.example.asamles.app.card.SocialCard;
 import com.example.asamles.app.dialog.ADialogs;
+import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKCaptchaDialog;
+import com.vk.sdk.VKScope;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.VKSdkListener;
+import com.vk.sdk.VKUIHelper;
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKApiConst;
+import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKAttachments;
+import com.vk.sdk.api.model.VKWallPostResult;
+import com.vk.sdk.util.VKUtil;
 
-public class SocialIntegrationMain extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, SocialNetwork.OnLoginCompleteListener, SocialNetwork.OnRequestSocialPersonListener {
+public class SocialIntegrationMain extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener {
 
     private SocialCard fbCard;
 	private SocialCard twCard;
@@ -36,9 +56,14 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 	private SocialCard inCard;
 	private SocialCard vkCard;
 	private SocialCard okCard;
-    public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain";
+    public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     private SocialNetworkManager mSocialNetworkManager;
     private ADialogs progressDialog;
+
+    @Override
+    public void onError(int i, String s, String s2, Object o) {
+
+    }
 
     //    private SocialNetworkID socialNetworkID;
     private enum SocialNetworkID {
@@ -73,7 +98,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         progressDialog.progress(false, "Fetching data...");
         View rootView = inflater.inflate(R.layout.fragment_social_network, container, false);
 		
-		String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName()); 
+		String[] fingerprints = VKUtil.getCertificateFingerprint(getActivity(), getActivity().getPackageName());
 		Log.d("TAG via vk ", "Fingerprint: " + fingerprints[0]);
         
 		fbCard = (SocialCard) rootView.findViewById(R.id.fb_card);
@@ -97,9 +122,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         }
         mSocialNetworkManager.setOnInitializationCompleteListener(this);
         //===============================================================
-		VKUIHelper.onCreate(this);
-		VKSdk.initialize(vkSdkListener, 4357233); 
-		
+		VKUIHelper.onCreate(getActivity());
+		VKSdk.initialize(vkSdkListener, "4357233");
+        updateVKCard(vkCard);
 		//===============================================================
         return rootView;
     }
@@ -146,7 +171,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     fb.requestPostMessage("Hello from ASample!");
                 }
             });
-            fb.requestPerson();
+            fb.requestCurrentPerson();
         } else {
             socialCard.setConnectButtonText("{fa-facebook}   Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +212,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     tw.requestPostMessage("Hello from ASample");
                 }
             });
-            tw.requestPerson();
+            tw.requestCurrentPerson();
         } else {
             socialCard.setConnectButtonText("{fa-twitter} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +251,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     gp.requestPostMessage("Hello from ASample");
                 }
             });
-            gp.requestPerson();
+            gp.requestCurrentPerson();
         } else {
             socialCard.setConnectButtonText("{fa-google-plus} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -265,7 +290,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     in.requestPostMessage("Hello from ASample");
                 }
             });
-            in.requestPerson();
+            in.requestCurrentPerson();
         } else {
             socialCard.setConnectButtonText("{fa-linkedin} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -278,7 +303,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     Toast.makeText(getActivity(), "You should login first!",Toast.LENGTH_LONG).show();
                 }
             });
-            defaultSocialCardData(socialCard, SocialNetworkID.GOOGLEPLUS);
+            defaultSocialCardData(socialCard, SocialNetworkID.LINKEDIN);
         }
     }
     public void setLinkedInCardFromUser(SocialPerson socialPerson, SocialCard socialCard){
@@ -293,7 +318,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     public void onSocialNetworkManagerInitialized() {
         for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(this);
-            socialNetwork.setOnRequestSocialPersonListener(this);
+            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
         }
         updateFacebookCard(fbCard);
         updateTwitterCard(twCard);
@@ -308,7 +333,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         mSocialNetworkManager.setOnInitializationCompleteListener(null);
         for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(null);
-            socialNetwork.setOnRequestSocialPersonListener(null);
+            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
         }
     }
     @Override
@@ -329,11 +354,11 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         }
     }
 
-    @Override
-    public void onLoginFailed(int id, String errorReason) {
-        Log.d("TAG Login failed: ", "onLoginFailed: " + id + " : " + errorReason);
-        handleError(id, errorReason);
-    }
+//    @Override
+//    public void onLoginFailed(int id, String errorReason) {
+//        Log.d("TAG Login failed: ", "onLoginFailed: " + id + " : " + errorReason);
+//        handleError(id, errorReason);
+//    }
     private void handleError(int id, String errorReason) {
         Toast.makeText(getActivity(), "ERROR: " + errorReason, Toast.LENGTH_LONG).show();
     }
@@ -356,26 +381,26 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         }
     }
 
-    @Override
-    public void onRequestSocialPersonFailed(int i, String s) {
-        Toast.makeText(getActivity(), "Request user ERROR: " + s, Toast.LENGTH_LONG).show();
-    }
+//    @Override
+//    public void onRequestSocialPersonFailed(int i, String s) {
+//        Toast.makeText(getActivity(), "Request user ERROR: " + s, Toast.LENGTH_LONG).show();
+//    }
 //==================================================================================================
 //==+VK+============================================================================================	
-	@Override 
-	protected void onResume() { 
+	@Override
+    public void onResume() {
 		super.onResume(); 
-		VKUIHelper.onResume(this); 
+		VKUIHelper.onResume(getActivity());
 	} 
 
-	@Override 
-	protected void onDestroy() { 
+	@Override
+    public void onDestroy() {
 		super.onDestroy(); 
-		VKUIHelper.onDestroy(this); 
+		VKUIHelper.onDestroy(getActivity());
 	} 
 
-	@Override 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
+	@Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data); 
 		VKUIHelper.onActivityResult(requestCode, resultCode, data); 
 	} 
@@ -393,20 +418,21 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 
         @Override
         public void onAccessDenied(VKError authorizationError) {
-            new AlertDialog.Builder(MainActivity.this)
+            new AlertDialog.Builder(getActivity())
                     .setMessage(authorizationError.errorMessage)
                     .show();
         }
 
         @Override
         public void onReceiveNewToken(VKAccessToken newToken) {
-			updateVKCard(vkCard);
+            updateVKCard(vkCard);
            ///
         }
 
         @Override
         public void onAcceptUserToken(VKAccessToken token) {
           ///
+            updateVKCard(vkCard);
         }
     };
 	private void updateVKCard(final SocialCard socialCard) {
@@ -434,9 +460,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 //                            "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
 //                            "status,last_seen,common_count,relation,relatives,counters"));
 			VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, "id,first_name,last_name,bdate,photo_200"));
-            request.executeWithListener(new VKRequestListener() { 
+            request.executeWithListener(new VKRequest.VKRequestListener() {
 			@Override 
-			public void onComplete(VKResponse response) { 
+			public void onComplete(VKResponse response) {
 			//Do complete stuff 
 			 Toast.makeText(getActivity(), response.json.toString(),Toast.LENGTH_LONG).show();
              Log.d("TAG via vk ", "Response: " + response.json.toString());
@@ -479,16 +505,16 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 	private void makePost(VKAttachments attachments, String message) {
         VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
         post.setModelClass(VKWallPostResult.class);
-        post.executeWithListener(new VKRequestListener() {
+        post.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult)response.parsedModel).post_id) ) );
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult) response.parsedModel).post_id)) );
                 startActivity(i);
             }
             @Override
             public void onError(VKError error) {
-                showError(error.apiError != null ? error.apiError : error);
+//                showError(error.apiError != null ? error.apiError : error);
             }
         });
     }

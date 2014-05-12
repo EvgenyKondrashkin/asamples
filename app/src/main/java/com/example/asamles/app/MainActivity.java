@@ -1,12 +1,15 @@
 package com.example.asamles.app;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.example.asamles.app.socialintegration.SocialIntegrationMain;
 
 public class MainActivity extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener {
     Menu menu;
@@ -66,7 +69,7 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
          * This is required only if you are using Google Plus, the issue is that there SDK
          * require Activity to launch Auth, so library can't receive onActivityResult in fragment
          */
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(BaseDemoFragment.SOCIAL_NETWORK_TAG);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(SocialIntegrationMain.SOCIAL_NETWORK_TAG);
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
