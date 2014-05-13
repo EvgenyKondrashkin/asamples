@@ -1,1 +1,1 @@
-include ':app', ':cropper', ':facebook', ':vksdk_library'
+include ':app', ':cropper', ':facebook', ':vksdk_library', ':android_iconify'

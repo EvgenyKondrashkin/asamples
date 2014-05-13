@@ -34,6 +34,6 @@ dependencies {
     compile project(':cropper')
     compile project(':facebook')
     compile project(':vksdk_library')
-//	compile project(':iconify_custom')
+	compile project(':android_iconify')
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }

@@ -60,11 +60,6 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     private SocialNetworkManager mSocialNetworkManager;
     private ADialogs progressDialog;
 
-    @Override
-    public void onError(int i, String s, String s2, Object o) {
-
-    }
-
     //    private SocialNetworkID socialNetworkID;
     private enum SocialNetworkID {
         TWITTER,
@@ -359,6 +354,11 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 //        Log.d("TAG Login failed: ", "onLoginFailed: " + id + " : " + errorReason);
 //        handleError(id, errorReason);
 //    }
+    @Override
+    public void onError(int id, String errorReason, String s2, Object o) {
+		Log.d("TAG Login failed: ", "onLoginFailed: " + id + " : " + errorReason);
+        handleError(id, errorReason);
+    }
     private void handleError(int id, String errorReason) {
         Toast.makeText(getActivity(), "ERROR: " + errorReason, Toast.LENGTH_LONG).show();
     }
