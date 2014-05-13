@@ -92,7 +92,7 @@ class Utils {
     }
 
     public static StringBuilder replaceIcons(StringBuilder text) {
-        int startIndex = text.indexOf("{fa");
+        int startIndex = text.indexOf("{icon");
         if (startIndex == -1) {
             return text;
         }

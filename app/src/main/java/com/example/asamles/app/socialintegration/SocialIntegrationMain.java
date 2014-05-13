@@ -150,10 +150,10 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     }
 // ================Facebook=========================================================================
     private void updateFacebookCard(final SocialCard socialCard) {
-		socialCard.setShareButtonText("{fa-share}  Share");
+		socialCard.setShareButtonText("{icon-share}  Share");
         final SocialNetwork fb = mSocialNetworkManager.getFacebookSocialNetwork();
         if(fb.isConnected()) {
-            socialCard.setConnectButtonText("{fa-facebook}   Disconnect");
+            socialCard.setConnectButtonText("{icon-facebook}   Disconnect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -168,7 +168,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             });
             fb.requestCurrentPerson();
         } else {
-            socialCard.setConnectButtonText("{fa-facebook}   Connect");
+            socialCard.setConnectButtonText("{icon-facebook}   Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -192,10 +192,10 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     }
 // ================Twitter==========================================================================
     private void updateTwitterCard(final SocialCard socialCard) {
-        socialCard.setShareButtonText("{fa-share}  Share tweet");
+        socialCard.setShareButtonText("{icon-share}  Share tweet");
         final SocialNetwork tw = mSocialNetworkManager.getTwitterSocialNetwork();
         if(tw.isConnected()){
-            socialCard.setConnectButtonText("{fa-twitter}   Logout");
+            socialCard.setConnectButtonText("{icon-twitter}   Logout");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     tw.logout();
@@ -209,7 +209,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             });
             tw.requestCurrentPerson();
         } else {
-            socialCard.setConnectButtonText("{fa-twitter} login");
+            socialCard.setConnectButtonText("{icon-twitter} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     tw.requestLogin();
@@ -231,10 +231,10 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     }
 // ================GooglePlus==========================================================================
     private void updateGooglePusCard(final SocialCard socialCard) {
-        socialCard.setShareButtonText("{fa-share}  Share");
+        socialCard.setShareButtonText("{icon-share}  Share");
         final SocialNetwork gp = mSocialNetworkManager.getGooglePlusSocialNetwork();
         if(gp.isConnected()){
-            socialCard.setConnectButtonText("{fa-google-plus}   Logout");
+            socialCard.setConnectButtonText("{icon-gplus}   Logout");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     gp.logout();
@@ -248,7 +248,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             });
             gp.requestCurrentPerson();
         } else {
-            socialCard.setConnectButtonText("{fa-google-plus} login");
+            socialCard.setConnectButtonText("{icon-gplus} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     gp.requestLogin();
@@ -270,10 +270,10 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     }
     // ================LinkedIn==========================================================================
     private void updateLinkedInCard(final SocialCard socialCard) {
-        socialCard.setShareButtonText("{fa-share}  Share");
+        socialCard.setShareButtonText("{icon-share}  Share");
         final SocialNetwork in = mSocialNetworkManager.getLinkedInSocialNetwork();
         if(in.isConnected()){
-            socialCard.setConnectButtonText("{fa-linkedin}   Logout");
+            socialCard.setConnectButtonText("{icon-linkedin}   Logout");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     in.logout();
@@ -287,7 +287,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             });
             in.requestCurrentPerson();
         } else {
-            socialCard.setConnectButtonText("{fa-linkedin} login");
+            socialCard.setConnectButtonText("{icon-linkedin} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     in.requestLogin();
@@ -436,10 +436,10 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         }
     };
 	private void updateVKCard(final SocialCard socialCard) {
-		socialCard.setShareButtonText("{fa-share}  Share");
+		socialCard.setShareButtonText("{icon-share}  Share");
 		
         if(VKSdk.isLoggedIn()) {
-            socialCard.setConnectButtonText("{fa-vk}   Disconnect");
+            socialCard.setConnectButtonText("{icon-vk}   Disconnect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -479,7 +479,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 			}); 
 			
         } else {
-            socialCard.setConnectButtonText("{fa-vk}   Connect");
+            socialCard.setConnectButtonText("{icon-vk}   Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

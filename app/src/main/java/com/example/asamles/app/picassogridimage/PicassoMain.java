@@ -68,10 +68,10 @@ public class PicassoMain extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.grid_menu, menu);
-        gridIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_th)
+        gridIcon = new IconDrawable(getActivity(), Iconify.IconValue.icon_th_grid)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        listIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_th_list)
+        listIcon = new IconDrawable(getActivity(), Iconify.IconValue.icon_th_list)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
         MenuItem gridList = menu.findItem(R.id.action_list);

@@ -112,7 +112,7 @@ public class PaintGallery extends Fragment {
         inflater.inflate(R.menu.paint_gallery_menu, menu);
         MenuItem delete = menu.findItem(R.id.action_delete);
         if (delete != null) {
-            delete.setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_trash_o)
+            delete.setIcon(new IconDrawable(getActivity(), Iconify.IconValue.icon_trash)
                     .colorRes(R.color.grey_light)
                     .actionBarSize());
         }

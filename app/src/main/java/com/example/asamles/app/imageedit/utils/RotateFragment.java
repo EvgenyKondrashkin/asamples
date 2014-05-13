@@ -46,12 +46,12 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
 
     private void setButtons(View view) {
         ImageButton rotateRightButton = (ImageButton) view.findViewById(R.id.rotate_right);
-        rotateRightButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_repeat)
+        rotateRightButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.icon_redo)
                 .colorRes(R.color.grey_light).sizeDp(32));
         rotateRightButton.setOnClickListener(this);
 
         ImageButton rotateLeftButton = (ImageButton) view.findViewById(R.id.rotate_left);
-        rotateLeftButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.fa_undo)
+        rotateLeftButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.icon_undo)
                 .colorRes(R.color.grey_light).sizeDp(32));
         rotateLeftButton.setOnClickListener(this);
 
@@ -86,7 +86,7 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.done_menu, menu);
-        menu.findItem(R.id.action_done).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_check)
+        menu.findItem(R.id.action_done).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.icon_done)
                 .colorRes(R.color.grey_light)
                 .actionBarSize());
         menu.setGroupVisible(R.id.menu_group_imageedit, false);

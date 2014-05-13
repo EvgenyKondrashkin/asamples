@@ -102,7 +102,7 @@ public class SeekbarFragment extends Fragment {
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.done_menu, menu);
-        menu.findItem(R.id.action_done).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_check)
+        menu.findItem(R.id.action_done).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.icon_done)
                 .colorRes(R.color.grey_light)
                 .actionBarSize());
         menu.setGroupVisible(R.id.menu_group_imageedit, false);

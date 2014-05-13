@@ -33,7 +33,7 @@ import static java.lang.String.valueOf;
 
 public final class Iconify {
 
-    private static final String TTF_FILE = "fontawesome-webfont-4.0.3.ttf";
+    private static final String TTF_FILE = "firsttry.ttf";
 
     public static final String TAG = Iconify.class.getSimpleName();
 
@@ -87,7 +87,7 @@ public final class Iconify {
 		icon_th_grid('\uf002'),
 		icon_pencil('\uf003'),
 		icon_redo('\uf004'),
-		icon_twitter-sq('\uf005'),
+		icon_twitter_sq('\uf005'),
 		icon_refresh('\uf006'),
 		icon_undo('\uf007'),
 		icon_linkedin('\uf008'),
@@ -96,12 +96,12 @@ public final class Iconify {
 		icon_up_o('\uf00B'),
 		icon_down_o('\uf00C'),
 		icon_gplus_sq('\uf00D'),
-		icon_fb_sq('\uf00E'),
+		icon_facebook_sq('\uf00E'),
 		icon_trash('\uf00F'),
-		icon_fb('\uf010'),
+		icon_facebook('\uf010'),
 		icon_eraser('\uf011'),
 		icon_tag('\uf012'),
-		icon_ok('\uf013'),
+		icon_done('\uf013'),
 		icon_location('\uf014'),
 		icon_save('\uf015'),
 		icon_th_list('\uf016'),

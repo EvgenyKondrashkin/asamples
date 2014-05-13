@@ -67,13 +67,13 @@ public class ImageEditMain extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.image_edit_menu, menu);
-        menu.findItem(R.id.action_photo).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_camera)
+        menu.findItem(R.id.action_photo).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.icon_photo)
                 .colorRes(R.color.grey_light)
                 .actionBarSize());
-        menu.findItem(R.id.action_load).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_th)
+        menu.findItem(R.id.action_load).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.icon_gallery)
                 .colorRes(R.color.grey_light)
                 .actionBarSize());
-        menu.findItem(R.id.action_save).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.fa_floppy_o)
+        menu.findItem(R.id.action_save).setIcon(new IconDrawable(getActivity(), Iconify.IconValue.icon_save)
                 .colorRes(R.color.grey_light)
                 .actionBarSize());
         menu.setGroupVisible(R.id.menu_group_imageedit, true);

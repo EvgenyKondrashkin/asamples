@@ -80,25 +80,25 @@ public class PaintMain extends Fragment implements SizeAdapter.SizeListener {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.paint_menu, menu);
-        pencilIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_pencil)
+        pencilIcon = new IconDrawable(getActivity(), Iconify.IconValue.icon_pencil)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        eraserIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_eraser)
+        eraserIcon = new IconDrawable(getActivity(), Iconify.IconValue.icon_eraser)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        pencilIconSelected = new IconDrawable(getActivity(), Iconify.IconValue.fa_pencil)
+        pencilIconSelected = new IconDrawable(getActivity(), Iconify.IconValue.icon_pencil)
                 .colorRes(R.color.green)
                 .actionBarSize();
-        eraserIconSelected = new IconDrawable(getActivity(), Iconify.IconValue.fa_eraser)
+        eraserIconSelected = new IconDrawable(getActivity(), Iconify.IconValue.icon_eraser)
                 .colorRes(R.color.green)
                 .actionBarSize();
-        IconDrawable saveIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_floppy_o)
+        IconDrawable saveIcon = new IconDrawable(getActivity(), Iconify.IconValue.icon_save)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        IconDrawable loadIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_arrow_circle_o_down)
+        IconDrawable loadIcon = new IconDrawable(getActivity(), Iconify.IconValue.icon_down_o)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
-        IconDrawable clearIcon = new IconDrawable(getActivity(), Iconify.IconValue.fa_trash_o)
+        IconDrawable clearIcon = new IconDrawable(getActivity(), Iconify.IconValue.icon_trash)
                 .colorRes(R.color.grey_light)
                 .actionBarSize();
         menu.findItem(R.id.action_save).setIcon(saveIcon);
