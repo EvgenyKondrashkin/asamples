@@ -12,9 +12,9 @@
 	<string name="blur_task_error">Blur task Error!</string>
     <string name="close">Close</string>
 <!--DialogsMain-->
-	<string name="titlge">Message</string>
-	<string name="progre">Title</string>
-    <string name="messaess">Progress...</string>
+	<string name="message">Message</string>
+	<string name="title">Title</string>
+    <string name="progress">Progress...</string>
 	<string name="ok">Ok</string>
 	<string name="set">Set</string>
 	<string name="cancel">Cancel</string>

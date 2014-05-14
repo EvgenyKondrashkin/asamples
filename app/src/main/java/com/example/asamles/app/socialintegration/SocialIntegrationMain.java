@@ -22,16 +22,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-
+import com.androidsocialnetworks.lib.FacebookPerson;
 import com.androidsocialnetworks.lib.SocialNetwork;
 import com.androidsocialnetworks.lib.SocialNetworkManager;
 import com.androidsocialnetworks.lib.SocialPerson;
 import com.androidsocialnetworks.lib.listener.OnLoginCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestFacebookPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
 import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 import com.example.asamles.app.card.SocialCard;
 import com.example.asamles.app.dialog.ADialogs;
+import com.facebook.android.Facebook;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCaptchaDialog;
 import com.vk.sdk.VKScope;
@@ -48,7 +50,7 @@ import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.util.VKUtil;
 
-public class SocialIntegrationMain extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener {
+public class SocialIntegrationMain extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener, OnRequestFacebookPersonCompleteListener {
 
     private SocialCard fbCard;
 	private SocialCard twCard;
@@ -166,7 +168,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     fb.requestPostMessage("Hello from ASample!");
                 }
             });
-            fb.requestCurrentPerson();
+            fb.requestCurrentFacebookPerson();
         } else {
             socialCard.setConnectButtonText("{icon-facebook}   Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +191,15 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         socialCard.setBirthday("Birthday: I can't!");
         socialCard.setContact("ID: " + socialPerson.id);
         socialCard.setImage("https://graph.facebook.com/" + socialPerson.id + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
+    }
+    public void setFacebookCardFromUser1(FacebookPerson socialPerson, SocialCard socialCard){
+        socialCard.setName(socialPerson.name);
+        socialCard.setBirthday("Birthday: "+ socialPerson.birthday);
+        socialCard.setContact("ID: " + socialPerson.id);
+        socialCard.setImage("https://graph.facebook.com/" + socialPerson.id + "/picture?type=large", R.drawable.com_facebook_profile_picture_blank_square, R.drawable.error);
+    }
+    public void onRequestFacebookPersonSuccess(int socialNetworkID, FacebookPerson facebookPerson){
+        setFacebookCardFromUser1(facebookPerson, fbCard);
     }
 // ================Twitter==========================================================================
     private void updateTwitterCard(final SocialCard socialCard) {
@@ -375,9 +386,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             case 3:
                 setGooglePlusCardFromUser(socialPerson, gpCard);
                 break;
-            case 4:
-                setFacebookCardFromUser(socialPerson, fbCard);
-                break;
+//            case 4:
+//                setFacebookCardFromUser(socialPerson, fbCard);
+//                break;
         }
     }
 
