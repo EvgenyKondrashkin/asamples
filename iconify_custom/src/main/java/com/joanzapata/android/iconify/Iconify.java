@@ -117,13 +117,14 @@ public final class Iconify {
 		icon_ok_sq('\uf020'),
 		icon_share('\uf021'),
 		icon_magic('\uf022'),
-		icon_flip('\uf023'),
+		icon_flip_vertical('\uf023'),
 		icon_bitbucket('\uf024'),
 		icon_bitbucket_sq('\uf025'),
 		icon_instagram('\uf026'),
 		icon_github_sq('\uf027'),
 		icon_github('\uf028'),
-		icon_bookmark('\uf029');
+		icon_bookmark('\uf029'),
+		icon_flip_horizontal('\uf02A');
 
         char character;
 

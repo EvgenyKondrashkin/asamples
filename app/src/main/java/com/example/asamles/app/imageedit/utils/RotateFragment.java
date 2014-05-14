@@ -56,11 +56,13 @@ public class RotateFragment extends Fragment implements View.OnClickListener {
         rotateLeftButton.setOnClickListener(this);
 
         ImageButton flipVerticalButton = (ImageButton) view.findViewById(R.id.flip_vertical);
-        flipVerticalButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.flip_vertical));
+        flipVerticalButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.icon_flip_vertical)
+                .colorRes(R.color.grey_light).sizeDp(32));
         flipVerticalButton.setOnClickListener(this);
 
         ImageButton flipHorizontalButton = (ImageButton) view.findViewById(R.id.flip_horizontal);
-        flipHorizontalButton.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.flip_horizontal));
+        flipHorizontalButton.setImageDrawable(new IconDrawable(getActivity(), Iconify.IconValue.icon_flip_horizontal)
+                .colorRes(R.color.grey_light).sizeDp(32));
         flipHorizontalButton.setOnClickListener(this);
     }
 
