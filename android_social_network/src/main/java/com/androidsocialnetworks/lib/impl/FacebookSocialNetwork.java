@@ -149,9 +149,8 @@ public class FacebookSocialNetwork extends SocialNetwork {
     public int getID() {
         return ID;
     }
-	@Override
+
     public void requestCurrentFacebookPerson(OnRequestFacebookPersonCompleteListener onRequestFacebookPersonCompleteListener) {
-        super.requestCurrentFacebookPerson(onRequestFacebookPersonCompleteListener);
 
         final Session currentSession = mSessionTracker.getOpenSession();
 

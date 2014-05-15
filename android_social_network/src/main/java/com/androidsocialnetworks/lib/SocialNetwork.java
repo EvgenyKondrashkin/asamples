@@ -117,32 +117,8 @@ public abstract class SocialNetwork {
     public abstract void logout();
 
     public abstract int getID();
-	// Facebook
-	public void requestCurrentFacebookPerson() {
-        requestCurrentFacebookPerson(null);
-    }
 	
-	public void requestCurrentFacebookPerson(OnRequestFacebookPersonCompleteListener onRequestFacebookPersonCompleteListener) {
-        registerListener(REQUEST_GET_CURRENT_PERSON, onRequestFacebookPersonCompleteListener);
-    }
-	// Twitter
-	public void requestCurrentTwitterPerson() {
-        requestCurrentTwitterPerson(null);
-    }
-	
-	public void requestCurrentTwitterPerson(OnRequestTwitterPersonCompleteListener onRequestTwitterPersonCompleteListener) {
-        registerListener(REQUEST_GET_TWITTER_PERSON, onRequestTwitterPersonCompleteListener);
-    }
-	// LinkedIn
-	public void requestCurrentLinkedInPerson() {
-        requestCurrentLinkedInPerson(null);
-    }
-	
-	public void requestCurrentLinkedInPerson(OnRequestLinkedInPersonCompleteListener onRequestLinkedInPersonCompleteListener) {
-        registerListener(REQUEST_GET_TWITTER_PERSON, onRequestLinkedInPersonCompleteListener);
-    }
-	// Standart
-    public void requestCurrentPerson() {
+	public void requestCurrentPerson() {
         requestCurrentPerson(null);
     }
 

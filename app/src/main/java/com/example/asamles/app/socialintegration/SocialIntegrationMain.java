@@ -153,7 +153,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 // ================Facebook=========================================================================
     private void updateFacebookCard(final SocialCard socialCard) {
 		socialCard.setShareButtonText("{icon-share}  Share");
-        final SocialNetwork fb = mSocialNetworkManager.getFacebookSocialNetwork();
+        final FacebookSocialNetwork fb = mSocialNetworkManager.getFacebookSocialNetwork();
         if(fb.isConnected()) {
             socialCard.setConnectButtonText("{icon-facebook}   Disconnect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +168,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     fb.requestPostMessage("Hello from ASample!");
                 }
             });
-            fb.requestCurrentFacebookPerson();
+            fb.requestCurrentFacebookPerson(this);
         } else {
             socialCard.setConnectButtonText("{icon-facebook}   Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
