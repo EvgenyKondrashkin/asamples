@@ -61,6 +61,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     private SocialNetworkManager mSocialNetworkManager;
     private ADialogs progressDialog;
+	private boolean[] isConnected = new boolean [6];
 
     //    private SocialNetworkID socialNetworkID;
     private enum SocialNetworkID {
@@ -92,7 +93,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         super.onCreateView(inflater, container, savedInstanceState);
 
 		progressDialog = new ADialogs(getActivity());
-        progressDialog.progress(false, "Fetching data...");
+        
         View rootView = inflater.inflate(R.layout.fragment_social_network, container, false);
 		
 		String[] fingerprints = VKUtil.getCertificateFingerprint(getActivity(), getActivity().getPackageName());
@@ -118,6 +119,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             getFragmentManager().beginTransaction().add(mSocialNetworkManager, SOCIAL_NETWORK_TAG).commit();
         }
         mSocialNetworkManager.setOnInitializationCompleteListener(this);
+		
         //===============================================================
 		VKUIHelper.onCreate(getActivity());
 		VKSdk.initialize(vkSdkListener, "4357233");
@@ -223,6 +225,8 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             socialCard.setConnectButtonText("{icon-twitter} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
+				progressDialog.progress(false, "login tw...");
+				progressDialog.showprogress();
                     tw.requestLogin();
                 }
             });
@@ -241,7 +245,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         socialCard.setImage(socialPerson.avatarURL, R.drawable.twitter_user, R.drawable.error);
     }
 // ================GooglePlus==========================================================================
-    private void updateGooglePusCard(final SocialCard socialCard) {
+    private void updateGooglePlusCard(final SocialCard socialCard) {
         socialCard.setShareButtonText("{icon-share}  Share");
         final SocialNetwork gp = mSocialNetworkManager.getGooglePlusSocialNetwork();
         if(gp.isConnected()){
@@ -249,7 +253,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     gp.logout();
-                    updateGooglePusCard(socialCard);
+                    updateGooglePlusCard(socialCard);
                 }
             });
             socialCard.share.setOnClickListener(new View.OnClickListener() {
@@ -301,6 +305,8 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             socialCard.setConnectButtonText("{icon-linkedin} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
+					progressDialog.progress(false, "login In...");
+					progressDialog.showprogress();
                     in.requestLogin();
                 }
             });
@@ -322,14 +328,26 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 //==================================================================================================
 	@Override
     public void onSocialNetworkManagerInitialized() {
-        for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
+		boolean isAnyConnected = false;
+		for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(this);
             socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+			if(socialNetwork.isConnected()){
+				isAnyConnected = true;
+			}
         }
+		progressDialog.progress(false, "Fetching data...");
+
+		// if(isAnyConnected){	
+			progressDialog.showProgress();
+		// }
+		
         updateFacebookCard(fbCard);
         updateTwitterCard(twCard);
-        updateGooglePusCard(gpCard);
+        updateGooglePlusCard(gpCard);
         updateLinkedInCard(inCard);
+		
+		progressDialog.cancelProgress();
     }
 
     @Override
@@ -347,12 +365,14 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         switch (id){
             case 1:
                 updateTwitterCard(twCard);
+				progressDialog.cancelProgress();
                 break;
             case 2:
                 updateLinkedInCard(inCard);
+				progressDialog.cancelProgress();
                 break;
             case 3:
-                updateGooglePusCard(gpCard);
+                updateGooglePlusCard(gpCard);
                 break;
             case 4:
                 updateFacebookCard(fbCard);
