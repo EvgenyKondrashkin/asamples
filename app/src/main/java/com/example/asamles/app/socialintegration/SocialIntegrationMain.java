@@ -26,6 +26,7 @@ import com.androidsocialnetworks.lib.FacebookPerson;
 import com.androidsocialnetworks.lib.SocialNetwork;
 import com.androidsocialnetworks.lib.SocialNetworkManager;
 import com.androidsocialnetworks.lib.SocialPerson;
+import com.androidsocialnetworks.lib.impl.FacebookSocialNetwork;
 import com.androidsocialnetworks.lib.listener.OnLoginCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestFacebookPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
@@ -226,7 +227,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
 				progressDialog.progress(false, "login tw...");
-				progressDialog.showprogress();
+				progressDialog.showProgress();
                     tw.requestLogin();
                 }
             });
@@ -306,7 +307,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
 					progressDialog.progress(false, "login In...");
-					progressDialog.showprogress();
+					progressDialog.showProgress();
                     in.requestLogin();
                 }
             });

@@ -122,9 +122,9 @@ public class TwitterSocialNetwork extends OAuthSocialNetwork {
         initTwitterClient();
     }
 
-	@Override
+//	@Override
     public void requestCurrentTwitterPerson(OnRequestTwitterPersonCompleteListener onRequestTwitterPersonCompleteListener) {
-        super.requestCurrentTwitterPerson(onRequestTwitterPersonCompleteListener);
+//        super.requestCurrentTwitterPerson(onRequestTwitterPersonCompleteListener);
 		Bundle args = new Bundle();
         args.putBoolean(RequestGetPersonAsyncTask.TWITTER_USER, true);
 		
