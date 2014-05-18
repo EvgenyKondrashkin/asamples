@@ -1,34 +1,16 @@
 package com.example.asamles.app.socialnetwork;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.asamles.app.MainActivity;
 import com.example.asamles.app.R;
 import com.example.asamles.app.card.SocialCard;
 import com.example.asamles.app.dialog.ADialogs;
-import com.example.asamles.app.socialnetwork.twitter.ConstantValues;
 import com.example.asamles.app.socialnetwork.twitter.TwitterUtil;
-//import com.example.asamles.app.socialnetwork.twitterutils.OAuthRequestTokenTask;
-//import com.example.asamles.app.socialnetwork.twitterutils.SendTweetTask;
-//import com.example.asamles.app.socialnetwork.twitterutils.TwitterConstants;
-////import com.example.asamles.app.socialnetwork.twitterutils.TwitterDialog;
-//import com.example.asamles.app.socialnetwork.twitterutils.TwitterUtils;
 import com.example.asamles.app.socialnetwork.twitterutils.TwitterDialog;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
@@ -38,6 +20,12 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
+
+//import com.example.asamles.app.socialnetwork.twitterutils.OAuthRequestTokenTask;
+//import com.example.asamles.app.socialnetwork.twitterutils.SendTweetTask;
+//import com.example.asamles.app.socialnetwork.twitterutils.TwitterConstants;
+////import com.example.asamles.app.socialnetwork.twitterutils.TwitterDialog;
+//import com.example.asamles.app.socialnetwork.twitterutils.TwitterUtils;
 
 public class SocialNetworkMain extends SocialIntegrationFragment implements SocialIntegrationFragment.FacebookIntegration {
 

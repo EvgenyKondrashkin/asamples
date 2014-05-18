@@ -2,6 +2,7 @@ package com.example.asamles.app.paint;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.os.Vibrator;
 
 import com.example.asamles.app.R;
 import com.example.asamles.app.constants.Constants;

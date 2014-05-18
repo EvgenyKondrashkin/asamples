@@ -23,7 +23,6 @@ import com.example.asamles.app.imageedit.utils.ImageEditor;
 import com.example.asamles.app.saveload.SaveLoadFile;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
