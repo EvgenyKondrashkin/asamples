@@ -306,6 +306,7 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
                     result.putString(RESULT_COMPANY, position.getCompany().getName());
                     result.putString(RESULT_POSITION, position.getTitle());
                 }
+				
             } catch (Exception e) {
                 Log.e(TAG, "ERROR", e);
                 result.putString(RESULT_ERROR, e.getMessage());
@@ -316,17 +317,33 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
 
         @Override
         protected void onPostExecute(Bundle result) {
-            if (!handleRequestResult(result, REQUEST_GET_CURRENT_PERSON)) return;
+            
+			if(result.getBoolean(RESULT_IS_LINKEDIN_PERSON)){
+				if (!handleRequestResult(result, REQUEST_GET_LINKEDIN_PERSON)) return;
+					
+				LinkedInPerson linkedInPerson = new LinkedInPerson();
+				linkedInPerson.id = result.getString(RESULT_ID);
+				linkedInPerson.name = result.getString(RESULT_NAME);
+				linkedInPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+				linkedInPerson.company = result.getString(RESULT_COMPANY);
+				linkedInPerson.position = result.getString(RESULT_POSITION);
+				
+				
+				((OnRequestLinkedInPersonCompleteListener) mLocalListeners.get(REQUEST_GET_LINKEDIN_PERSON))
+						.onRequestTwitterPersonSuccess(getID(), linkedInPerson);					
+			} else {
+				if (!handleRequestResult(result, REQUEST_GET_CURRENT_PERSON)) return;
 
-            SocialPerson socialPerson = new SocialPerson();
-            socialPerson.id = result.getString(RESULT_ID);
-            socialPerson.name = result.getString(RESULT_NAME);
-            socialPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
-            socialPerson.company = result.getString(RESULT_COMPANY);
-            socialPerson.position = result.getString(RESULT_POSITION);
+				SocialPerson socialPerson = new SocialPerson();
+				socialPerson.id = result.getString(RESULT_ID);
+				socialPerson.name = result.getString(RESULT_NAME);
+				socialPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+				socialPerson.company = result.getString(RESULT_COMPANY);
+				socialPerson.position = result.getString(RESULT_POSITION);
 
-            ((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_CURRENT_PERSON)).
-                    onRequestSocialPersonSuccess(getID(), socialPerson);
+				((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
+						.onRequestSocialPersonSuccess(getID(), socialPerson);
+			}
             mLocalListeners.remove(REQUEST_GET_CURRENT_PERSON);
         }
     }

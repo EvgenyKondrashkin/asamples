@@ -441,13 +441,13 @@ public class TwitterSocialNetwork extends OAuthSocialNetwork {
 							.onRequestTwitterPersonSuccess(getID(), twitterPerson);					
 				} else {
 					if (!handleRequestResult(result, REQUEST_GET_CURRENT_PERSON)) return;
-					SocialPerson socialPerson = new SocialPerson();
-					socialPerson.id = result.getString(RESULT_ID);
-					socialPerson.name = result.getString(RESULT_NAME);
-					socialPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+						SocialPerson socialPerson = new SocialPerson();
+						socialPerson.id = result.getString(RESULT_ID);
+						socialPerson.name = result.getString(RESULT_NAME);
+						socialPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
 
-					((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
-							.onRequestSocialPersonSuccess(getID(), socialPerson);
+						((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
+								.onRequestSocialPersonSuccess(getID(), socialPerson);
 				}
 
                 mLocalListeners.remove(REQUEST_GET_CURRENT_PERSON);

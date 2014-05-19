@@ -81,7 +81,92 @@ public class GooglePlusSocialNetwork extends SocialNetwork
     public int getID() {
         return ID;
     }
+	
+	@Override
+    public void requestGooglePlusPerson(OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
+        super.requestCurrentPerson(onRequestSocialPersonCompleteListener);
 
+        Person person = mPlusClient.getCurrentPerson();
+
+        if (person == null) {
+            if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLocalListeners.get(REQUEST_GET_CURRENT_PERSON)
+                                .onError(getID(), REQUEST_GET_CURRENT_PERSON, "Can't get person", null);
+                    }
+                });
+            }
+
+            return;
+        }
+
+        final GooglePlusPerson googlePlusPerson = new GooglePlusPerson();
+        googlePlusPerson.id = person.getId();
+        googlePlus.name = person.getDisplayName();
+        Person.Image image = person.getImage();
+        if (image != null) {
+            String imageURL = image.getUrl();
+
+            if (imageURL != null) {
+                googlePlus.avatarURL = imageURL;
+            }
+        }
+		googlePlus.aboutMe = person.getAboutMe();
+		googlePlus.birthday = person.getBirthday();
+		googlePlus.braggingRights = person.getBraggingRights();
+		Person.Cover cover = person.getCover();
+        if (cover != null) {
+            String coverPhoto = cover.getCoverPhoto();
+
+            if (coverPhoto != null) {
+                String coverPhotoURL = coverPhoto.getUrl();
+				if(coverPhotoURL != null){
+					googlePlus.coverURL = coverPhotoURL;
+				}
+            }
+        }
+		googlePlus.currentLocation = person.getCurrentLocation();
+		googlePlus.gender = person.getGender();
+		googlePlus.lang = person.getLanguage();
+		googlePlus.nickname = person.getNickname();
+		googlePlus.objectType = person.getObjectType();
+		List<Person.Organizations> organizations = person.getOrganizations();
+		if(organizations.size() > 0) {
+			String organizationsName = organizations.get(organizations.size()-1).getName();
+			if (organizationsName != null) {
+				googlePlus.company = organizationsName;
+			}
+			String organizationsTitle = organizations.get(organizations.size()-1).getTitle();
+			if (organizationsTitle != null) {
+				googlePlus.position = organizationsTitle;
+			}
+		}
+		List<Person.PlacesLived> placesLived = person.getPlacesLived();
+		if(placesLived.size() > 0) {
+			String placeLivedValue = placesLived.get(placesLived.size()-1).getValue();
+			if (placeLivedValue != null) {
+				googlePlus.placeLivedValue = placeLivedValue;
+			}
+		}
+		googlePlus.relationshipStatus = person.getRelationshipStatus();
+		googlePlus.tagline = person.getTagline();
+		googlePlus.url = person.getUrl();
+		
+		
+        if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ((OnRequestSocialPersonCompleteListener)
+                            mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
+                            .onRequestSocialPersonSuccess(getID(), googlePlusPerson);
+                }
+            });
+        }
+    }
+	
     @Override
     public void requestCurrentPerson(OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
         super.requestCurrentPerson(onRequestSocialPersonCompleteListener);
