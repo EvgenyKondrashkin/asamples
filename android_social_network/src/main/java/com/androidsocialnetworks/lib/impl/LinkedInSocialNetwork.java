@@ -307,6 +307,21 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
                     result.putString(RESULT_POSITION, position.getTitle());
                 }
 				
+				result.putString(RESULT_FIRST_NAME, person.getFirstName());
+				result.putString(RESULT_LAST_NAME, person.getLastName());
+				result.putString(RESULT_HEADLINE, person.getHeadline);
+				result.putString(RESULT_POSTALCODE, person.getLocation().getPostalCode());// null
+				result.putString(RESULT_DESCRIPTION, person.getLocation().getDescription()); // null
+				result.putString(RESULT_ADDRESS, person.getLocation().getAddress(); // null
+				result.putString(RESULT_INDUSTRY, person.getIndustry());
+				result.putString(RESULT_SUMMARY, person.getSummary());
+				result.putString(RESULT_AVATAR_URL, person.getDateOfBirth());//null
+				result.putString(RESULT_MAIN_ADDRESS, person.getMainAddress());
+				result.putString(RESULT_MAIN_ADDRESS, person.getCurrentStatus());
+				result.putString(RESULT_MAIN_ADDRESS, person.getInterests());
+				result.putString(RESULT_MAIN_ADDRESS, person.getSpecialties());
+				
+				
             } catch (Exception e) {
                 Log.e(TAG, "ERROR", e);
                 result.putString(RESULT_ERROR, e.getMessage());
