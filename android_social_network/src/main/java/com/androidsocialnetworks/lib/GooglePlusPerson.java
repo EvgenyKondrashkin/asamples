@@ -92,48 +92,62 @@ public class GooglePlusPerson implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof GooglePlusPerson)) return false;
+        if (!(o instanceof GooglePlusPerson)) return false;
 
         GooglePlusPerson that = (GooglePlusPerson) o;
 
+        if (friendsCount != that.friendsCount) return false;
+        if (gender != that.gender) return false;
+        if (objectType != that.objectType) return false;
+        if (relationshipStatus != that.relationshipStatus) return false;
+        if (aboutMe != null ? !aboutMe.equals(that.aboutMe) : that.aboutMe != null) return false;
+        if (avatarURL != null ? !avatarURL.equals(that.avatarURL) : that.avatarURL != null)
+            return false;
+        if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null)
+            return false;
+        if (braggingRights != null ? !braggingRights.equals(that.braggingRights) : that.braggingRights != null)
+            return false;
+        if (company != null ? !company.equals(that.company) : that.company != null) return false;
+        if (coverURL != null ? !coverURL.equals(that.coverURL) : that.coverURL != null)
+            return false;
+        if (currentLocation != null ? !currentLocation.equals(that.currentLocation) : that.currentLocation != null)
+            return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (avatarURL != null ? !avatarURL.equals(that.avatarURL) : that.avatarURL != null)	return false;
-        if (createdDate != 0 ? !createdDate.equals(that.createdDate) : that.createdDate != null)	return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (favoritesCount != 0 ? !(favoritesCount == that.favoritesCount) : that.favoritesCount != 0)	return false;
-        if (followersCount != 0 ? !(followersCount == that.followersCount) : that.followersCount != 0)	return false;
-        if (friendsCount != 0 ? !(friendsCount == that.friendsCount) : that.friendsCount != 0)	return false;
         if (lang != null ? !lang.equals(that.lang) : that.lang != null) return false;
-        if (location != null ? !location.equals(that.location) : that.location != null) return false;
-        if (screenName != null ? !screenName.equals(that.screenName) : that.screenName != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-        if (timezone != null ? !timezone.equals(that.timezone) : that.timezone != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null)
+            return false;
+        if (placeLivedValue != null ? !placeLivedValue.equals(that.placeLivedValue) : that.placeLivedValue != null)
+            return false;
+        if (position != null ? !position.equals(that.position) : that.position != null)
+            return false;
+        if (tagline != null ? !tagline.equals(that.tagline) : that.tagline != null) return false;
         if (url != null ? !url.equals(that.url) : that.url != null) return false;
-        if (isTranslator != null ? !isTranslator.equals(that.isTranslator) : that.isTranslator != null) return false;
-        if (isVerified != null ? !isVerified.equals(that.isVerified) : that.isVerified != null) return false;
 
         return true;
     }
-	
+
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (avatarURL != null ? avatarURL.hashCode() : 0);
-        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (((Integer)favoritesCount) != null ? ((Integer)favoritesCount).hashCode() : 0);
-        result = 31 * result + (((Integer)followersCount) != null ? ((Integer)followersCount).hashCode() : 0);
-        result = 31 * result + (((Integer)friendsCount) != null ? ((Integer)friendsCount).hashCode() : 0);
+        result = 31 * result + (aboutMe != null ? aboutMe.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (braggingRights != null ? braggingRights.hashCode() : 0);
+        result = 31 * result + (coverURL != null ? coverURL.hashCode() : 0);
+        result = 31 * result + friendsCount;
+        result = 31 * result + (currentLocation != null ? currentLocation.hashCode() : 0);
+        result = 31 * result + gender;
         result = 31 * result + (lang != null ? lang.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (screenName != null ? screenName.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (timezone != null ? timezone.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + objectType;
+        result = 31 * result + (company != null ? company.hashCode() : 0);
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (placeLivedValue != null ? placeLivedValue.hashCode() : 0);
+        result = 31 * result + relationshipStatus;
+        result = 31 * result + (tagline != null ? tagline.hashCode() : 0);
         result = 31 * result + (url != null ? url.hashCode() : 0);
-        result = 31 * result + (isTranslator != null ? isTranslator.hashCode() : 0);
-        result = 31 * result + (isVerified != null ? isVerified.hashCode() : 0);
         return result;
     }
 
@@ -143,19 +157,22 @@ public class GooglePlusPerson implements Parcelable {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", avatarURL='" + avatarURL + '\'' +
-				", createdDate='" + createdDate + '\'' +
-				", description='" + description + '\'' +
-				", favoritesCount='" + favoritesCount + '\'' +
-				", followersCount='" + followersCount + '\'' +
-				", friendsCount='" + friendsCount + '\'' +
-				", lang='" + lang + '\'' +
-				", location='" + location + '\'' +
-				", screenName='" + screenName + '\'' +
-				", status='" + status + '\'' +
-				", timezone='" + timezone + '\'' +
-				", url='" + url + '\'' +
-				", isTranslator='" + isTranslator + '\'' +
-				", isVerified='" + isVerified + '\'' +
+                ", aboutMe='" + aboutMe + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", braggingRights='" + braggingRights + '\'' +
+                ", coverURL='" + coverURL + '\'' +
+                ", friendsCount=" + friendsCount +
+                ", currentLocation='" + currentLocation + '\'' +
+                ", gender=" + gender +
+                ", lang='" + lang + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", objectType=" + objectType +
+                ", company='" + company + '\'' +
+                ", position='" + position + '\'' +
+                ", placeLivedValue='" + placeLivedValue + '\'' +
+                ", relationshipStatus=" + relationshipStatus +
+                ", tagline='" + tagline + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.androidsocialnetworks.lib.GooglePlusPerson;
 import com.androidsocialnetworks.lib.MomentUtil;
 import com.androidsocialnetworks.lib.SocialNetwork;
 import com.androidsocialnetworks.lib.SocialNetworkException;
@@ -23,6 +24,7 @@ import com.google.android.gms.plus.PlusClient;
 import com.google.android.gms.plus.model.people.Person;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 public class GooglePlusSocialNetwork extends SocialNetwork
@@ -82,7 +84,7 @@ public class GooglePlusSocialNetwork extends SocialNetwork
         return ID;
     }
 	
-	@Override
+//	@Override
     public void requestGooglePlusPerson(OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
         super.requestCurrentPerson(onRequestSocialPersonCompleteListener);
 
@@ -104,64 +106,64 @@ public class GooglePlusSocialNetwork extends SocialNetwork
 
         final GooglePlusPerson googlePlusPerson = new GooglePlusPerson();
         googlePlusPerson.id = person.getId();
-        googlePlus.name = person.getDisplayName();
+        googlePlusPerson.name = person.getDisplayName();
         Person.Image image = person.getImage();
         if (image != null) {
             String imageURL = image.getUrl();
 
             if (imageURL != null) {
-                googlePlus.avatarURL = imageURL;
+                googlePlusPerson.avatarURL = imageURL;
             }
         }
-		googlePlus.aboutMe = person.getAboutMe();
-		googlePlus.birthday = person.getBirthday();
-		googlePlus.braggingRights = person.getBraggingRights();
+		googlePlusPerson.aboutMe = person.getAboutMe();
+		googlePlusPerson.birthday = person.getBirthday();
+		googlePlusPerson.braggingRights = person.getBraggingRights();
 		Person.Cover cover = person.getCover();
         if (cover != null) {
-            String coverPhoto = cover.getCoverPhoto();
+            Person.Cover.CoverPhoto coverPhoto = cover.getCoverPhoto();
 
             if (coverPhoto != null) {
                 String coverPhotoURL = coverPhoto.getUrl();
 				if(coverPhotoURL != null){
-					googlePlus.coverURL = coverPhotoURL;
+					googlePlusPerson.coverURL = coverPhotoURL;
 				}
             }
         }
-		googlePlus.currentLocation = person.getCurrentLocation();
-		googlePlus.gender = person.getGender();
-		googlePlus.lang = person.getLanguage();
-		googlePlus.nickname = person.getNickname();
-		googlePlus.objectType = person.getObjectType();
+		googlePlusPerson.currentLocation = person.getCurrentLocation();
+		googlePlusPerson.gender = person.getGender();
+		googlePlusPerson.lang = person.getLanguage();
+		googlePlusPerson.nickname = person.getNickname();
+		googlePlusPerson.objectType = person.getObjectType();
 		List<Person.Organizations> organizations = person.getOrganizations();
 		if(organizations.size() > 0) {
 			String organizationsName = organizations.get(organizations.size()-1).getName();
 			if (organizationsName != null) {
-				googlePlus.company = organizationsName;
+				googlePlusPerson.company = organizationsName;
 			}
 			String organizationsTitle = organizations.get(organizations.size()-1).getTitle();
 			if (organizationsTitle != null) {
-				googlePlus.position = organizationsTitle;
+				googlePlusPerson.position = organizationsTitle;
 			}
 		}
 		List<Person.PlacesLived> placesLived = person.getPlacesLived();
 		if(placesLived.size() > 0) {
 			String placeLivedValue = placesLived.get(placesLived.size()-1).getValue();
 			if (placeLivedValue != null) {
-				googlePlus.placeLivedValue = placeLivedValue;
+				googlePlusPerson.placeLivedValue = placeLivedValue;
 			}
 		}
-		googlePlus.relationshipStatus = person.getRelationshipStatus();
-		googlePlus.tagline = person.getTagline();
-		googlePlus.url = person.getUrl();
+		googlePlusPerson.relationshipStatus = person.getRelationshipStatus();
+		googlePlusPerson.tagline = person.getTagline();
+		googlePlusPerson.url = person.getUrl();
 		
 		
         if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    ((OnRequestSocialPersonCompleteListener)
-                            mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
-                            .onRequestSocialPersonSuccess(getID(), googlePlusPerson);
+//                    ((OnRequestSocialPersonCompleteListener)
+//                            mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
+//                            .onRequestSocialPersonSuccess(getID(), socialPerson);
                 }
             });
         }

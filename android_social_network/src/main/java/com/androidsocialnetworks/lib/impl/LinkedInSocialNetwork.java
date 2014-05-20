@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.androidsocialnetworks.lib.LinkedInPerson;
 import com.androidsocialnetworks.lib.OAuthActivity;
 import com.androidsocialnetworks.lib.OAuthSocialNetwork;
 import com.androidsocialnetworks.lib.SocialNetworkAsyncTask;
@@ -17,6 +18,7 @@ import com.androidsocialnetworks.lib.listener.OnCheckIsFriendCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnLoginCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnPostingCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestAddFriendCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestLinkedInPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestRemoveFriendCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
 import com.google.code.linkedinapi.client.CommunicationsApiClient;
@@ -307,19 +309,19 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
                     result.putString(RESULT_POSITION, position.getTitle());
                 }
 				
-				result.putString(RESULT_FIRST_NAME, person.getFirstName());
-				result.putString(RESULT_LAST_NAME, person.getLastName());
-				result.putString(RESULT_HEADLINE, person.getHeadline);
-				result.putString(RESULT_POSTALCODE, person.getLocation().getPostalCode());// null
-				result.putString(RESULT_DESCRIPTION, person.getLocation().getDescription()); // null
-				result.putString(RESULT_ADDRESS, person.getLocation().getAddress(); // null
-				result.putString(RESULT_INDUSTRY, person.getIndustry());
-				result.putString(RESULT_SUMMARY, person.getSummary());
-				result.putString(RESULT_AVATAR_URL, person.getDateOfBirth());//null
-				result.putString(RESULT_MAIN_ADDRESS, person.getMainAddress());
-				result.putString(RESULT_MAIN_ADDRESS, person.getCurrentStatus());
-				result.putString(RESULT_MAIN_ADDRESS, person.getInterests());
-				result.putString(RESULT_MAIN_ADDRESS, person.getSpecialties());
+//				result.putString(RESULT_FIRST_NAME, person.getFirstName());
+//				result.putString(RESULT_LAST_NAME, person.getLastName());
+//				result.putString(RESULT_HEADLINE, person.getHeadline);
+//				result.putString(RESULT_POSTALCODE, person.getLocation().getPostalCode());// null
+//				result.putString(RESULT_DESCRIPTION, person.getLocation().getDescription()); // null
+//				result.putString(RESULT_ADDRESS, person.getLocation().getAddress()); // null
+//				result.putString(RESULT_INDUSTRY, person.getIndustry());
+//				result.putString(RESULT_SUMMARY, person.getSummary());
+//				result.putString(RESULT_AVATAR_URL, person.getDateOfBirth());//null
+//				result.putString(RESULT_MAIN_ADDRESS, person.getMainAddress());
+//				result.putString(RESULT_MAIN_ADDRESS, person.getCurrentStatus());
+//				result.putString(RESULT_MAIN_ADDRESS, person.getInterests());
+//				result.putString(RESULT_MAIN_ADDRESS, person.getSpecialties());
 				
 				
             } catch (Exception e) {
@@ -333,20 +335,20 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
         @Override
         protected void onPostExecute(Bundle result) {
             
-			if(result.getBoolean(RESULT_IS_LINKEDIN_PERSON)){
-				if (!handleRequestResult(result, REQUEST_GET_LINKEDIN_PERSON)) return;
-					
-				LinkedInPerson linkedInPerson = new LinkedInPerson();
-				linkedInPerson.id = result.getString(RESULT_ID);
-				linkedInPerson.name = result.getString(RESULT_NAME);
-				linkedInPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
-				linkedInPerson.company = result.getString(RESULT_COMPANY);
-				linkedInPerson.position = result.getString(RESULT_POSITION);
-				
-				
-				((OnRequestLinkedInPersonCompleteListener) mLocalListeners.get(REQUEST_GET_LINKEDIN_PERSON))
-						.onRequestTwitterPersonSuccess(getID(), linkedInPerson);					
-			} else {
+//			if(result.getBoolean(RESULT_IS_LINKEDIN_PERSON)){
+////				if (!handleRequestResult(result, REQUEST_GET_LINKEDIN_PERSON)) return;
+//
+//				LinkedInPerson linkedInPerson = new LinkedInPerson();
+//				linkedInPerson.id = result.getString(RESULT_ID);
+//				linkedInPerson.name = result.getString(RESULT_NAME);
+//				linkedInPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+////				linkedInPerson.company = result.getString(RESULT_COMPANY);
+////				linkedInPerson.position = result.getString(RESULT_POSITION);
+//
+//
+////				((OnRequestLinkedInPersonCompleteListener) mLocalListeners.get(REQUEST_GET_LINKEDIN_PERSON))
+////						.onRequestTwitterPersonSuccess(getID(), linkedInPerson);
+//			} else {
 				if (!handleRequestResult(result, REQUEST_GET_CURRENT_PERSON)) return;
 
 				SocialPerson socialPerson = new SocialPerson();
@@ -358,7 +360,7 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
 
 				((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
 						.onRequestSocialPersonSuccess(getID(), socialPerson);
-			}
+//			}
             mLocalListeners.remove(REQUEST_GET_CURRENT_PERSON);
         }
     }
