@@ -19,41 +19,45 @@ public class LinkedInPerson implements Parcelable {
     public String id;
     public String name;
     public String avatarURL;
-	public Long createdDate;
-	public String description;
-	public int favoritesCount;
-	public int followersCount;
-	public int friendsCount;
-	public String lang;
-	public String location;
-	public String screenName;
-	public String status;
-	public String timezone;
-	public String url;
-	public Boolean isTranslator;
-	public Boolean isVerified;
-
+    public String company;
+	public String position;
+    public String firstName;
+	public String lastName;
+	public String headLine;
+	public String postalCode;
+	public String locationDescription;
+	public String locationAddress;
+	public String industry;
+	public String summary;
+	public String birthday;
+	public String mainAdress;
+	public String currentStatus;
+	public String interests;
+	public String specialties;
+	
     public LinkedInPerson() {
 
     }
 
-    private LinkedInPerson(Parcel in) {
+    protected LinkedInPerson(Parcel in) {
         id = in.readString();
         name = in.readString();
         avatarURL = in.readString();
-		createdDate = in.readLong();
-		description = in.readString();
-		favoritesCount = in.readInt();
-		followersCount = in.readInt();
-		friendsCount = in.readInt();
-		lang = in.readString();
-		location = in.readString();
-		screenName = in.readString();
-		status = in.readString();
-		timezone = in.readString();
-		url = in.readString();
-		isTranslator = in.readByte() != 0;
-		isVerified = in.readByte() != 0;
+        company = in.readString();
+        position = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        headLine = in.readString();
+        postalCode = in.readString();
+        locationDescription = in.readString();
+        locationAddress = in.readString();
+        industry = in.readString();
+        summary = in.readString();
+        birthday = in.readString();
+        mainAdress = in.readString();
+        currentStatus = in.readString();
+        interests = in.readString();
+        specialties = in.readString();
     }
 
     @Override
@@ -65,20 +69,22 @@ public class LinkedInPerson implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(name);
-		dest.writeString(avatarURL);
-        dest.writeLong(createdDate);
-        dest.writeString(description);
-		dest.writeInt(favoritesCount);
-		dest.writeInt(followersCount);
-        dest.writeInt(friendsCount);
-		dest.writeString(lang);
-		dest.writeString(location);
-		dest.writeString(screenName);
-		dest.writeString(status);
-		dest.writeString(timezone);
-		dest.writeString(url);
-		dest.writeByte((byte) (isTranslator ? 1 : 0));
-		dest.writeByte((byte) (isVerified ? 1 : 0));
+        dest.writeString(avatarURL);
+        dest.writeString(company);
+        dest.writeString(position);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(headLine);
+        dest.writeString(postalCode);
+        dest.writeString(locationDescription);
+        dest.writeString(locationAddress);
+        dest.writeString(industry);
+        dest.writeString(summary);
+        dest.writeString(birthday);
+        dest.writeString(mainAdress);
+        dest.writeString(currentStatus);
+        dest.writeString(interests);
+        dest.writeString(specialties);
     }
 
     @Override

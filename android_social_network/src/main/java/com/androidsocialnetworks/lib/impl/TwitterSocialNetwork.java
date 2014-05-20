@@ -123,12 +123,12 @@ public class TwitterSocialNetwork extends OAuthSocialNetwork {
     }
 
 //	@Override
-    public void requestCurrentTwitterPerson(OnRequestTwitterPersonCompleteListener onRequestTwitterPersonCompleteListener) {
+    public void requestCurrentTwitterPerson(OnRequestSocialPersonCompleteListener1 OnRequestSocialPersonCompleteListener1) {
 //        super.requestCurrentTwitterPerson(onRequestTwitterPersonCompleteListener);
 		Bundle args = new Bundle();
         args.putBoolean(RequestGetPersonAsyncTask.TWITTER_USER, true);
 		
-        executeRequest(new RequestGetPersonAsyncTask(), args, REQUEST_GET_TWITTER_PERSON);
+        executeRequest(new RequestGetPersonAsyncTask(), args, REQUEST_GET_DETAIL_PERSON);//REQUEST_GET_TWITTER_PERSON);
     }
 	
     @Override
@@ -138,7 +138,25 @@ public class TwitterSocialNetwork extends OAuthSocialNetwork {
         executeRequest(new RequestGetPersonAsyncTask(), null, REQUEST_GET_CURRENT_PERSON);
     }
 
-    @Override
+    // @Override
+    public void requestSocialTwitterPerson(String userID, OnRequestSocialPersonCompleteListener1 onRequestSocialPersonCompleteListener1) {
+        // super.requestSocialPerson(userID, onRequestSocialPersonCompleteListener);
+		
+        if (TextUtils.isEmpty(userID)) {
+            throw new SocialNetworkException("userID can't be null or empty");
+        }
+
+        Bundle args = new Bundle();
+        try {
+            args.putLong(RequestGetPersonAsyncTask.PARAM_USER_ID, Long.parseLong(userID));
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "ERROR", e);
+            throw new SocialNetworkException("userID should be long number");
+        }
+		args.putBoolean(RequestGetPersonAsyncTask.TWITTER_USER, true);
+        executeRequest(new RequestGetPersonAsyncTask(), args, REQUEST_GET_PERSON);
+    }
+	@Override
     public void requestSocialPerson(String userID, OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
         super.requestSocialPerson(userID, onRequestSocialPersonCompleteListener);
 
@@ -417,7 +435,7 @@ public class TwitterSocialNetwork extends OAuthSocialNetwork {
             if (result.getBoolean(RESULT_IS_CURRENT_PERSON)) {
                 
 				if(result.getBoolean(RESULT_IS_TWITTER_PERSON)){
-					if (!handleRequestResult(result, REQUEST_GET_TWITTER_PERSON)) return;
+					if (!handleRequestResult(result, REQUEST_GET_DETAIL_PERSON)) return;
 					
 					TwitterPerson twitterPerson = new TwitterPerson();
 					twitterPerson.id = result.getString(RESULT_ID);
@@ -437,8 +455,8 @@ public class TwitterSocialNetwork extends OAuthSocialNetwork {
 					twitterPerson.isTranslator = result.getBoolean(RESULT_IS_TRANSLATOR);
 					twitterPerson.isVerified = result.getBoolean(RESULT_IS_VERIFIED);
 
-					((OnRequestTwitterPersonCompleteListener) mLocalListeners.get(REQUEST_GET_TWITTER_PERSON))
-							.onRequestTwitterPersonSuccess(getID(), twitterPerson);					
+					((OnRequestSocialPersonCompleteListener1) mLocalListeners.get(REQUEST_GET_DETAIL_PERSON))
+							.onRequestSocialPersonSuccess1(getID(), twitterPerson);					
 				} else {
 					if (!handleRequestResult(result, REQUEST_GET_CURRENT_PERSON)) return;
 						SocialPerson socialPerson = new SocialPerson();

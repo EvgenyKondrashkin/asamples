@@ -85,18 +85,18 @@ public class GooglePlusSocialNetwork extends SocialNetwork
     }
 	
 //	@Override
-    public void requestGooglePlusPerson(OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
-        super.requestCurrentPerson(onRequestSocialPersonCompleteListener);
+    public void requestGooglePlusPerson(OnRequestSocialPersonCompleteListener1 onRequestSocialPersonCompleteListener1) {
+        // super.requestGooglePlusPerson(onRequestSocialPersonCompleteListener1);
 
         Person person = mPlusClient.getCurrentPerson();
 
         if (person == null) {
-            if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
+            if (mLocalListeners.get(REQUEST_GET_DETAIL_PERSON) != null) {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mLocalListeners.get(REQUEST_GET_CURRENT_PERSON)
-                                .onError(getID(), REQUEST_GET_CURRENT_PERSON, "Can't get person", null);
+                        mLocalListeners.get(REQUEST_GET_DETAIL_PERSON)
+                                .onError(getID(), REQUEST_GET_DETAIL_PERSON, "Can't get person", null);
                     }
                 });
             }
@@ -157,13 +157,13 @@ public class GooglePlusSocialNetwork extends SocialNetwork
 		googlePlusPerson.url = person.getUrl();
 		
 		
-        if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
+        if (mLocalListeners.get(REQUEST_GET_DETAIL_PERSON) != null) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-//                    ((OnRequestSocialPersonCompleteListener)
-//                            mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
-//                            .onRequestSocialPersonSuccess(getID(), socialPerson);
+                   ((OnRequestSocialPersonCompleteListener1)
+                           mLocalListeners.get(REQUEST_GET_DETAIL_PERSON))//REQUEST_GET_GOOGLEPLUS_PERSON))
+                           .onRequestSocialPersonSuccess(getID(), googlePlusPerson);
                 }
             });
         }

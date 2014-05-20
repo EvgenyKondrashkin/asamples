@@ -102,7 +102,15 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
     public int getID() {
         return ID;
     }
-
+	
+	//	@Override
+    public void requestCurrentLinkedInPerson(OnRequestSocialPersonCompleteListener1 onRequestTwitterPersonCompleteListener1) {
+//        super.requestCurrentTwitterPerson(onRequestTwitterPersonCompleteListener);
+		Bundle args = new Bundle();
+        args.putBoolean(RequestCurrentPersonAsyncTask.LINKEDIN_USER, true);
+		
+        executeRequest(new RequestCurrentPersonAsyncTask(), args, REQUEST_GET_DETAIL_PERSON);
+    }
     @Override
     public void requestCurrentPerson(OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
         super.requestCurrentPerson(onRequestSocialPersonCompleteListener);
@@ -117,6 +125,14 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
         Bundle args = new Bundle();
         args.putString(RequestSocialPersonAsyncTask.PARAM_USER_ID, userID);
         executeRequest(new RequestSocialPersonAsyncTask(), args, REQUEST_GET_PERSON);
+    }
+	
+	public void requestSocialLinkedInPerson(String userID, OnRequestSocialPersonCompleteListener1 onRequestSocialPersonCompleteListener1) {
+        // super.requestSocialPerson(userID, onRequestSocialPersonCompleteListener1);
+
+        Bundle args = new Bundle();
+        args.putString(RequestSocialPersonAsyncTask.PARAM_USER_ID, userID);
+        executeRequest(new RequestSocialPersonAsyncTask(), args, REQUEST_GET_DETAIL_PERSON);
     }
 
     @Override
@@ -278,16 +294,30 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
     }
 
     private class RequestCurrentPersonAsyncTask extends SocialNetworkAsyncTask {
+		public static final String LINKEDIN_USER = "RequestGetPersonAsyncTask.LINKEDIN_USER";
         private static final String RESULT_ID = "LoginAsyncTask.RESULT_ID";
         private static final String RESULT_NAME = "LoginAsyncTask.RESULT_NAME";
         private static final String RESULT_AVATAR_URL = "LoginAsyncTask.RESULT_AVATAR_URL";
         private static final String RESULT_COMPANY = "LoginAsyncTask.RESULT_COMPANY";
         private static final String RESULT_POSITION = "LoginAsyncTask.RESULT_POSITION";
+        private static final String RESULT_FIRST_NAME = "LoginAsyncTask.RESULT_FIRST_NAME";
+        private static final String RESULT_LAST_NAME = "LoginAsyncTask.RESULT_LAST_NAME";
+        private static final String RESULT_HEADLINE = "LoginAsyncTask.RESULT_HEADLINE";
+        private static final String RESULT_POSTALCODE = "LoginAsyncTask.RESULT_POSTALCODE";
+        private static final String RESULT_DESCRIPTION = "LoginAsyncTask.RESULT_DESCRIPTION";
+        private static final String RESULT_ADDRESS = "LoginAsyncTask.RESULT_ADDRESS";
+        private static final String RESULT_INDUSTRY = "LoginAsyncTask.RESULT_INDUSTRY";
+        private static final String RESULT_SUMMARY = "LoginAsyncTask.RESULT_SUMMARY";
+        private static final String RESULT_BIRTHDAY = "LoginAsyncTask.RESULT_BIRTHDAY";
+        private static final String RESULT_MAIN_ADDRESS = "LoginAsyncTask.RESULT_MAIN_ADDRESS";
+        private static final String RESULT_CURRENT_STATUS = "LoginAsyncTask.RESULT_CURRENT_STATUS";
+        private static final String RESULT_INTERESTS = "LoginAsyncTask.RESULT_INTERESTS";
+        private static final String RESULT_SPECIALTIES = "LoginAsyncTask.RESULT_SPECIALTIES";
 
         @Override
         protected Bundle doInBackground(Bundle... params) {
             Bundle result = new Bundle();
-
+			
             try {
                 LinkedInApiClient client = mLinkedInApiClientFactory.createLinkedInApiClient(
                         new LinkedInAccessToken(
@@ -304,24 +334,33 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
                 List<Position> positions = person.getPositions().getPositionList();
                 if (positions.size() > 0) {
                     Position position = positions.get(positions.size() - 1);
-
                     result.putString(RESULT_COMPANY, position.getCompany().getName());
                     result.putString(RESULT_POSITION, position.getTitle());
                 }
 				
-//				result.putString(RESULT_FIRST_NAME, person.getFirstName());
-//				result.putString(RESULT_LAST_NAME, person.getLastName());
-//				result.putString(RESULT_HEADLINE, person.getHeadline);
-//				result.putString(RESULT_POSTALCODE, person.getLocation().getPostalCode());// null
-//				result.putString(RESULT_DESCRIPTION, person.getLocation().getDescription()); // null
-//				result.putString(RESULT_ADDRESS, person.getLocation().getAddress()); // null
-//				result.putString(RESULT_INDUSTRY, person.getIndustry());
-//				result.putString(RESULT_SUMMARY, person.getSummary());
-//				result.putString(RESULT_AVATAR_URL, person.getDateOfBirth());//null
-//				result.putString(RESULT_MAIN_ADDRESS, person.getMainAddress());
-//				result.putString(RESULT_MAIN_ADDRESS, person.getCurrentStatus());
-//				result.putString(RESULT_MAIN_ADDRESS, person.getInterests());
-//				result.putString(RESULT_MAIN_ADDRESS, person.getSpecialties());
+				result.putString(RESULT_FIRST_NAME, person.getFirstName());
+				result.putString(RESULT_LAST_NAME, person.getLastName());
+				result.putString(RESULT_HEADLINE, person.getHeadline);
+				if(person.getLocation() != null) {
+					if(person.getLocation().getPostalCode() != null) {
+						result.putString(RESULT_POSTALCODE, person.getLocation().getPostalCode());
+					}
+					if(person.getLocation().getDescription() != null) {
+						result.putString(RESULT_DESCRIPTION, person.getLocation().getDescription());
+					}
+					if(person.getLocation().getAddress() != null) {
+						result.putString(RESULT_ADDRESS, person.getLocation().getAddress());
+					}
+				}
+				result.putString(RESULT_INDUSTRY, person.getIndustry());
+				result.putString(RESULT_SUMMARY, person.getSummary());
+				if(person.getDateOfBirth() != null) {
+					result.putString(RESULT_BIRTHDAY, person.getDateOfBirth().getDay() + "/" + person.getDateOfBirth().getMonth() + "/" + person.getDateOfBirth().getYear());
+				}
+				result.putString(RESULT_MAIN_ADDRESS, person.getMainAddress());
+				result.putString(RESULT_CURRENT_STATUS, person.getCurrentStatus());
+				result.putString(RESULT_INTERESTS, person.getInterests());
+				result.putString(RESULT_SPECIALTIES, person.getSpecialties());
 				
 				
             } catch (Exception e) {
@@ -335,20 +374,32 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
         @Override
         protected void onPostExecute(Bundle result) {
             
-//			if(result.getBoolean(RESULT_IS_LINKEDIN_PERSON)){
-////				if (!handleRequestResult(result, REQUEST_GET_LINKEDIN_PERSON)) return;
-//
-//				LinkedInPerson linkedInPerson = new LinkedInPerson();
-//				linkedInPerson.id = result.getString(RESULT_ID);
-//				linkedInPerson.name = result.getString(RESULT_NAME);
-//				linkedInPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
-////				linkedInPerson.company = result.getString(RESULT_COMPANY);
-////				linkedInPerson.position = result.getString(RESULT_POSITION);
-//
-//
-////				((OnRequestLinkedInPersonCompleteListener) mLocalListeners.get(REQUEST_GET_LINKEDIN_PERSON))
-////						.onRequestTwitterPersonSuccess(getID(), linkedInPerson);
-//			} else {
+			if(result.getBoolean(RESULT_IS_LINKEDIN_PERSON)){
+				if (!handleRequestResult(result, REQUEST_GET_DETAIL_PERSON)) return;
+
+				LinkedInPerson linkedInPerson = new LinkedInPerson();
+				linkedInPerson.id = result.getString(RESULT_ID);
+				linkedInPerson.name = result.getString(RESULT_NAME);
+				linkedInPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+				linkedInPerson.company = result.getString(RESULT_COMPANY);
+				linkedInPerson.position = result.getString(RESULT_POSITION);
+				linkedInPerson.firstName = result.getString(RESULT_FIRST_NAME);
+				linkedInPerson.lastName = result.getString(RESULT_LAST_NAME);
+				linkedInPerson.headLine = result.getString(RESULT_HEADLINE);
+				linkedInPerson.postalCode = result.getString(RESULT_POSTALCODE);
+				linkedInPerson.locationDescription = result.getString(RESULT_DESCRIPTION);
+				linkedInPerson.locationAddress = result.getString(RESULT_ADDRESS);
+				linkedInPerson.industry = result.getString(RESULT_INDUSTRY);
+				linkedInPerson.summary = result.getString(RESULT_SUMMARY);
+				linkedInPerson.birthday = result.getString(RESULT_BIRTHDAY);
+				linkedInPerson.mainAdress = result.getString(RESULT_MAIN_ADDRESS);
+				linkedInPerson.currentStatus = result.getString(RESULT_CURRENT_STATUS);
+				linkedInPerson.interests = result.getString(RESULT_INTERESTS);
+				linkedInPerson.specialties = result.getString(RESULT_SPECIALTIES);
+
+				((OnRequestSocialPersonCompleteListener1) mLocalListeners.get(REQUEST_GET_DETAIL_PERSON))
+						.onRequestSocialPersonSuccess1(getID(), linkedInPerson);
+			} else {
 				if (!handleRequestResult(result, REQUEST_GET_CURRENT_PERSON)) return;
 
 				SocialPerson socialPerson = new SocialPerson();
@@ -360,26 +411,39 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
 
 				((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
 						.onRequestSocialPersonSuccess(getID(), socialPerson);
-//			}
+			}
             mLocalListeners.remove(REQUEST_GET_CURRENT_PERSON);
         }
     }
-
-    private class RequestSocialPersonAsyncTask extends SocialNetworkAsyncTask {
-        public static final String PARAM_USER_ID = "PARAM_USER_ID";
-
+	private class RequestSocialPersonAsyncTask extends SocialNetworkAsyncTask {
+		public static final String PARAM_USER_ID = "PARAM_USER_ID";
+		
+		public static final String LINKEDIN_USER = "RequestGetPersonAsyncTask.LINKEDIN_USER";
         private static final String RESULT_ID = "LoginAsyncTask.RESULT_ID";
         private static final String RESULT_NAME = "LoginAsyncTask.RESULT_NAME";
         private static final String RESULT_AVATAR_URL = "LoginAsyncTask.RESULT_AVATAR_URL";
         private static final String RESULT_COMPANY = "LoginAsyncTask.RESULT_COMPANY";
         private static final String RESULT_POSITION = "LoginAsyncTask.RESULT_POSITION";
+        private static final String RESULT_FIRST_NAME = "LoginAsyncTask.RESULT_FIRST_NAME";
+        private static final String RESULT_LAST_NAME = "LoginAsyncTask.RESULT_LAST_NAME";
+        private static final String RESULT_HEADLINE = "LoginAsyncTask.RESULT_HEADLINE";
+        private static final String RESULT_POSTALCODE = "LoginAsyncTask.RESULT_POSTALCODE";
+        private static final String RESULT_DESCRIPTION = "LoginAsyncTask.RESULT_DESCRIPTION";
+        private static final String RESULT_ADDRESS = "LoginAsyncTask.RESULT_ADDRESS";
+        private static final String RESULT_INDUSTRY = "LoginAsyncTask.RESULT_INDUSTRY";
+        private static final String RESULT_SUMMARY = "LoginAsyncTask.RESULT_SUMMARY";
+        private static final String RESULT_BIRTHDAY = "LoginAsyncTask.RESULT_BIRTHDAY";
+        private static final String RESULT_MAIN_ADDRESS = "LoginAsyncTask.RESULT_MAIN_ADDRESS";
+        private static final String RESULT_CURRENT_STATUS = "LoginAsyncTask.RESULT_CURRENT_STATUS";
+        private static final String RESULT_INTERESTS = "LoginAsyncTask.RESULT_INTERESTS";
+        private static final String RESULT_SPECIALTIES = "LoginAsyncTask.RESULT_SPECIALTIES";
 
         @Override
         protected Bundle doInBackground(Bundle... params) {
-            String userID = params[0].getString(PARAM_USER_ID);
-
-            Bundle result = new Bundle();
-
+            String userID = params[0].getString(PARAM_USER_ID); 
+			
+			Bundle result = new Bundle();
+			
             try {
                 LinkedInApiClient client = mLinkedInApiClientFactory.createLinkedInApiClient(
                         new LinkedInAccessToken(
@@ -387,7 +451,7 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
                                 mSharedPreferences.getString(SAVE_STATE_KEY_OAUTH_SECRET, null)
                         )
                 );
-                Person person = client.getProfileById(userID);
+                Person person = client.getProfileById(userID); 
 
                 result.putString(RESULT_ID, person.getId());
                 result.putString(RESULT_NAME, person.getFirstName() + " " + person.getLastName());
@@ -396,10 +460,35 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
                 List<Position> positions = person.getPositions().getPositionList();
                 if (positions.size() > 0) {
                     Position position = positions.get(positions.size() - 1);
-
                     result.putString(RESULT_COMPANY, position.getCompany().getName());
                     result.putString(RESULT_POSITION, position.getTitle());
                 }
+				
+				result.putString(RESULT_FIRST_NAME, person.getFirstName());
+				result.putString(RESULT_LAST_NAME, person.getLastName());
+				result.putString(RESULT_HEADLINE, person.getHeadline);
+				if(person.getLocation() != null) {
+					if(person.getLocation().getPostalCode() != null) {
+						result.putString(RESULT_POSTALCODE, person.getLocation().getPostalCode());
+					}
+					if(person.getLocation().getDescription() != null) {
+						result.putString(RESULT_DESCRIPTION, person.getLocation().getDescription());
+					}
+					if(person.getLocation().getAddress() != null) {
+						result.putString(RESULT_ADDRESS, person.getLocation().getAddress());
+					}
+				}
+				result.putString(RESULT_INDUSTRY, person.getIndustry());
+				result.putString(RESULT_SUMMARY, person.getSummary());
+				if(person.getDateOfBirth() != null) {
+					result.putString(RESULT_BIRTHDAY, person.getDateOfBirth().getDay() + "/" + person.getDateOfBirth().getMonth() + "/" + person.getDateOfBirth().getYear());
+				}
+				result.putString(RESULT_MAIN_ADDRESS, person.getMainAddress());
+				result.putString(RESULT_CURRENT_STATUS, person.getCurrentStatus());
+				result.putString(RESULT_INTERESTS, person.getInterests());
+				result.putString(RESULT_SPECIALTIES, person.getSpecialties());
+				
+				
             } catch (Exception e) {
                 Log.e(TAG, "ERROR", e);
                 result.putString(RESULT_ERROR, e.getMessage());
@@ -410,20 +499,121 @@ public class LinkedInSocialNetwork extends OAuthSocialNetwork {
 
         @Override
         protected void onPostExecute(Bundle result) {
-            if (!handleRequestResult(result, REQUEST_GET_PERSON)) return;
+            
+			if(result.getBoolean(RESULT_IS_LINKEDIN_PERSON)){
+				if (!handleRequestResult(result, REQUEST_GET_PERSON)) return;
 
-            SocialPerson socialPerson = new SocialPerson();
-            socialPerson.id = result.getString(RESULT_ID);
-            socialPerson.name = result.getString(RESULT_NAME);
-            socialPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
-            socialPerson.company = result.getString(RESULT_COMPANY);
-            socialPerson.position = result.getString(RESULT_POSITION);
+				LinkedInPerson linkedInPerson = new LinkedInPerson();
+				linkedInPerson.id = result.getString(RESULT_ID);
+				linkedInPerson.name = result.getString(RESULT_NAME);
+				linkedInPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+				linkedInPerson.company = result.getString(RESULT_COMPANY);
+				linkedInPerson.position = result.getString(RESULT_POSITION);
+				linkedInPerson.firstName = result.getString(RESULT_FIRST_NAME);
+				linkedInPerson.lastName = result.getString(RESULT_LAST_NAME);
+				linkedInPerson.headLine = result.getString(RESULT_HEADLINE);
+				linkedInPerson.postalCode = result.getString(RESULT_POSTALCODE);
+				linkedInPerson.locationDescription = result.getString(RESULT_DESCRIPTION);
+				linkedInPerson.locationAddress = result.getString(RESULT_ADDRESS);
+				linkedInPerson.industry = result.getString(RESULT_INDUSTRY);
+				linkedInPerson.summary = result.getString(RESULT_SUMMARY);
+				linkedInPerson.birthday = result.getString(RESULT_BIRTHDAY);
+				linkedInPerson.mainAdress = result.getString(RESULT_MAIN_ADDRESS);
+				linkedInPerson.currentStatus = result.getString(RESULT_CURRENT_STATUS);
+				linkedInPerson.interests = result.getString(RESULT_INTERESTS);
+				linkedInPerson.specialties = result.getString(RESULT_SPECIALTIES);
 
-            ((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_PERSON)).
-                    onRequestSocialPersonSuccess(getID(), socialPerson);
+				((OnRequestSocialPersonCompleteListener1) mLocalListeners.get(REQUEST_GET_DETAIL_PERSON))
+						.onRequestSocialPersonSuccess1(getID(), linkedInPerson);
+			} else {
+				if (!handleRequestResult(result, REQUEST_GET_PERSON)) return;
+
+				SocialPerson socialPerson = new SocialPerson();
+				socialPerson.id = result.getString(RESULT_ID);
+				socialPerson.name = result.getString(RESULT_NAME);
+				socialPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+				socialPerson.company = result.getString(RESULT_COMPANY);
+				socialPerson.position = result.getString(RESULT_POSITION);
+
+				((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_PERSON))
+						.onRequestSocialPersonSuccess(getID(), socialPerson);
+			}
             mLocalListeners.remove(REQUEST_GET_PERSON);
         }
     }
+    // private class RequestSocialPersonAsyncTask extends SocialNetworkAsyncTask {
+        // public static final String PARAM_USER_ID = "PARAM_USER_ID";
+
+        // public static final String LINKEDIN_USER = "RequestGetPersonAsyncTask.LINKEDIN_USER";
+        // private static final String RESULT_ID = "LoginAsyncTask.RESULT_ID";
+        // private static final String RESULT_NAME = "LoginAsyncTask.RESULT_NAME";
+        // private static final String RESULT_AVATAR_URL = "LoginAsyncTask.RESULT_AVATAR_URL";
+        // private static final String RESULT_COMPANY = "LoginAsyncTask.RESULT_COMPANY";
+        // private static final String RESULT_POSITION = "LoginAsyncTask.RESULT_POSITION";
+        // private static final String RESULT_FIRST_NAME = "LoginAsyncTask.RESULT_FIRST_NAME";
+        // private static final String RESULT_LAST_NAME = "LoginAsyncTask.RESULT_LAST_NAME";
+        // private static final String RESULT_HEADLINE = "LoginAsyncTask.RESULT_HEADLINE";
+        // private static final String RESULT_POSTALCODE = "LoginAsyncTask.RESULT_POSTALCODE";
+        // private static final String RESULT_DESCRIPTION = "LoginAsyncTask.RESULT_DESCRIPTION";
+        // private static final String RESULT_ADDRESS = "LoginAsyncTask.RESULT_ADDRESS";
+        // private static final String RESULT_INDUSTRY = "LoginAsyncTask.RESULT_INDUSTRY";
+        // private static final String RESULT_SUMMARY = "LoginAsyncTask.RESULT_SUMMARY";
+        // private static final String RESULT_BIRTHDAY = "LoginAsyncTask.RESULT_BIRTHDAY";
+        // private static final String RESULT_MAIN_ADDRESS = "LoginAsyncTask.RESULT_MAIN_ADDRESS";
+        // private static final String RESULT_CURRENT_STATUS = "LoginAsyncTask.RESULT_CURRENT_STATUS";
+        // private static final String RESULT_INTERESTS = "LoginAsyncTask.RESULT_INTERESTS";
+        // private static final String RESULT_SPECIALTIES = "LoginAsyncTask.RESULT_SPECIALTIES";
+
+        // @Override
+        // protected Bundle doInBackground(Bundle... params) {
+            // String userID = params[0].getString(PARAM_USER_ID);
+
+            // Bundle result = new Bundle();
+
+            // try {
+                // LinkedInApiClient client = mLinkedInApiClientFactory.createLinkedInApiClient(
+                        // new LinkedInAccessToken(
+                                // mSharedPreferences.getString(SAVE_STATE_KEY_OAUTH_TOKEN, null),
+                                // mSharedPreferences.getString(SAVE_STATE_KEY_OAUTH_SECRET, null)
+                        // )
+                // );
+                // Person person = client.getProfileById(userID);
+
+                // result.putString(RESULT_ID, person.getId());
+                // result.putString(RESULT_NAME, person.getFirstName() + " " + person.getLastName());
+                // result.putString(RESULT_AVATAR_URL, person.getPictureUrl());
+
+                // List<Position> positions = person.getPositions().getPositionList();
+                // if (positions.size() > 0) {
+                    // Position position = positions.get(positions.size() - 1);
+
+                    // result.putString(RESULT_COMPANY, position.getCompany().getName());
+                    // result.putString(RESULT_POSITION, position.getTitle());
+                // }
+            // } catch (Exception e) {
+                // Log.e(TAG, "ERROR", e);
+                // result.putString(RESULT_ERROR, e.getMessage());
+            // }
+
+            // return result;
+        // }
+
+        // @Override
+        // protected void onPostExecute(Bundle result) {
+            // if (!handleRequestResult(result, REQUEST_GET_PERSON)) return;
+
+            // SocialPerson socialPerson = new SocialPerson();
+            // socialPerson.id = result.getString(RESULT_ID);
+            // socialPerson.name = result.getString(RESULT_NAME);
+            // socialPerson.avatarURL = result.getString(RESULT_AVATAR_URL);
+            // socialPerson.company = result.getString(RESULT_COMPANY);
+            // socialPerson.position = result.getString(RESULT_POSITION);
+
+            // ((OnRequestSocialPersonCompleteListener) mLocalListeners.get(REQUEST_GET_PERSON)).
+                    // onRequestSocialPersonSuccess(getID(), socialPerson);
+            // mLocalListeners.remove(REQUEST_GET_PERSON);
+        // }
+    // }
 
     private class RequestPostMessageAsyncTask extends SocialNetworkAsyncTask {
         private static final String PARAM_MESSAGE = "PARAM_MESSAGE";

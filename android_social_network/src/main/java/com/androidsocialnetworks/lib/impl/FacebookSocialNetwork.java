@@ -150,7 +150,7 @@ public class FacebookSocialNetwork extends SocialNetwork {
         return ID;
     }
 
-    public void requestCurrentFacebookPerson(OnRequestFacebookPersonCompleteListener onRequestFacebookPersonCompleteListener) {
+    public void requestCurrentFacebookPerson(OnRequestSocialPersonCompleteListener1 onRequestSocialPersonCompleteListener1) {
 
         final Session currentSession = mSessionTracker.getOpenSession();
 
@@ -190,8 +190,8 @@ public class FacebookSocialNetwork extends SocialNetwork {
 					facebookPerson.birthday = me.getBirthday();
 					facebookPerson.city = "WAT ERROR";
 					
-                    ((OnRequestFacebookPersonCompleteListener) mLocalListeners.get(REQUEST_GET_CURRENT_PERSON))
-                            .onRequestFacebookPersonSuccess(getID(), facebookPerson);
+                    ((OnRequestSocialPersonCompleteListener1) mLocalListeners.get(REQUEST_GET_DETAIL_PERSON))
+                            .onRequestSocialPersonSuccess1(getID(), facebookPerson);
                 }
             }
         });

@@ -38,7 +38,7 @@ import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.util.VKUtil;
 
-public class SocialIntegrationMain extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener, OnRequestFacebookPersonCompleteListener {
+public class SocialIntegrationMain extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener, OnRequestSocialPersonCompleteListener1 {
 
     private SocialCard fbCard;
 	private SocialCard twCard;
@@ -320,6 +320,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 		for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(this);
             socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+			socialNetwork.setOnRequestCurrentPersonCompleteListener1(this);
 			if(socialNetwork.isConnected()){
 				isAnyConnected = true;
 			}
@@ -394,9 +395,26 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             case 3:
                 setGooglePlusCardFromUser(socialPerson, gpCard);
                 break;
-//            case 4:
-//                setFacebookCardFromUser(socialPerson, fbCard);
-//                break;
+           case 4:
+               setFacebookCardFromUser(socialPerson, fbCard);
+               break;
+        }
+    }
+	@Override
+    public void onRequestSocialPersonSuccess1(int id, T socialPerson) {
+        switch (id){
+            case 1:
+                setTwitterCardFromUser(socialPerson, twCard);
+                break;
+            case 2:
+                setLinkedInCardFromUser(socialPerson, inCard);
+                break;
+            case 3:
+                setGooglePlusCardFromUser(socialPerson, gpCard);
+                break;
+           case 4:
+               setFacebookCardFromUser(socialPerson, fbCard);
+               break;
         }
     }
 
