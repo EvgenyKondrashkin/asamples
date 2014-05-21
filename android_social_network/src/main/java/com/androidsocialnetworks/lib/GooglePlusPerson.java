@@ -3,7 +3,7 @@ package com.androidsocialnetworks.lib;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class GooglePlusPerson implements Parcelable {
+public class GooglePlusPerson extends SocialPerson implements Parcelable {
 
     public static final Parcelable.Creator<GooglePlusPerson> CREATOR
             = new Parcelable.Creator<GooglePlusPerson>() {

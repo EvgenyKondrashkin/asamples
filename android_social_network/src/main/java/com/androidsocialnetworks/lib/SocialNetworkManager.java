@@ -33,6 +33,7 @@ public class SocialNetworkManager extends Fragment {
     private static final String KEY_SOCIAL_NETWORK_LINKED_IN = "KEY_SOCIAL_NETWORK_LINKED_IN";
     private static final String KEY_SOCIAL_NETWORK_FACEBOOK = "KEY_SOCIAL_NETWORK_FACEBOOK";
     private static final String KEY_SOCIAL_NETWORK_GOOGLE_PLUS = "KEY_SOCIAL_NETWORK_GOOGLE_PLUS";
+	
     private Map<String, SocialNetwork> mSocialNetworksMap = new HashMap<String, SocialNetwork>();
     private OnInitializationCompleteListener mOnInitializationCompleteListener;
 

@@ -16,6 +16,7 @@ import com.androidsocialnetworks.lib.listener.OnRequestFacebookPersonCompleteLis
 import com.androidsocialnetworks.lib.listener.OnRequestLinkedInPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestRemoveFriendCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener1;
 import com.androidsocialnetworks.lib.listener.OnRequestTwitterPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.base.SocialNetworkListener;
 
@@ -35,6 +36,7 @@ public abstract class SocialNetwork {
 	public static final String REQUEST_GET_GOOGLEPLUS_PERSON = "SocialNetwork.REQUEST_GET_GOOGLEPLUS_PERSON";
 	public static final String REQUEST_GET_FACEBOOK_PERSON = "SocialNetwork.REQUEST_GET_FACEBOOK_PERSON";
 	public static final String REQUEST_GET_CURRENT_PERSON = "SocialNetwork.REQUEST_GET_CURRENT_PERSON";
+    public static final String REQUEST_GET_DETAIL_PERSON = "SocialNetwork.REQUEST_GET_DETAIL_PERSON";
     public static final String REQUEST_GET_PERSON = "SocialNetwork.REQUEST_GET_PERSON";
     public static final String REQUEST_POST_MESSAGE = "SocialNetwork.REQUEST_POST_MESSAGE";
     public static final String REQUEST_POST_PHOTO = "SocialNetwork.REQUEST_POST_PHOTO";

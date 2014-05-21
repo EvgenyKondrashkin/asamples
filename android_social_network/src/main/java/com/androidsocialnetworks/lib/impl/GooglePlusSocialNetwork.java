@@ -18,6 +18,7 @@ import com.androidsocialnetworks.lib.listener.OnPostingCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestAddFriendCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestRemoveFriendCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener1;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.plus.PlusClient;
@@ -163,7 +164,7 @@ public class GooglePlusSocialNetwork extends SocialNetwork
                 public void run() {
                    ((OnRequestSocialPersonCompleteListener1)
                            mLocalListeners.get(REQUEST_GET_DETAIL_PERSON))//REQUEST_GET_GOOGLEPLUS_PERSON))
-                           .onRequestSocialPersonSuccess(getID(), googlePlusPerson);
+                           .onRequestSocialPersonSuccess1(getID(), googlePlusPerson);
                 }
             });
         }

@@ -19,6 +19,7 @@ import com.androidsocialnetworks.lib.impl.FacebookSocialNetwork;
 import com.androidsocialnetworks.lib.listener.OnLoginCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestFacebookPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener1;
 import com.example.asamles.app.R;
 import com.example.asamles.app.card.SocialCard;
 import com.example.asamles.app.dialog.ADialogs;
@@ -50,6 +51,8 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     private SocialNetworkManager mSocialNetworkManager;
     private ADialogs progressDialog;
 	private boolean[] isConnected = new boolean [6];
+
+
 
     //    private SocialNetworkID socialNetworkID;
     private enum SocialNetworkID {
@@ -320,7 +323,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 		for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(this);
             socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
-			socialNetwork.setOnRequestCurrentPersonCompleteListener1(this);
+			socialNetwork.setOnRequestSocialPersonCompleteListener1(this);
 			if(socialNetwork.isConnected()){
 				isAnyConnected = true;
 			}
@@ -400,22 +403,23 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                break;
         }
     }
-	@Override
-    public void onRequestSocialPersonSuccess1(int id, T socialPerson) {
-        switch (id){
-            case 1:
-                setTwitterCardFromUser(socialPerson, twCard);
-                break;
-            case 2:
-                setLinkedInCardFromUser(socialPerson, inCard);
-                break;
-            case 3:
-                setGooglePlusCardFromUser(socialPerson, gpCard);
-                break;
-           case 4:
-               setFacebookCardFromUser(socialPerson, fbCard);
-               break;
-        }
+    @Override
+    public void onRequestSocialPersonSuccess1(int socialNetworkID, SocialPerson socialPerson) {
+//        switch (socialNetworkID){
+//            case 1:
+//                setTwitterCardFromUser(socialPerson, twCard);
+//                break;
+//            case 2:
+//                setLinkedInCardFromUser(socialPerson, inCard);
+//                break;
+//            case 3:
+//                setGooglePlusCardFromUser(socialPerson, gpCard);
+//                break;
+//            case 4:
+//                setFacebookCardFromUser(socialPerson, fbCard);
+//                break;
+//        }
+        Log.d("TAG Detailed: ", "" + socialPerson.toString());
     }
 
 //    @Override

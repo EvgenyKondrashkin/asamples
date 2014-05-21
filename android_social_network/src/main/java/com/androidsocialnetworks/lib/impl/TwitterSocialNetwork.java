@@ -20,6 +20,7 @@ import com.androidsocialnetworks.lib.listener.OnRequestAddFriendCompleteListener
 import com.androidsocialnetworks.lib.listener.OnRequestRemoveFriendCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestTwitterPersonCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener1;
 
 import java.io.File;
 import java.util.UUID;

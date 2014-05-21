@@ -19,6 +19,7 @@ import com.androidsocialnetworks.lib.listener.OnRequestAddFriendCompleteListener
 import com.androidsocialnetworks.lib.listener.OnRequestFacebookPersonCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestRemoveFriendCompleteListener;
 import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener;
+import com.androidsocialnetworks.lib.listener.OnRequestSocialPersonCompleteListener1;
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;

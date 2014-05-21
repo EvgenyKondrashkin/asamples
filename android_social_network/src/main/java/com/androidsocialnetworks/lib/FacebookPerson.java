@@ -3,7 +3,7 @@ package com.androidsocialnetworks.lib;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class FacebookPerson implements Parcelable {
+public class FacebookPerson extends SocialPerson implements Parcelable {
 
     public static final Parcelable.Creator<FacebookPerson> CREATOR
             = new Parcelable.Creator<FacebookPerson>() {
