@@ -151,14 +151,15 @@ public class FacebookSocialNetwork extends SocialNetwork {
         return ID;
     }
 
-    public void requestCurrentFacebookPerson(OnRequestSocialPersonCompleteListener1 onRequestSocialPersonCompleteListener1) {
-
+    @Override
+    public void requestDetailedSocialPerson(OnRequestSocialPersonCompleteListener1 onRequestSocialPersonCompleteListener1) {
+        super.requestDetailedSocialPerson(onRequestSocialPersonCompleteListener1);
         final Session currentSession = mSessionTracker.getOpenSession();
 
         if (currentSession == null) {
-            if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
-                mLocalListeners.get(REQUEST_GET_CURRENT_PERSON).onError(getID(),
-                        REQUEST_GET_CURRENT_PERSON, "please login first", null);
+            if (mLocalListeners.get(REQUEST_GET_DETAIL_PERSON) != null) {
+                mLocalListeners.get(REQUEST_GET_DETAIL_PERSON).onError(getID(),
+                        REQUEST_GET_DETAIL_PERSON, "please login first", null);
             }
 
             return;
@@ -168,16 +169,16 @@ public class FacebookSocialNetwork extends SocialNetwork {
             @Override
             public void onCompleted(GraphUser me, Response response) {
                 if (response.getError() != null) {
-                    if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
-                        mLocalListeners.get(REQUEST_GET_CURRENT_PERSON).onError(
-                                getID(), REQUEST_GET_CURRENT_PERSON, response.getError().getErrorMessage()
+                    if (mLocalListeners.get(REQUEST_GET_DETAIL_PERSON) != null) {
+                        mLocalListeners.get(REQUEST_GET_DETAIL_PERSON).onError(
+                                getID(), REQUEST_GET_DETAIL_PERSON, response.getError().getErrorMessage()
                                 , null);
                     }
 
                     return;
                 }
 
-                if (mLocalListeners.get(REQUEST_GET_CURRENT_PERSON) != null) {
+                if (mLocalListeners.get(REQUEST_GET_DETAIL_PERSON) != null) {
                     FacebookPerson facebookPerson = new FacebookPerson();
                     facebookPerson.id = me.getId();
                     facebookPerson.name = me.getName();

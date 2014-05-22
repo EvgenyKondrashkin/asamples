@@ -16,9 +16,9 @@ public class FacebookPerson extends SocialPerson implements Parcelable {
         }
     };
 
-    public String id;
-    public String name;
-    public String avatarURL;
+//    public String id;
+//    public String name;
+//    public String avatarURL;
 	public String firstName;
 	public String middleName;
 	public String lastName;
@@ -32,9 +32,9 @@ public class FacebookPerson extends SocialPerson implements Parcelable {
     }
 
     private FacebookPerson(Parcel in) {
-        id = in.readString();
-        name = in.readString();
-        avatarURL = in.readString();
+//        id = in.readString();
+//        name = in.readString();
+//        avatarURL = in.readString();
 		firstName = in.readString();
 		middleName = in.readString();
 		lastName = in.readString();
@@ -51,9 +51,9 @@ public class FacebookPerson extends SocialPerson implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(name);
-        dest.writeString(avatarURL);
+//        dest.writeString(id);
+//        dest.writeString(name);
+//        dest.writeString(avatarURL);
         dest.writeString(firstName);
 		dest.writeString(middleName);
 		dest.writeString(lastName);
@@ -70,9 +70,9 @@ public class FacebookPerson extends SocialPerson implements Parcelable {
 
         FacebookPerson that = (FacebookPerson) o;
 
-        if (avatarURL != null ? !avatarURL.equals(that.avatarURL) : that.avatarURL != null)	return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+//        if (avatarURL != null ? !avatarURL.equals(that.avatarURL) : that.avatarURL != null)	return false;
+//        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+//        if (name != null ? !name.equals(that.name) : that.name != null) return false;
 		if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
 		if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null) return false;
 		if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
@@ -85,10 +85,7 @@ public class FacebookPerson extends SocialPerson implements Parcelable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (avatarURL != null ? avatarURL.hashCode() : 0);
-		result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        int result = firstName != null ? firstName.hashCode() : 0;
 		result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
 		result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
 		result = 31 * result + (link != null ? link.hashCode() : 0);

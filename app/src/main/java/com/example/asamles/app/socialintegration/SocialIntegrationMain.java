@@ -50,7 +50,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     private SocialNetworkManager mSocialNetworkManager;
     private ADialogs progressDialog;
-	private boolean[] isConnected = new boolean [6];
+//	private boolean[] isConnected = new boolean [6];
 
 
 
@@ -108,9 +108,16 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     .linkedIn("75l0oioxdhf2h5", "HqXZg2A14PWBwWEB", "r_basicprofile+rw_nus+w_messages")
                     .build();
             getFragmentManager().beginTransaction().add(mSocialNetworkManager, SOCIAL_NETWORK_TAG).commit();
+            mSocialNetworkManager.setOnInitializationCompleteListener(this);
+        } else {
+            updateFacebookCard(fbCard);
+            updateTwitterCard(twCard);
+            updateGooglePlusCard(gpCard);
+            updateLinkedInCard(inCard);
         }
-        mSocialNetworkManager.setOnInitializationCompleteListener(this);
-		
+
+
+
         //===============================================================
 		VKUIHelper.onCreate(getActivity());
 		VKSdk.initialize(vkSdkListener, "4357233");
@@ -145,6 +152,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
     }
 // ================Facebook=========================================================================
     private void updateFacebookCard(final SocialCard socialCard) {
+        progressDialog.progress(false, "Fetching data...");
 		socialCard.setShareButtonText("{icon-share}  Share");
         final FacebookSocialNetwork fb = mSocialNetworkManager.getFacebookSocialNetwork();
         if(fb.isConnected()) {
@@ -161,7 +169,9 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     fb.requestPostMessage("Hello from ASample!");
                 }
             });
-            fb.requestCurrentFacebookPerson(this);
+
+//            fb.requestCurrentPerson(this);
+            fb.requestDetailedSocialPerson(this);
         } else {
             socialCard.setConnectButtonText("{icon-facebook}   Connect");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
@@ -216,8 +226,8 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             socialCard.setConnectButtonText("{icon-twitter} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-				progressDialog.progress(false, "login tw...");
-				progressDialog.showProgress();
+//				progressDialog.progress(false, "login tw...");
+//				progressDialog.showProgress();
                     tw.requestLogin();
                 }
             });
@@ -252,6 +262,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                     gp.requestPostMessage("Hello from ASample");
                 }
             });
+
             gp.requestCurrentPerson();
         } else {
             socialCard.setConnectButtonText("{icon-gplus} login");
@@ -296,8 +307,8 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
             socialCard.setConnectButtonText("{icon-linkedin} login");
             socialCard.connect.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-					progressDialog.progress(false, "login In...");
-					progressDialog.showProgress();
+//					progressDialog.progress(false, "login In...");
+//					progressDialog.showProgress();
                     in.requestLogin();
                 }
             });
@@ -319,19 +330,19 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 //==================================================================================================
 	@Override
     public void onSocialNetworkManagerInitialized() {
-		boolean isAnyConnected = false;
+//		boolean isAnyConnected = false;
 		for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(this);
             socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
 			socialNetwork.setOnRequestSocialPersonCompleteListener1(this);
-			if(socialNetwork.isConnected()){
-				isAnyConnected = true;
-			}
+//			if(socialNetwork.isConnected()){
+//				isAnyConnected = true;
+//			}
         }
-		progressDialog.progress(false, "Fetching data...");
+
 
 		// if(isAnyConnected){	
-			progressDialog.showProgress();
+//			progressDialog.showProgress();
 		// }
 		
         updateFacebookCard(fbCard);
@@ -339,7 +350,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         updateGooglePlusCard(gpCard);
         updateLinkedInCard(inCard);
 		
-		progressDialog.cancelProgress();
+
     }
 
     @Override
@@ -357,11 +368,11 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
         switch (id){
             case 1:
                 updateTwitterCard(twCard);
-				progressDialog.cancelProgress();
+//				progressDialog.cancelProgress();
                 break;
             case 2:
                 updateLinkedInCard(inCard);
-				progressDialog.cancelProgress();
+//				progressDialog.cancelProgress();
                 break;
             case 3:
                 updateGooglePlusCard(gpCard);
@@ -388,6 +399,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 
     @Override
     public void onRequestSocialPersonSuccess(int id, SocialPerson socialPerson) {
+
         switch (id){
             case 1:
                 setTwitterCardFromUser(socialPerson, twCard);
@@ -402,6 +414,7 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
                setFacebookCardFromUser(socialPerson, fbCard);
                break;
         }
+        progressDialog.cancelProgress();
     }
     @Override
     public void onRequestSocialPersonSuccess1(int socialNetworkID, SocialPerson socialPerson) {
@@ -428,23 +441,23 @@ public class SocialIntegrationMain extends Fragment implements SocialNetworkMana
 //    }
 //==================================================================================================
 //==+VK+============================================================================================	
-	@Override
-    public void onResume() {
-		super.onResume(); 
-		VKUIHelper.onResume(getActivity());
-	} 
+//	@Override
+//    public void onResume() {
+//		super.onResume();
+//		VKUIHelper.onResume(getActivity());
+//	}
+//
+//	@Override
+//    public void onDestroy() {
+//		super.onDestroy();
+//		VKUIHelper.onDestroy(getActivity());
+//	}
 
-	@Override
-    public void onDestroy() {
-		super.onDestroy(); 
-		VKUIHelper.onDestroy(getActivity());
-	} 
-
-	@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data); 
-		VKUIHelper.onActivityResult(requestCode, resultCode, data); 
-	} 
+//	@Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//		VKUIHelper.onActivityResult(requestCode, resultCode, data);
+//	}
 	
 	private final VKSdkListener vkSdkListener = new VKSdkListener() {
         @Override

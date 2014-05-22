@@ -139,6 +139,9 @@ public abstract class SocialNetwork {
     public void requestSocialPerson(String userID, OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
         registerListener(REQUEST_GET_PERSON, onRequestSocialPersonCompleteListener);
     }
+    public void requestDetailedSocialPerson(OnRequestSocialPersonCompleteListener1 onRequestSocialPersonCompleteListener1) {
+        registerListener(REQUEST_GET_DETAIL_PERSON, onRequestSocialPersonCompleteListener1);
+    }
 
     public void requestPostMessage(String message) {
         requestPostMessage(message, null);
