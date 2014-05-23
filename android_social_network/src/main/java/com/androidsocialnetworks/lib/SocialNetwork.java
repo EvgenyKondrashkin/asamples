@@ -31,10 +31,10 @@ public abstract class SocialNetwork {
 
     public static final String REQUEST_LOGIN = "SocialNetwork.REQUEST_LOGIN";
     public static final String REQUEST_LOGIN2 = "SocialNetwork.REQUEST_LOGIN2"; // used with OAuth in Twitter and LinekdIn
-    public static final String REQUEST_GET_TWITTER_PERSON = "SocialNetwork.REQUEST_GET_TWITTER_PERSON";
-	public static final String REQUEST_GET_LINKEDIN_PERSON = "SocialNetwork.REQUEST_GET_LINKEDIN_PERSON";
-	public static final String REQUEST_GET_GOOGLEPLUS_PERSON = "SocialNetwork.REQUEST_GET_GOOGLEPLUS_PERSON";
-	public static final String REQUEST_GET_FACEBOOK_PERSON = "SocialNetwork.REQUEST_GET_FACEBOOK_PERSON";
+//    public static final String REQUEST_GET_TWITTER_PERSON = "SocialNetwork.REQUEST_GET_TWITTER_PERSON";
+//	public static final String REQUEST_GET_LINKEDIN_PERSON = "SocialNetwork.REQUEST_GET_LINKEDIN_PERSON";
+//	public static final String REQUEST_GET_GOOGLEPLUS_PERSON = "SocialNetwork.REQUEST_GET_GOOGLEPLUS_PERSON";
+//	public static final String REQUEST_GET_FACEBOOK_PERSON = "SocialNetwork.REQUEST_GET_FACEBOOK_PERSON";
 	public static final String REQUEST_GET_CURRENT_PERSON = "SocialNetwork.REQUEST_GET_CURRENT_PERSON";
     public static final String REQUEST_GET_DETAIL_PERSON = "SocialNetwork.REQUEST_GET_DETAIL_PERSON";
     public static final String REQUEST_GET_PERSON = "SocialNetwork.REQUEST_GET_PERSON";
