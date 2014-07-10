@@ -47,7 +47,7 @@ public class UpFragmentFirst extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                ((MainActivity) getActivity()).getSupportFragmentManager().popBackStack("UpNav", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getActivity().getSupportFragmentManager().popBackStack("UpNav", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
