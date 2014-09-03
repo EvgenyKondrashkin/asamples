@@ -6,21 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!---->
-        <TextView
-            android:id="@+id/vertical_sb_progresstext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@+id/vertical_Seekbar"
-            android:layout_alignParentRight="true" />
 
-        <com.example.asamles.app.seekbar.VerticalSeekBar
-            android:id="@+id/vertical_Seekbar"
-            android:layout_width="wrap_content"
-            android:layout_height="150dip"
-            android:layout_alignParentRight="true" />
-        <!---->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

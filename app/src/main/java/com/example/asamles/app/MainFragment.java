@@ -32,6 +32,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         fragmentNames = getActivity().getResources().getStringArray(R.array.fragment_names);
         listView = (ListView) rootView.findViewById(R.id.list);
         listView.setOnItemClickListener(this);
+
         return rootView;
     }
 
