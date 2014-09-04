@@ -23,7 +23,7 @@ public class JsonFromAssets {
     public ArrayList<String> getFromJson() {
         ArrayList<String> list;
         try {
-            String res = resFromAsset(jsonString);
+            String res = resFromAsset(jsonString, context);
             list = jsonParse(res);
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class JsonFromAssets {
         return list;
     }
 
-    public String resFromAsset(String ASSETS_FILE) throws IOException {
+    public static String resFromAsset(String ASSETS_FILE, Context context) throws IOException {
         String json;
         try {
             InputStream is = context.getAssets().open(ASSETS_FILE);

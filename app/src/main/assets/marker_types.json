@@ -1,0 +1,67 @@
+[
+      {
+        "type": "1",
+        "image": "photo",
+        "tag": "Фотография"
+      },
+      {
+        "type": "2",
+        "image": "admin",
+        "tag": "Администрация"
+      },
+      {
+        "type": "3",
+        "image": "police",
+        "tag": "Полиция"
+      },
+      {
+        "type": "4",
+        "image": "rideicon1",
+        "tag": "Верховая езда"
+      },
+      {
+        "type": "5",
+        "image": "suv",
+        "tag": "Сувениры"
+      },
+      {
+        "type": "6",
+        "image": "terar",
+        "tag": "Террариум"
+      },
+      {
+        "type": "7",
+        "image": "tropic",
+        "tag": "Тропический мир"
+      },
+      {
+        "type": "8",
+        "image": "wc",
+        "tag": "Туалет"
+      },
+      {
+        "type": "9",
+        "image": "winter",
+        "tag": "Зимний павильон"
+      },
+      {
+        "type": "10",
+        "image": "medic",
+        "tag": "Медпункт"
+      },
+      {
+        "type": "11",
+        "image": "attracmap",
+        "tag": "Атракцион"
+      },
+      {
+        "type": "12",
+        "image": "fountain",
+        "tag": "Фонтан"
+      },
+      {
+        "type": "13",
+        "image": "cafeicon",
+        "tag": "Кафе"
+      }
+    ]

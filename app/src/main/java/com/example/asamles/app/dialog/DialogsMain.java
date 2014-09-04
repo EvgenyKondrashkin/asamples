@@ -50,25 +50,25 @@ public class DialogsMain extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_dialog, container, false);
 //---------------------------------------------------------------------------------------
-        assert rootView != null;
-        VerticalSeekBar verticalSeekBar = (VerticalSeekBar) rootView.findViewById(R.id.vertical_Seekbar);
-        vsProgress = (TextView) rootView.findViewById(R.id.vertical_sb_progresstext);
-        verticalSeekBar.setProgress(100);
-        verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,
-                                          boolean fromUser) {
-                vsProgress.setText(progress + "");
-            }
-        });
+//        assert rootView != null;
+//        VerticalSeekBar verticalSeekBar = (VerticalSeekBar) rootView.findViewById(R.id.vertical_Seekbar);
+//        vsProgress = (TextView) rootView.findViewById(R.id.vertical_sb_progresstext);
+//        verticalSeekBar.setProgress(100);
+//        verticalSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//            }
+//
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress,
+//                                          boolean fromUser) {
+//                vsProgress.setText(progress + "");
+//            }
+//        });
 //---------------------------------------------------------------------------------------
 
 

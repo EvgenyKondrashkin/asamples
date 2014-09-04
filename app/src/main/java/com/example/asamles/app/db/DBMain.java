@@ -30,7 +30,7 @@ public class DBMain extends Fragment implements DBToClass.DBToClassListener, Swi
         View rootView = inflater.inflate(R.layout.list_fragment, container, false);
         pullToRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh);
         pullToRefresh.setOnRefreshListener(this);
-        // делаем повеселее
+
         pullToRefresh.setColorScheme(R.color.green, R.color.gallery_white,R.color.green,R.color.gallery_white);
         list = (ListView) rootView.findViewById(R.id.list);
 //		list.setOnItemClickListener(this);
