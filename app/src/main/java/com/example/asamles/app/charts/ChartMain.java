@@ -2,9 +2,11 @@ package com.example.asamles.app.charts;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.asamles.app.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -12,10 +14,14 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
-public class ChartMain extends Fragment {
-
+public class ChartMain extends Fragment implements GetForecastTask.GetForecastTaskListener {
+    private LineChart chart;
 
     public static ChartMain newInstance() {
         return new ChartMain();
@@ -28,31 +34,49 @@ public class ChartMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chart, container, false);
-        LineChart chart = (LineChart) rootView.findViewById(R.id.chart);
-        String[] x = {"2","5","3","7"};
-        String[] dataset = {"1","2","3","4"};
-        ArrayList<String> data = new ArrayList<String>();
-        data.add("1");
-        data.add("2");
-        data.add("3");
-        data.add("4");
+        chart = (LineChart) rootView.findViewById(R.id.chart);
+        chart.setDrawLegend(false);
+        chart.animateX(3000);
+        chart.setDescription("");
+        chart.setDrawVerticalGrid(false);
+        chart.setDrawHorizontalGrid(false);
+        chart.setDrawYLabels(false);
+        chart.setNoDataTextDescription("Loading...");
+        chart.setDrawBorder(false);
 
+        GetForecastTask mt = new GetForecastTask(0, 0, this);
+        mt.execute();
 
-        ArrayList<Entry> valsComp1 = new ArrayList<Entry>();
-        Entry c1e1 = new Entry(100, 0); // 0 == quarter 1
-        valsComp1.add(c1e1);
-        Entry c1e2 = new Entry(50, 1);
-        Entry c1e3 = new Entry(120,3);
-        valsComp1.add(c1e2);
-        LineDataSet setComp1 = new LineDataSet(valsComp1, "Company 1");
-
-        ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("1.Q"); xVals.add("2.Q"); xVals.add("3.Q"); xVals.add("4.Q");
-
-
-        LineData lineData = new LineData(xVals,setComp1);
-
-        chart.setData(lineData);
         return rootView;
+    }
+
+
+    @Override
+    public void onGetForecastTaskComplete(OpenWeatherMapForecastResponse response) {
+        ArrayList<Entry> valsDayTemp = new ArrayList<Entry>();
+        ArrayList<String> xValsDay = new ArrayList<String>();
+        Entry day = null;
+        long time = 0;
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        for(int i = 0; i<response.forecast.length; i++) {
+            day = new Entry(response.forecast[i].temp.day, i);
+            valsDayTemp.add(day);
+            time = response.forecast[i].dt;
+            calendar.setTimeInMillis(time*1000);
+//            Date df = new java.util.Date(time);
+            String vv = new SimpleDateFormat("dd.MM").format(calendar.getTime());
+            xValsDay.add(vv);
+        }
+
+        LineDataSet dayTemp = new LineDataSet(valsDayTemp, "Akademgorodok");
+        LineData dayWeatherData = new LineData(xValsDay, dayTemp);
+        dayTemp.setLineWidth(4f);
+        dayTemp.setCircleSize(8f);
+        chart.setData(dayWeatherData);
+    }
+
+    @Override
+    public void onGetForecastTaskError(String response) {
+        Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
     }
 }
